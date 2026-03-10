@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Size L Product Listing - BRICKIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "primary-dark": "#14b814",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e1a",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .toast-enter { transform: translateX(100%); opacity: 0; }
+        .toast-enter-active { transform: translateX(0); opacity: 1; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .toast-exit { transform: translateX(100%); opacity: 0; transition: all 0.4s ease-in; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+        .dark ::-webkit-scrollbar-thumb { background-color: #334155; }
+        @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.4} }
+        .skeleton-pulse { animation: shimmer 1.4s ease-in-out infinite; }
+    </style>
+    <script src="/shared.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-md">
+<div class="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between gap-8">
+<a class="flex items-center gap-3 hover:opacity-80 transition-opacity" href="/">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">BRICKIT <span class="text-primary text-xs align-top font-normal bg-slate-100 dark:bg-slate-800 px-1 rounded ml-1">PRO</span></h1>
+</a>
+<div class="hidden md:flex flex-1 max-w-2xl">
+<div class="flex w-full items-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined pl-4 text-slate-400">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-sm py-2.5 px-3 placeholder-slate-400 dark:text-white" placeholder="Search for reception counters, exhibition booths, or parts..." type="text"/>
+<button class="px-4 py-1.5 mr-1.5 bg-primary hover:bg-primary-dark text-slate-900 font-bold text-xs rounded uppercase tracking-wide transition-colors">
+                        Search
+                    </button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+<a class="hover:text-primary transition-colors" href="/size-s">Size S</a>
+<a class="hover:text-primary transition-colors" href="/size-m">Size M</a>
+<a class="text-primary font-bold" href="/size-l">Size L</a>
+                <a class="hover:text-primary transition-colors" href="/ai-studio">AI Studio</a>
+                <a class="hover:text-primary transition-colors" href="/orders">My Orders</a>
+            </div>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden lg:block"></div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-surface-light dark:border-surface-dark"></span>
+</button>
+            <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors" title="Toggle dark mode">
+                <span class="material-symbols-outlined" data-dark-icon>dark_mode</span>
+            </button>
+            <button onclick="openCart()" class="relative p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors">
+                <span class="material-symbols-outlined">shopping_cart</span>
+            </button>
+            <a href="/login" class="hidden lg:flex size-10 rounded-full bg-primary/10 items-center justify-center text-primary hover:bg-primary/20 transition-colors ml-2">
+                <span class="material-symbols-outlined text-[20px]">person</span>
+            </a>
+            <button onclick="openMobileMenu()" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+</div>
+</div>
+</div>
+</header>
+
+<!-- Mobile Menu -->
+<div id="mobile-backdrop" class="fixed inset-0 bg-black/50 z-[300] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="mobile-menu" class="fixed inset-y-0 right-0 z-[400] w-72 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+        <span class="font-bold text-lg dark:text-white">Menu</span>
+        <button onclick="closeMobileMenu()" class="text-gray-400 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <nav class="p-5 flex flex-col gap-4 text-sm font-medium">
+        <a href="/" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Home</a>
+        <a href="/size-s" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Size S</a>
+        <a href="/size-m" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Size M</a>
+        <a href="/size-l" class="text-primary font-bold">Size L</a>
+        <a href="/ai-studio" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">AI Studio</a>
+        <hr class="border-slate-200 dark:border-slate-700"/>
+        <a href="/orders" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">My Orders</a>
+        <a href="/login" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Account</a>
+    </nav>
+    <div class="p-5 mt-auto border-t border-slate-200 dark:border-slate-700">
+        <button onclick="toggleDarkMode()" class="flex items-center gap-3 text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" data-dark-icon>dark_mode</span>
+            <span class="text-sm font-medium">Toggle Dark Mode</span>
+        </button>
+    </div>
+</div>
+
+<div id="toast-container" class="fixed top-24 right-4 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+<div id="cart-backdrop" onclick="closeCart()" class="fixed inset-0 bg-black/50 z-[150] hidden opacity-0 transition-opacity duration-300"></div>
+
+<div id="cart-drawer" class="fixed inset-y-0 right-0 z-[200] w-full max-w-sm bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-surface-light dark:bg-surface-dark">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">shopping_bag</span>
+            ตะกร้าสินค้าของคุณ
+        </h2>
+        <button onclick="closeCart()" class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    
+    <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4 bg-background-light dark:bg-background-dark">
+        </div>
+    
+    <div class="p-5 border-t border-gray-200 dark:border-gray-800 bg-surface-light dark:bg-surface-dark">
+        <div class="flex justify-between items-center mb-4">
+            <span class="text-gray-500 dark:text-gray-400 font-bold">ยอดรวมสุทธิ:</span>
+            <span id="cart-total" class="text-2xl font-black text-primary">$0.00</span>
+        </div>
+        <a href="/checkout" class="w-full py-3.5 bg-primary hover:bg-primary-dark text-slate-900 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex justify-center items-center gap-2">
+            ดำเนินการสั่งซื้อ (Checkout)
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+        </a>
+    </div>
+</div>
+<main class="min-h-screen flex flex-col">
+<div class="bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800">
+<div class="container mx-auto px-4 lg:px-8 py-4">
+<nav class="flex items-center text-xs text-slate-500 dark:text-slate-400 mb-2">
+<a class="hover:text-primary hover:underline" href="/">Home</a>
+<span class="mx-2">/</span>
+<a class="hover:text-primary hover:underline" href="#">Shop</a>
+<span class="mx-2">/</span>
+<a class="hover:text-primary hover:underline" href="/size-l">Commercial Solutions</a>
+<span class="mx-2">/</span>
+<span class="text-slate-900 dark:text-white font-semibold">Size L</span>
+</nav>
+</div>
+</div>
+<div class="relative w-full h-[320px] md:h-[400px] overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Modern minimalist office space with modular furniture structures" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7yAL5w9r2Db9S969QuDxrMreiJ7gsuv_DY5zVAnuBz7rCU7QtYM_bDCiQYpLCLY2fhkas8JPkHLMAK2gF3_EY9YeJOW0UnA8Nh-Ws3WjThGBJAsQ0kjc8-_cqHjCG51ZLFpw9EjKlDrS-TeUUGLyU4DdgMAvjYrBmzWOd62aSwghleBLNkKPHL4WJisailvUy1JRZhTgLgBCEG8CiZ4CAUz79cbNUomuHFHf6i-GJ5ajHk1xk799r9l6q9RqI0_Eo-jz7fZ9Xn71M');"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background-dark/90 via-background-dark/60 to-transparent"></div>
+<div class="container mx-auto px-4 lg:px-8 h-full flex flex-col justify-center relative z-10">
+<div class="max-w-2xl">
+<span class="inline-block px-3 py-1 rounded-full bg-primary/20 border border-primary text-primary text-xs font-bold uppercase tracking-wider mb-4">
+                        For Commercial & Events
+                    </span>
+<h1 class="text-4xl md:text-5xl font-black text-white leading-tight mb-4 tracking-tight">
+                        Size L Commercial Solutions
+                    </h1>
+<p class="text-slate-200 text-lg md:text-xl font-light mb-8 max-w-xl">
+                        Modular exhibition booths, reception counters, and robust shelving designed for durability with unique HDPE Terrazzo aesthetics.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="h-12 px-8 bg-primary hover:bg-primary-dark text-slate-900 font-bold rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                            Download B2B Catalog
+                        </button>
+<button class="h-12 px-8 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold rounded-lg transition-colors">
+                            View Case Studies
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<div class="container mx-auto px-4 lg:px-8 py-8 flex gap-8">
+<aside class="hidden lg:block w-64 shrink-0 space-y-6">
+<div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined">tune</span> Filters
+                    </h3>
+<button class="text-xs text-primary font-medium hover:underline">Reset All</button>
+</div>
+<div class="space-y-3">
+<h4 class="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Category</h4>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Reception Counters</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Exhibition Booths</span>
+</label>
+</div>
+</div>
+<div class="space-y-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+<h4 class="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Material Pattern</h4>
+<div class="flex flex-wrap gap-3">
+<button class="group relative size-8 rounded-full border-2 border-primary overflow-hidden shadow-sm" title="Terrazzo White">
+<div class="absolute inset-0 bg-[#f0f0f0] bg-[radial-gradient(#ccc_1px,transparent_1px)] [background-size:4px_4px]"></div>
+</button>
+<button class="group relative size-8 rounded-full border border-slate-300 dark:border-slate-600 overflow-hidden hover:border-primary shadow-sm" title="Speckled Black">
+<div class="absolute inset-0 bg-[#222] bg-[radial-gradient(#555_1px,transparent_1px)] [background-size:4px_4px]"></div>
+</button>
+<button class="group relative size-8 rounded-full border border-slate-300 dark:border-slate-600 overflow-hidden hover:border-primary shadow-sm" title="Ocean Blue">
+<div class="absolute inset-0 bg-blue-900 bg-[radial-gradient(#4a90e2_1px,transparent_1px)] [background-size:4px_4px]"></div>
+</button>
+</div>
+</div>
+</aside>
+<div class="flex-1">
+<div class="flex flex-wrap items-center justify-between mb-6 gap-4">
+<p class="text-sm text-slate-500 dark:text-slate-400">Products in <span class="font-bold text-slate-900 dark:text-white">Size L</span></p>
+<div class="flex items-center gap-3">
+<select class="form-select text-sm py-2 pl-3 pr-8 rounded-lg border-slate-200 dark:border-slate-700 bg-surface-light dark:bg-surface-dark focus:ring-primary focus:border-primary cursor-pointer shadow-sm">
+<option>Sort by: Popular</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+
+<div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <p class="text-slate-500 dark:text-slate-400 col-span-full py-10 text-center">กำลังโหลดสินค้าจากฐานข้อมูล...</p>
+</div>
+
+<div class="mt-12 flex justify-center">
+<nav class="flex gap-2">
+<button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-lg bg-primary text-slate-900 font-bold shadow-sm">1</button>
+<button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">2</button>
+<button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-12">
+<div class="container mx-auto px-4 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="col-span-1 md:col-span-1">
+<a href="/" class="flex items-center gap-2 text-primary mb-4 hover:opacity-80 transition-opacity">
+<svg class="size-6" fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+</svg>
+<span class="font-bold text-slate-900 dark:text-white">BRICKIT</span>
+</a>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                        Building a sustainable future, one recycled brick at a time.
+                    </p>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white mb-4">Shop</h5>
+<ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary" href="/size-s">Size S (Home)</a></li>
+<li><a class="hover:text-primary" href="/size-m">Size M (Office)</a></li>
+<li><a class="hover:text-primary" href="/size-l">Size L (Commercial)</a></li>
+<li><a class="hover:text-primary" href="/ai-studio">Custom Parts</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white mb-4">Commercial</h5>
+<ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary" href="/login">B2B Login</a></li>
+<li><a class="hover:text-primary" href="#">Request Catalog</a></li>
+</ul>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+<p>© 2023 BRICKIT Inc. All rights reserved.</p>
+</div>
+</div>
+</footer>
+
+<script>
+    let allProducts = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const userData = localStorage.getItem('BRICKIT_user');
+        if (userData) {
+            const user = JSON.parse(userData);
+            document.querySelectorAll('a[href="/login"]').forEach(link => {
+                const container = document.createElement('div');
+                container.className = "flex items-center gap-3 bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 ml-2";
+                container.innerHTML = `<span class="text-sm font-bold text-primary">${user.username}</span><button onclick="logout()" class="text-xs text-slate-500 hover:text-red-500 underline cursor-pointer">Logout</button>`;
+                link.replaceWith(container);
+            });
+        }
+        loadProducts();
+        updateCartBadge();
+        // Search & Sort
+        document.querySelector('input[type="text"]')?.addEventListener('input', filterAndSort);
+        document.querySelector('select')?.addEventListener('change', filterAndSort);
+    });
+
+    function logout() {
+        localStorage.removeItem('BRICKIT_user');
+        window.location.reload();
+    }
+
+    // ---------------------------------------------------
+    // UI ควบคุมตะกร้าสินค้า (เปิด/ปิด/ลบ/คำนวณเงิน)
+    // ---------------------------------------------------
+    
+    function openCart() {
+        document.getElementById('cart-drawer').classList.remove('translate-x-full');
+        const backdrop = document.getElementById('cart-backdrop');
+        backdrop.classList.remove('hidden');
+        setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+        renderCartItems(); 
+    }
+
+    function closeCart() {
+        document.getElementById('cart-drawer').classList.add('translate-x-full');
+        const backdrop = document.getElementById('cart-backdrop');
+        backdrop.classList.add('opacity-0');
+        setTimeout(() => backdrop.classList.add('hidden'), 300);
+    }
+
+    function renderCartItems() {
+        const cart = JSON.parse(localStorage.getItem('BRICKIT_cart')) || [];
+        const container = document.getElementById('cart-items');
+        const totalElement = document.getElementById('cart-total');
+        
+        container.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="h-full flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 mt-20">
+                    <span class="material-symbols-outlined text-[64px] mb-4 opacity-50">production_quantity_limits</span>
+                    <p class="font-medium text-lg">ตะกร้าของคุณยังว่างเปล่า</p>
+                </div>`;
+            totalElement.textContent = '$0.00';
+            return;
+        }
+
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            container.innerHTML += `
+                <div class="flex gap-3 bg-white dark:bg-surface-dark p-3 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <div class="size-16 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-bold text-gray-900 dark:text-white line-clamp-1">${item.name}</h4>
+                        <p class="text-primary font-bold text-sm mt-0.5">$${item.price.toFixed(2)}</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="updateCartQty(${index},-1)" class="size-7 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-red-100 dark:hover:bg-red-900/30 font-bold text-base flex items-center justify-center transition-colors">−</button>
+                            <span class="w-5 text-center text-sm font-bold dark:text-white">${item.quantity}</span>
+                            <button onclick="updateCartQty(${index},1)" class="size-7 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-primary/20 font-bold text-base flex items-center justify-center transition-colors">+</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end justify-between">
+                        <span class="font-black text-gray-900 dark:text-white text-sm">$${itemTotal.toFixed(2)}</span>
+                        <button onclick="removeFromCart(${index})" class="text-gray-300 hover:text-red-500 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                    </div>
+                </div>`;
+        });
+        
+        totalElement.textContent = '$' + total.toFixed(2);
+    }
+
+    function updateCartQty(index, delta) {
+        let cart = JSON.parse(localStorage.getItem('BRICKIT_cart')) || [];
+        cart[index].quantity += delta;
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
+        localStorage.setItem('BRICKIT_cart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems();
+    }
+
+    function removeFromCart(index) {
+        let cart = JSON.parse(localStorage.getItem('BRICKIT_cart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('BRICKIT_cart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems(); 
+    }
+
+    // ---------------------------------------------------
+    // ระบบตะกร้าสินค้า & ป๊อปอัปแจ้งเตือนสวยๆ (Toast)
+    // ---------------------------------------------------
+    function showToast(name, image) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'pointer-events-auto w-80 bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-100 dark:border-slate-800 p-4 flex items-center gap-4 toast-enter';
+        
+        toast.innerHTML = `
+            <div class="relative size-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                <img src="${image}" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-lg"></div>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-bold text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    เพิ่มลงตะกร้าแล้ว
+                </p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 truncate">${name}</p>
+            </div>
+            <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        `;
+
+        container.appendChild(toast);
+
+        requestAnimationFrame(() => {
+            toast.classList.remove('toast-enter');
+            toast.classList.add('toast-enter-active');
+        });
+
+        setTimeout(() => {
+            toast.classList.remove('toast-enter-active');
+            toast.classList.add('toast-exit');
+            setTimeout(() => toast.remove(), 400); 
+        }, 3500);
+    }
+
+    function addToCart(name, price, image) {
+        let cart = JSON.parse(localStorage.getItem('BRICKIT_cart')) || [];
+        const existingItem = cart.find(item => item.name === name);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ name: name, price: price, image: image, quantity: 1 });
+        }
+        
+        localStorage.setItem('BRICKIT_cart', JSON.stringify(cart));
+        updateCartBadge();
+        showToast(name, image);
+    }
+
+    function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('BRICKIT_cart')) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        const cartIcons = document.querySelectorAll('.material-symbols-outlined');
+        cartIcons.forEach(icon => {
+            if (icon.textContent.trim() === 'shopping_cart') {
+                const btnContainer = icon.parentElement;
+                btnContainer.classList.add('relative');
+                
+                let badge = btnContainer.querySelector('.cart-badge');
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'cart-badge absolute top-0 right-0 -mt-1 -mr-1 size-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm pointer-events-none';
+                    btnContainer.appendChild(badge);
+                }
+                
+                badge.textContent = totalItems;
+                badge.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        });
+    }
+
+    // ---------------------------------------------------
+    // Product Loading + Search/Sort/Skeleton
+    // ---------------------------------------------------
+    async function loadProducts() {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = Array(3).fill(`
+            <div class="skeleton-pulse bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
+                <div class="h-64 bg-slate-200 dark:bg-slate-700"></div>
+                <div class="p-5 flex flex-col gap-3">
+                    <div class="h-5 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                    <div class="h-4 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    <div class="h-10 mt-2 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
+                </div>
+            </div>`).join('');
+        try {
+            const res = await fetch('/api/products/l');
+            allProducts = await res.json();
+            filterAndSort();
+        } catch (e) {
+            console.error(e);
+            grid.innerHTML = '<p class="text-red-500 col-span-full text-center py-10">ไม่สามารถโหลดข้อมูลสินค้าได้</p>';
+        }
+    }
+
+    function filterAndSort() {
+        const query = (document.querySelector('input[type="text"]')?.value || '').toLowerCase();
+        const sort = document.querySelector('select')?.value || '';
+        let list = allProducts.filter(p =>
+            p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+        );
+        if (sort === 'Price: Low to High') list.sort((a, b) => a.price - b.price);
+        else if (sort === 'Price: High to Low') list.sort((a, b) => b.price - a.price);
+        const grid = document.getElementById('product-grid');
+        if (list.length === 0) {
+            grid.innerHTML = '<p class="text-slate-500 dark:text-slate-400 col-span-full text-center py-10">ไม่พบสินค้าที่ค้นหา</p>';
+            return;
+        }
+        grid.innerHTML = list.map(p => `
+            <div class="group bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary transition-all duration-300 hover:shadow-lg flex flex-col overflow-hidden">
+                <div class="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-800">
+                    <img src="${p.image_url}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-1 group-hover:text-primary transition-colors">${p.name}</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">${p.description}</p>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-medium border border-slate-200 dark:border-slate-700 self-start mb-4">${p.pattern}</span>
+                    <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                        <div class="text-xl font-bold text-slate-900 dark:text-white">$${p.price.toFixed(2)}</div>
+                        <button onclick="addToCart('${p.name}', ${p.price}, '${p.image_url}')" class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-black text-slate-900 dark:text-white flex items-center justify-center transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined">add_shopping_cart</span>
+                        </button>
+                    </div>
+                </div>
+            </div>`).join('');
+    }
+</script>
+</body></html>

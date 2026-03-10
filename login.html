@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login & Register - BRICKIT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { "primary": "#19e619" }, fontFamily: { "display": ["Spline Sans"] } } } }
+    </script>
+</head>
+<body class="bg-gray-50 font-display min-h-screen flex flex-col items-center justify-center p-4">
+
+    <a href="/" class="absolute top-6 left-6 font-bold text-xl flex items-center gap-2 hover:opacity-80 transition">
+        <div class="size-8 text-primary">
+            <svg viewBox="0 0 48 48" fill="currentColor"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path></svg>
+        </div>
+        BRICKIT
+    </a>
+
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        
+        <div class="flex border-b border-gray-100">
+            <button id="tab-login" class="flex-1 py-4 font-bold text-sm bg-primary/10 text-primary border-b-2 border-primary transition-all">เข้าสู่ระบบ</button>
+            <button id="tab-register" class="flex-1 py-4 font-bold text-sm text-gray-500 hover:text-gray-800 transition-all">สมัครสมาชิก</button>
+        </div>
+
+        <div class="p-8">
+            <div id="alert-box" class="hidden p-3 mb-4 rounded-lg text-sm font-medium text-center"></div>
+
+            <form id="form-login" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Username</label>
+                    <input id="login-username" type="text" required class="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Password</label>
+                    <input id="login-password" type="password" required class="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="forgot-password-btn" class="text-sm text-primary hover:underline font-medium">ลืมรหัสผ่าน?</button>
+                </div>
+                <button type="submit" class="mt-4 w-full h-12 bg-gray-900 text-white font-bold rounded-lg hover:bg-primary hover:text-gray-900 transition-colors">เข้าสู่ระบบ</button>
+            </form>
+
+            <form id="form-register" class="hidden flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Username</label>
+                    <input id="reg-username" type="text" required class="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Email</label>
+                    <input id="reg-email" type="email" required class="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Password</label>
+                    <input id="reg-password" type="password" required class="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                <button type="submit" class="mt-4 w-full h-12 bg-primary text-gray-900 font-bold rounded-lg shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all">สมัครสมาชิกเลย</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-gray-900">ลืมรหัสผ่าน</h3>
+                <button id="close-modal" class="size-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div id="forgot-alert-box" class="hidden p-3 mb-4 rounded-lg text-sm font-medium text-center"></div>
+            
+            <form id="form-forgot-password" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">อีเมลหรือชื่อผู้ใช้</label>
+                    <input id="forgot-email" type="text" required placeholder="กรอกอีเมลหรือชื่อผู้ใช้ที่ลงทะเบียนไว้" 
+                           class="w-full px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-primary focus:outline-none">
+                </div>
+                
+                <div class="bg-blue-50 p-3 rounded-lg">
+                    <p class="text-xs text-blue-800">
+                        <strong>วิธีการ:</strong><br>
+                        1. กรอกอีเมลหรือชื่อผู้ใช้ที่ลงทะเบียนไว้<br>
+                        2. ระบบจะแสดงรหัสผ่านของคุณ<br>
+                        3. ใช้รหัสผ่านที่ได้ในการเข้าสู่ระบบ
+                    </p>
+                </div>
+                
+                <button type="submit" class="w-full h-12 bg-primary text-gray-900 font-bold rounded-lg shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all">
+                    ดึงรหัสผ่าน
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const tabLogin = document.getElementById('tab-login');
+        const tabRegister = document.getElementById('tab-register');
+        const formLogin = document.getElementById('form-login');
+        const formRegister = document.getElementById('form-register');
+        const alertBox = document.getElementById('alert-box');
+
+        // ฟังก์ชันสลับแท็บ
+        function switchTab(isLogin) {
+            alertBox.classList.add('hidden'); // ซ่อนแจ้งเตือนตอนสลับแท็บ
+            if (isLogin) {
+                tabLogin.className = "flex-1 py-4 font-bold text-sm bg-primary/10 text-primary border-b-2 border-primary transition-all";
+                tabRegister.className = "flex-1 py-4 font-bold text-sm text-gray-500 hover:text-gray-800 transition-all";
+                formLogin.classList.remove('hidden');
+                formRegister.classList.add('hidden');
+            } else {
+                tabRegister.className = "flex-1 py-4 font-bold text-sm bg-primary/10 text-primary border-b-2 border-primary transition-all";
+                tabLogin.className = "flex-1 py-4 font-bold text-sm text-gray-500 hover:text-gray-800 transition-all";
+                formRegister.classList.remove('hidden');
+                formLogin.classList.add('hidden');
+            }
+        }
+
+        tabLogin.addEventListener('click', () => switchTab(true));
+        tabRegister.addEventListener('click', () => switchTab(false));
+
+        // Forgot Password Modal
+        const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        const closeModal = document.getElementById('close-modal');
+        const formForgotPassword = document.getElementById('form-forgot-password');
+        const forgotAlertBox = document.getElementById('forgot-alert-box');
+
+        // เปิด Modal
+        forgotPasswordBtn.addEventListener('click', () => {
+            forgotPasswordModal.classList.remove('hidden');
+            forgotPasswordModal.classList.add('flex');
+        });
+
+        // ปิด Modal
+        closeModal.addEventListener('click', () => {
+            forgotPasswordModal.classList.add('hidden');
+            forgotPasswordModal.classList.remove('flex');
+            formForgotPassword.reset();
+            forgotAlertBox.classList.add('hidden');
+        });
+
+        // คลิกพื้นหลังเพื่อปิด Modal
+        forgotPasswordModal.addEventListener('click', (e) => {
+            if (e.target === forgotPasswordModal) {
+                closeModal.click();
+            }
+        });
+
+        // ฟังก์ชันแสดงข้อความแจ้งเตือนใน Modal
+        function showForgotAlert(message, isSuccess) {
+            forgotAlertBox.textContent = message;
+            forgotAlertBox.className = `p-3 mb-4 rounded-lg text-sm font-bold text-center ${isSuccess ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+            forgotAlertBox.classList.remove('hidden');
+        }
+
+        // จัดการส่งฟอร์ม Forgot Password
+        formForgotPassword.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const emailOrUsername = document.getElementById('forgot-email').value;
+
+            try {
+                const response = await fetch('/api/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email_or_username: emailOrUsername })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showForgotAlert(`รหัสผ่านของคุณคือ: ${data.password}`, true);
+                    
+                    // ปิด Modal หลัง 3 วินาที
+                    setTimeout(() => {
+                        closeModal.click();
+                    }, 3000);
+                } else {
+                    showForgotAlert(data.detail || 'ไม่พบผู้ใช้นี้ในระบบ', false);
+                }
+            } catch (error) {
+                showForgotAlert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', false);
+            }
+        });
+
+        // ฟังก์ชันแสดงข้อความแจ้งเตือน
+        function showAlert(message, isSuccess) {
+            alertBox.textContent = message;
+            alertBox.className = `p-3 mb-4 rounded-lg text-sm font-bold text-center ${isSuccess ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+            alertBox.classList.remove('hidden');
+        }
+
+        // จัดการส่งฟอร์ม Register
+        formRegister.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ', true);
+                    formRegister.reset();
+                    setTimeout(() => switchTab(true), 1500); // ดีเลย์ 1.5 วิแล้วสลับไปหน้าล็อคอิน
+                } else {
+                    showAlert(data.detail || 'เกิดข้อผิดพลาดในการสมัครสมาชิก', false);
+                }
+            } catch (error) {
+                showAlert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', false);
+            }
+        });
+
+        // จัดการส่งฟอร์ม Login
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('เข้าสู่ระบบสำเร็จ! กำลังไปหน้าแรก...', true);
+                    
+                    // บันทึกข้อมูลการล็อคอินลงใน Local Storage ของเบราว์เซอร์
+                    localStorage.setItem('BRICKIT_user', JSON.stringify({
+                        id: data.id,
+                        username: data.username,
+                        email: data.email
+                    }));
+
+                    // เด้งกลับไปหน้า Home
+                    setTimeout(() => window.location.href = '/', 1000); 
+                } else {
+                    showAlert(data.detail || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', false);
+                }
+            } catch (error) {
+                showAlert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้', false);
+            }
+        });
+    </script>
+</body>
+</html>

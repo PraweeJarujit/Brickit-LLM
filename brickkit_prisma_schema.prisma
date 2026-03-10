@@ -1,0 +1,269 @@
+// BRICKIT Database Schema (Inspired by TradingJournal)
+// Prisma ORM with PostgreSQL + Supabase Integration
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Users Management
+model users {
+  id            Int             @id @default(autoincrement())
+  username      String          @unique @db.VarChar(50)
+  full_name     String          @db.VarChar(100)
+  email         String          @unique @db.VarChar(255)
+  password      String
+  phone         String?         @db.VarChar(20)
+  address       String?         @db.Text
+  role          String          @default("user") @db.VarChar(20) // user, admin
+  is_active     Boolean         @default(true)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  orders        orders[]
+  wishlists     wishlists[]
+  reviews       product_reviews[]
+  activities    user_activities[]
+  chat_messages chat_messages[]
+  
+  @@map("users")
+}
+
+// Products Catalog
+model products {
+  id            Int             @id @default(autoincrement())
+  name          String          @db.VarChar(255)
+  description   String?         @db.Text
+  price         Decimal         @db.Decimal(10, 2)
+  image_url     String?         @db.Text
+  size_category String          @db.VarChar(10) // S, M, L
+  pattern       String?         @db.VarChar(100)
+  material      String?         @db.VarChar(100)
+  weight        Decimal?        @db.Decimal(8, 2)
+  dimensions    String?         @db.VarChar(100) // "50x30x20 cm"
+  stock_count   Int             @default(0)
+  is_active     Boolean         @default(true)
+  is_featured   Boolean         @default(false)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  order_items   order_items[]
+  wishlists     wishlists[]
+  reviews       product_reviews[]
+  
+  @@index([size_category])
+  @@index([is_active])
+  @@index([is_featured])
+  @@map("products")
+}
+
+// Orders Management
+model orders {
+  id            Int             @id @default(autoincrement())
+  user_id       Int
+  order_number  String          @unique @db.VarChar(50)
+  full_name      String          @db.VarChar(255)
+  email         String          @db.VarChar(255)
+  phone         String?         @db.VarChar(20)
+  address       String          @db.Text
+  status        String          @default("pending") @db.VarChar(20) // pending, confirmed, shipped, delivered, cancelled
+  payment_method String?        @db.VarChar(50)
+  payment_status String?        @default("pending") @db.VarChar(20)
+  subtotal      Decimal         @db.Decimal(10, 2)
+  tax_amount    Decimal         @default(0) @db.Decimal(10, 2)
+  shipping_cost Decimal         @default(0) @db.Decimal(10, 2)
+  total_amount  Decimal         @db.Decimal(10, 2)
+  notes         String?         @db.Text
+  tracking_number String?       @db.VarChar(100)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  user          users           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  order_items   order_items[]
+  
+  @@index([user_id])
+  @@index([status])
+  @@index([order_number])
+  @@map("orders")
+}
+
+// Order Items
+model order_items {
+  id            Int             @id @default(autoincrement())
+  order_id      Int
+  product_name  String          @db.VarChar(255)
+  product_id    Int?
+  price         Decimal         @db.Decimal(10, 2)
+  quantity      Int
+  image_url     String?         @db.Text
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  order         orders          @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  
+  @@index([order_id])
+  @@map("order_items")
+}
+
+// Wishlists
+model wishlists {
+  id            Int             @id @default(autoincrement())
+  user_id       Int
+  product_id    Int
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  user          users           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product       products        @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  
+  @@unique([user_id, product_id])
+  @@index([user_id])
+  @@map("wishlists")
+}
+
+// Product Reviews
+model product_reviews {
+  id            Int             @id @default(autoincrement())
+  product_id    Int
+  user_id       Int
+  rating        Int             // 1-5 stars
+  title         String?         @db.VarChar(255)
+  comment       String?         @db.Text
+  is_verified   Boolean         @default(false) // Verified purchase
+  helpful_count Int             @default(0)
+  is_approved   Boolean         @default(false)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  product       products        @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  user          users           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  
+  @@unique([product_id, user_id])
+  @@index([product_id])
+  @@index([rating])
+  @@map("product_reviews")
+}
+
+// User Activities (Analytics)
+model user_activities {
+  id            Int             @id @default(autoincrement())
+  user_id       Int?
+  activity_type String          @db.VarChar(100) // login, view_product, add_to_cart, purchase, etc.
+  activity_data Json?           // Additional activity data
+  ip_address    String?         @db.VarChar(45)
+  user_agent    String?         @db.Text
+  session_id    String?         @db.VarChar(255)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  user          users?          @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  
+  @@index([user_id])
+  @@index([activity_type])
+  @@index([created_at])
+  @@map("user_activities")
+}
+
+// Chat Messages (AI Assistant)
+model chat_messages {
+  id            Int             @id @default(autoincrement())
+  user_id       Int?
+  session_id    String          @db.VarChar(255)
+  role          String          @db.VarChar(20) // user, assistant
+  content       String          @db.Text
+  metadata      Json?           // Additional message data
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  user          users?          @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  
+  @@index([user_id])
+  @@index([session_id])
+  @@index([created_at])
+  @@map("chat_messages")
+}
+
+// Promotions & Discounts
+model promotions {
+  id            Int             @id @default(autoincrement())
+  name          String          @db.VarChar(255)
+  code          String          @unique @db.VarChar(50)
+  description   String?         @db.Text
+  discount_type String          @db.VarChar(20) // percentage, fixed_amount
+  discount_value Decimal        @db.Decimal(10, 2)
+  min_order_amount Decimal?     @db.Decimal(10, 2)
+  max_discount_amount Decimal? @db.Decimal(10, 2)
+  usage_limit   Int?            // Max times this promo can be used
+  usage_count   Int             @default(0)
+  is_active     Boolean         @default(true)
+  starts_at     DateTime        @db.Timestamp(6)
+  ends_at       DateTime        @db.Timestamp(6)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  @@index([code])
+  @@index([is_active])
+  @@map("promotions")
+}
+
+// Promotion Usage Tracking
+model promotion_usage {
+  id            Int             @id @default(autoincrement())
+  promotion_id  Int
+  user_id       Int?
+  order_id      Int?
+  discount_amount Decimal       @db.Decimal(10, 2)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  @@index([promotion_id])
+  @@index([user_id])
+  @@map("promotion_usage")
+}
+
+// Inventory Management
+model inventory {
+  id            Int             @id @default(autoincrement())
+  product_id    Int             @unique
+  stock_count   Int             @default(0)
+  reserved_count Int            @default(0) // Items in cart but not purchased
+  reorder_level Int             @default(5)
+  reorder_amount Int             @default(10)
+  last_updated  DateTime?       @default(now()) @db.Timestamp(6)
+  
+  @@index([product_id])
+  @@map("inventory")
+}
+
+// Categories
+model categories {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique @db.VarChar(100)
+  description   String?         @db.Text
+  image_url     String?         @db.Text
+  parent_id     Int?
+  sort_order    Int             @default(0)
+  is_active     Boolean         @default(true)
+  created_at    DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?       @default(now()) @db.Timestamp(6)
+  
+  @@index([parent_id])
+  @@index([is_active])
+  @@map("categories")
+}
+
+// Product Categories (Many-to-Many)
+model product_categories {
+  product_id    Int
+  category_id   Int
+  
+  @@id([product_id, category_id])
+  @@map("product_categories")
+}

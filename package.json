@@ -1,0 +1,28 @@
+{
+  "name": "brickit-furniture-api",
+  "version": "1.0.0",
+  "description": "BRICKIT Full-Stack Furniture API with AI Chatbot",
+  "main": "llm.py",
+  "scripts": {
+    "start": "python llm.py",
+    "dev": "python llm.py",
+    "build-css": "npx tailwindcss -i ./src/input.css -o ./css/output.css --minify",
+    "watch-css": "npx tailwindcss -i ./src/input.css -o ./css/output.css --watch",
+    "build-css-prod": "npx tailwindcss -i ./src/input.css -o ./css/output.css --minify",
+    "install-deps": "pip install -r requirements.txt && npm install -D tailwindcss postcss autoprefixer"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^3.4.19"
+  },
+  "keywords": [
+    "furniture",
+    "ai",
+    "chatbot",
+    "fastapi",
+    "tailwindcss"
+  ],
+  "author": "BRICKIT Team",
+  "license": "MIT"
+}

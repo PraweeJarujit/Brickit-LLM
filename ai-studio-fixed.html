@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html class="light" lang="th">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>BRICKIT - AI Co-Creation Studio</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="mobile-redirect.js"></script>
+    <style>
+        /* Mobile-first responsive fixes */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .mobile-layout {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .mobile-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .mobile-chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        .mobile-sidebar {
+            width: 100%;
+            min-height: 40vh;
+            max-height: 50vh;
+            overflow-y: auto;
+            border-bottom: 1px solid #e7f3e7;
+        }
+        
+        .mobile-main {
+            flex: 1;
+            min-height: 40vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .mobile-input-area {
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 1rem;
+            position: sticky;
+            bottom: 0;
+            z-index: 40;
+        }
+        
+        /* Desktop layout (restore original) */
+        @media (min-width: 1024px) {
+            .mobile-layout {
+                flex-direction: row;
+            }
+            
+            .mobile-content {
+                flex-direction: row;
+            }
+            
+            .mobile-chat-area {
+                width: 33.333%;
+                flex-direction: column;
+                border-right: 1px solid #e7f3e7;
+                border-bottom: none;
+            }
+            
+            .mobile-sidebar {
+                min-height: auto;
+                max-height: none;
+                border-bottom: none;
+            }
+            
+            .mobile-main {
+                width: 66.667%;
+                min-height: auto;
+            }
+            
+            .mobile-input-area {
+                position: relative;
+                bottom: auto;
+                z-index: auto;
+            }
+        }
+        
+        /* Fix scrolling issues */
+        .custom-scrollbar {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+        
+        /* Touch-friendly buttons */
+        .touch-button {
+            min-height: 44px;
+            min-width: 44px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Fix viewport issues */
+        .mobile-image-container {
+            width: 80%;
+            height: 60%;
+            max-height: 40vh;
+            object-fit: contain;
+        }
+        
+        /* Responsive quick actions */
+        .mobile-quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            padding: 0.75rem;
+        }
+        
+        @media (max-width: 480px) {
+            .mobile-quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Fix input area on mobile */
+        .mobile-input-group {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        @media (min-width: 1024px) {
+            .mobile-input-group {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Safe area support */
+        @supports (padding: max(0px)) {
+            .mobile-input-area {
+                padding-bottom: max(1rem, env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* Prevent zoom on iOS */
+        input[type="text"], 
+        input[type="email"], 
+        input[type="password"],
+        textarea {
+            font-size: 16px !important;
+        }
+        
+        /* Loading states */
+        .loading-dots {
+            display: inline-flex;
+            gap: 0.25rem;
+        }
+        
+        .loading-dots span {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: loading 1.4s infinite;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes loading {
+            0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+            30% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display">
+    
+    <!-- Mobile Layout -->
+    <div class="mobile-layout">
+        <!-- Header -->
+        <header class="mobile-header px-4 py-3 bg-surface-light dark:bg-surface-dark">
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="size-8 text-primary">
+                        <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-text-main dark:text-white">BRICKIT</h2>
+                </a>
+                
+                <div class="flex items-center gap-2">
+                    <button class="touch-button size-10 rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                    <a href="/login" class="touch-button size-10 rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white overflow-hidden border-2 border-primary">
+                        <img id="userAvatarNav" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=22c55e&color=fff" alt="User avatar"/>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="mobile-content">
+            <!-- Chat Area -->
+            <div class="mobile-chat-area">
+                <!-- Sidebar -->
+                <div class="mobile-sidebar bg-white dark:bg-surface-dark">
+                    <div class="p-4 pb-2 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
+                        <div class="flex items-center justify-between mb-2">
+                            <h1 class="text-lg font-bold text-text-main dark:text-white">AI Studio</h1>
+                            <button id="chatMenuBtn" class="touch-button size-8 rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white">
+                                <span class="material-symbols-outlined text-[18px]">history</span>
+                            </button>
+                        </div>
+                        <p class="text-[#4e974e] dark:text-[#6ec76e] text-xs font-medium">ออกแบบเฟอร์นิเจอร์ด้วยภาษาธรรมชาติ</p>
+                        
+                        <div class="flex gap-2 mt-3">
+                            <button id="newChatBtn" class="touch-button flex-1 h-8 rounded-lg bg-primary text-text-main text-xs font-bold flex items-center justify-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">add</span> ใหม่
+                            </button>
+                            <button id="clearChatBtn" class="touch-button h-8 px-3 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white text-xs font-bold">
+                                <span class="material-symbols-outlined text-[16px]">clear</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="chatHistory" class="custom-scrollbar p-4 flex flex-col gap-4">
+                        <div id="welcomeMessage" class="text-center py-6">
+                            <div class="size-12 mx-auto mb-3 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-[24px]">smart_toy</span>
+                            </div>
+                            <h3 class="text-base font-bold text-text-main dark:text-white mb-2">ยินดีต้อนรับ!</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">บอกผมว่าคุณอยากออกแบบอะไร</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Input Area -->
+                <div class="mobile-input-area">
+                    <!-- Quick Actions -->
+                    <div class="mobile-quick-actions">
+                        <button type="button" onclick="quickPrompt('เพิ่มชั้นวาง')" class="touch-button h-10 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 text-xs font-bold text-text-main dark:text-white">
+                            <span class="material-symbols-outlined text-[16px]">add</span> เพิ่มชั้นวาง
+                        </button>
+                        <button type="button" onclick="quickPrompt('ทำให้สูงขึ้น')" class="touch-button h-10 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 text-xs font-bold text-text-main dark:text-white">
+                            <span class="material-symbols-outlined text-[16px]">height</span> สูงขึ้น
+                        </button>
+                        <button type="button" onclick="quickPrompt('เพิ่มสีเขียว')" class="touch-button h-10 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 text-xs font-bold text-text-main dark:text-white">
+                            <span class="material-symbols-outlined text-[16px]">palette</span> สีเขียว
+                        </button>
+                        <button type="button" onclick="quickPrompt('เปลี่ยนวัสดุ')" class="touch-button h-10 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 text-xs font-bold text-text-main dark:text-white">
+                            <span class="material-symbols-outlined text-[16px]">texture</span> เปลี่ยนวัสดุ
+                        </button>
+                    </div>
+                    
+                    <!-- Input -->
+                    <div class="mobile-input-group">
+                        <div class="relative flex-1">
+                            <input 
+                                id="chatInput" 
+                                type="text" 
+                                class="w-full h-12 pl-4 pr-24 rounded-xl bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500 text-sm" 
+                                placeholder="บอกผมว่าต้องการอะไร..."
+                                maxlength="200"
+                            >
+                            <div class="absolute right-1 top-1 h-10 flex items-center gap-1">
+                                <button class="touch-button size-9 rounded-lg text-gray-500 hover:text-primary">
+                                    <span class="material-symbols-outlined">mic</span>
+                                </button>
+                                <button id="sendBtn" class="touch-button h-9 px-4 rounded-lg bg-primary text-text-main font-bold text-sm flex items-center gap-2">
+                                    <span>ส่ง</span>
+                                    <span class="material-symbols-outlined text-[18px]">send</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Display Area -->
+            <div class="mobile-main bg-[#f0f4f0] dark:bg-[#0d1a0d] relative">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none" style="background-image: radial-gradient(#19e619 1px, transparent 1px); background-size: 24px 24px;"></div>
+                    <div class="mobile-image-container relative flex items-center justify-center transition-transform duration-500">
+                        <img id="mainProductImage" class="object-contain drop-shadow-2xl filter contrast-125 transition-all duration-700" src="https://ui-avatars.com/api/?name=BRICKIT&size=400&background=22c55e&color=fff" alt="3D render"/>
+                        <div class="absolute -right-12 top-10 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md hidden sm:block">120 cm</div>
+                        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md hidden sm:block">80 cm</div>
+                    </div>
+                </div>
+                
+                <!-- Control Buttons -->
+                <div class="absolute top-4 right-4 flex flex-col gap-2">
+                    <button class="touch-button size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg text-text-main dark:text-white">
+                        <span class="material-symbols-outlined">3d_rotation</span>
+                    </button>
+                    <button class="touch-button size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg text-text-main dark:text-white">
+                        <span class="material-symbols-outlined">add</span>
+                    </button>
+                    <button class="touch-button size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg text-text-main dark:text-white">
+                        <span class="material-symbols-outlined">remove</span>
+                    </button>
+                </div>
+                
+                <!-- View Mode Toggle -->
+                <div class="absolute top-4 left-4 flex gap-1 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md p-1 rounded-lg shadow-sm">
+                    <button class="px-3 py-1 rounded bg-primary text-text-main text-xs font-bold">Realistic</button>
+                    <button class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium">Wireframe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Scripts -->
+    <script>
+        // Initialize variables
+        let messages = [];
+        let currentChatId = null;
+        let isLoading = false;
+        
+        // DOM elements
+        const chatHistory = document.getElementById('chatHistory');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        // Add message to chat
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = `max-w-[80%] px-4 py-3 rounded-2xl text-sm ${
+                isUser 
+                    ? 'bg-primary text-white rounded-br-sm' 
+                    : 'bg-white dark:bg-surface-dark text-text-main dark:text-white border border-gray-200 dark:border-gray-700 rounded-bl-sm'
+            }`;
+            bubbleDiv.textContent = content;
+            
+            messageDiv.appendChild(bubbleDiv);
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+        
+        // Show typing indicator
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'flex justify-start mb-4';
+            typingDiv.innerHTML = `
+                <div class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-2xl rounded-bl-sm px-4 py-3">
+                    <div class="loading-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            chatHistory.appendChild(typingDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            return typingDiv;
+        }
+        
+        // Send message
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || isLoading) return;
+            
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Show typing
+            isLoading = true;
+            const typingIndicator = showTyping();
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                const data = await response.json();
+                
+                // Remove typing
+                typingIndicator.remove();
+                
+                // Add response
+                if (data.response) {
+                    addMessage(data.response, false);
+                } else {
+                    addMessage('ขออภัย มีข้อผิดพลาด กรุณาลองใหม่', false);
+                }
+                
+            } catch (error) {
+                typingIndicator.remove();
+                addMessage('ขออภัย ไม่สามารถเชื่อมต่อได้', false);
+            } finally {
+                isLoading = false;
+            }
+        }
+        
+        // Quick prompt
+        function quickPrompt(prompt) {
+            chatInput.value = prompt;
+            sendMessage();
+        }
+        
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Focus management
+        chatInput.addEventListener('focus', () => {
+            // Scroll input into view on mobile
+            setTimeout(() => {
+                chatInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+        
+        // Clear welcome message on first interaction
+        chatInput.addEventListener('focus', () => {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+        });
+        
+        // Initialize with proactive greeting
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addMessage('สวัสดีครับ! ยินดีต้อนรับสู่ BRICKIT ผมพร้อมช่วยคุณออกแบบเฟอร์นิเจอร์ที่ตรงกับความต้องการครับ', false);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

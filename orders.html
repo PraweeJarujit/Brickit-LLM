@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Orders - BRICKIT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/shared.js"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#19e619",
+              "background-light": "#f6f8f6",
+              "background-dark": "#112111",
+              "surface-light": "#ffffff",
+              "surface-dark": "#1a2e1a",
+              "text-main-light": "#0e1b0e",
+              "border-light": "#e7f3e7",
+            },
+            fontFamily: { "display": ["Spline Sans", "sans-serif"] },
+          },
+        },
+      }
+    </script>
+<style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen transition-colors duration-200">
+
+<header class="sticky top-0 z-50 border-b border-border-light dark:border-gray-800 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md px-6 py-4">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+        <a href="/" class="flex items-center gap-2 font-bold text-xl dark:text-white">
+            <span class="text-primary material-symbols-outlined">dataset</span> BRICKIT
+        </a>
+        <nav class="hidden md:flex gap-6">
+            <a href="/" class="text-sm font-medium hover:text-primary transition-colors dark:text-gray-300">Home</a>
+            <a href="/ai-studio" class="text-sm font-medium hover:text-primary transition-colors dark:text-gray-300">AI Studio</a>
+        </nav>
+        <div class="flex items-center gap-2">
+            <button onclick="toggleDarkMode()" class="size-9 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center dark:text-white hover:bg-primary/10 transition-colors" title="Toggle dark mode">
+                <span class="material-symbols-outlined text-xl" data-dark-icon>dark_mode</span>
+            </button>
+            <a href="/login" class="size-9 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center dark:text-white">
+                <span class="material-symbols-outlined text-xl">person</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between items-baseline mb-10 gap-4">
+        <h1 class="text-4xl font-black dark:text-white">Order History <span class="text-primary">.</span></h1>
+        <p class="text-gray-500 text-sm">ตรวจสอบและติดตามรายการสั่งซื้อทั้งหมดของคุณ</p>
+    </div>
+
+    <div id="orders-container" class="space-y-6">
+        <div class="text-center py-20 bg-white dark:bg-surface-dark rounded-3xl border border-dashed border-gray-300 dark:border-gray-700">
+            <span class="material-symbols-outlined text-5xl text-gray-300 mb-4">sync</span>
+            <p class="text-gray-500">กำลังโหลดประวัติการสั่งซื้อของคุณ...</p>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const user = JSON.parse(localStorage.getItem('BRICKIT_user'));
+        
+        if (!user) {
+            window.location.href = '/login';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/my-orders/${user.id}`);
+            const orders = await response.json();
+            renderOrders(orders);
+        } catch (error) {
+            console.error(error);
+            document.getElementById('orders-container').innerHTML = `
+                <div class="text-center py-10 text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>
+            `;
+        }
+    });
+
+    function renderOrders(orders) {
+        const container = document.getElementById('orders-container');
+        
+        if (orders.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-20 bg-white dark:bg-surface-dark rounded-3xl border border-dashed border-gray-300 dark:border-gray-700">
+                    <span class="material-symbols-outlined text-5xl text-gray-300 mb-4">shopping_cart_off</span>
+                    <p class="text-gray-500 font-bold text-lg">คุณยังไม่มีรายการสั่งซื้อ</p>
+                    <a href="/" class="text-primary hover:underline text-sm mt-2 block">เริ่มช้อปปิ้งเลย</a>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = orders.reverse().map(order => {
+            const date = new Date(order.timestamp).toLocaleDateString('th-TH', {
+                year: 'numeric', month: 'long', day: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+
+            return `
+                <div class="bg-white dark:bg-surface-dark rounded-2xl shadow-sm border border-border-light dark:border-gray-800 overflow-hidden">
+                    <div class="p-6 bg-gray-50 dark:bg-gray-800/50 border-b border-border-light dark:border-gray-800 flex flex-wrap justify-between items-center gap-4">
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Order ID</p>
+                            <p class="font-bold dark:text-white">#BK-${order.id.toString().padStart(5, '0')}</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">วันที่สั่งซื้อ</p>
+                            <p class="text-sm dark:text-gray-300">${date}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400">ยอดสุทธิ</p>
+                            <p class="text-lg font-black text-primary">$${order.total.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-4 overflow-x-auto no-scrollbar pb-2">
+                            ${order.items.map(item => `
+                                <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 p-2 rounded-xl min-w-[200px]">
+                                    <img src="${item.image_url}" class="size-12 rounded-lg object-cover">
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold truncate dark:text-white">${item.product_name}</p>
+                                        <p class="text-[10px] text-gray-500">จำนวน ${item.quantity} ชิ้น</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 py-4 bg-white dark:bg-surface-dark border-t border-border-light dark:border-gray-800 flex justify-between items-center">
+                        <span class="flex items-center gap-1.5 text-xs font-bold text-green-500">
+                            <span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
+                            Preparing for Shipping
+                        </span>
+                        <button class="text-xs font-bold text-gray-400 hover:text-primary transition-colors underline">ดูรายละเอียดเต็ม</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+</script>
+</body></html>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BRICKIT - AI Co-Creation Journey</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Noto+Sans+Thai:wght@400;500;700;900&family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/output.css">
+<style>
+    /* Smooth transitions for theme switching */
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Image Transition Animation */
+    .img-interactive-fade { animation: imgFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    @keyframes imgFadeIn {
+        from { opacity: 0; transform: scale(0.98); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    
+    /* Chat Animations */
+    @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .animate-slide-in-right {
+        animation: slideInRight 0.3s ease-out;
+    }
+    
+    .animate-slide-in-left {
+        animation: slideInLeft 0.3s ease-out;
+    }
+    
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+    
+    /* Loading spinner */
+    .animate-spin {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Hover effects */
+    .chat-session-item {
+        transition: all 0.2s ease;
+    }
+    
+    .chat-session-item:hover {
+        transform: translateX(-2px);
+    }
+    
+    /* Button improvements */
+    button {
+        transition: all 0.2s ease;
+    }
+    
+    button:active {
+        transform: scale(0.95);
+    }
+    
+    /* Focus styles */
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(25, 230, 25, 0.2);
+    }
+    
+    /* Thai text support */
+    .thai-text {
+        font-family: "Noto Sans Thai", "Noto Sans", sans-serif;
+        line-height: 1.6;
+        letter-spacing: 0.02em;
+    }
+    
+    /* Message bubble improvements */
+    .response-content {
+        min-height: 1.5rem;
+        line-height: 1.6;
+    }
+    
+    /* Sidebar backdrop blur */
+    .backdrop-blur-sm {
+        backdrop-filter: blur(4px);
+    }
+    
+    /* Professional shadows */
+    .shadow-professional {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+        background: linear-gradient(135deg, #19e619 0%, #0e8b0e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display overflow-hidden h-screen flex flex-col">
+
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f3e7] dark:border-[#2a4a2a] px-6 py-3 bg-surface-light dark:bg-surface-dark shrink-0 z-20">
+<a href="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+</svg>
+</div>
+<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">BRICKIT</h2>
+</a>
+<div class="flex flex-1 justify-center hidden md:flex">
+<div class="flex items-center gap-1 bg-accent-green-light dark:bg-accent-green-dark p-1 rounded-full">
+<div class="px-4 py-1.5 bg-white dark:bg-surface-dark rounded-full shadow-sm text-sm font-bold text-text-main dark:text-white cursor-default">Design</div>
+<div class="px-4 py-1.5 text-sm font-medium text-text-main/60 dark:text-white/60 cursor-pointer hover:text-text-main">Review</div>
+<div class="px-4 py-1.5 text-sm font-medium text-text-main/60 dark:text-white/60 cursor-pointer hover:text-text-main">Order</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-4">
+<button id="themeToggle" class="size-10 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<a href="/login" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white overflow-hidden border-2 border-primary">
+<img id="userAvatarNav" class="w-full h-full object-cover" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCniCCMpiiFi2vs3iByKV8gYSBbaAWCfzSP3gvMQkFGTio5KAHaH-KkqgmqIEqezvNnbrd3Cqb0TvhgJnnRUXQ81NhjXqoCDmnoYcYXZKm4tVSSQ08RjF0PnK7UAjIUWDBpX7tOcuhXX6yQ23F69sAEst9ppuCbMwB0XfSFWlVqXQNf_sBNfp-OAX_ZTJMaPwx5PTpRb5crGRP0ET2CvovRaXP56rDqS8SI_T7vjxJh8HN611fajvdgcj0kmuQVK5pkimPI_Yl9zE-o"/>
+</a>
+</div>
+</header>
+
+<div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 overflow-hidden bg-background-light dark:bg-background-dark">
+<div class="col-span-12 lg:col-span-4 flex flex-col min-h-0 overflow-hidden border-r border-[#e7f3e7] dark:border-[#2a4a2a] bg-white dark:bg-surface-dark relative z-10">
+<div class="p-4 pb-2 shrink-0 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
+<div class="flex items-center justify-between mb-2">
+<h1 class="text-xl md:text-2xl font-black leading-tight tracking-[-0.033em] text-text-main dark:text-white">AI Co-Creation Studio</h1>
+<button id="chatMenuBtn" class="size-8 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[18px]">history</span>
+</button>
+</div>
+<p class="text-[#4e974e] dark:text-[#6ec76e] text-xs font-medium">Build your custom furniture with natural language.</p>
+<div class="flex gap-2 mt-3">
+<button id="newChatBtn" class="flex-1 h-8 rounded-lg bg-primary text-text-main text-xs font-bold hover:brightness-105 transition-all flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add</span> New Chat
+</button>
+<button id="clearChatBtn" class="h-8 px-3 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white text-xs font-bold hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-symbols-outlined text-[16px]">clear</span>
+</button>
+</div>
+</div>
+<div id="chatHistory" class="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-6 custom-scrollbar">
+    <div id="welcomeMessage" class="text-center py-8">
+        <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[32px]">smart_toy</span>
+        </div>
+        <h3 class="text-lg font-bold text-text-main dark:text-white mb-2">ยินดีต้อนรับสู่ BrickBot! / Welcome to BrickBot!</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">ผมพร้อมช่วยคุณออกแบบเฟอร์นิเจอร์ตามที่คุณต้องการ! เริ่มต้นด้วยการบอกผมว่าคุณอยากสร้างอะไรครับ / I'm here to help you design custom furniture. Start by describing what you'd like to create!</p>
+    </div>
+</div>
+<div class="p-4 bg-white dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] shrink-0">
+<div class="flex gap-2 mb-3 overflow-x-auto pb-1 no-scrollbar">
+<button type="button" onclick="quickPrompt('เพิ่มชั้นวางของ')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="text-text-main dark:text-white text-xs font-bold">เพิ่มชั้นวาง</span>
+</button>
+<button type="button" onclick="quickPrompt('ทำให้สูงขึ้น')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">height</span>
+<span class="text-text-main dark:text-white text-xs font-bold">ทำให้สูงขึ้น</span>
+</button>
+<button type="button" onclick="quickPrompt('เพิ่มสีเขียว')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">palette</span>
+<span class="text-text-main dark:text-white text-xs font-bold">เพิ่มสีเขียว</span>
+</button>
+<button type="button" onclick="quickPrompt('Add shelf')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="text-text-main dark:text-white text-xs font-bold">Add shelf</span>
+</button>
+<button type="button" onclick="quickPrompt('Make taller')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">height</span>
+<span class="text-text-main dark:text-white text-xs font-bold">Make taller</span>
+</button>
+<button type="button" onclick="quickPrompt('More green')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">palette</span>
+<span class="text-text-main dark:text-white text-xs font-bold">More green</span>
+</button>
+</div>
+<div class="relative w-full">
+<input id="chatInput" class="w-full h-12 pl-4 pr-24 rounded-xl bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500" placeholder="พิมพ์คำอธิบายหรือไอเดียใหม่ๆ... / Describe changes or new ideas..." type="text"/>
+<div class="absolute right-1 top-1 h-10 flex items-center gap-1">
+<button class="size-9 flex items-center justify-center rounded-lg text-gray-500 hover:text-primary hover:bg-white/50 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button id="sendBtn" class="h-9 px-4 rounded-lg bg-primary text-text-main font-bold text-sm shadow-md hover:brightness-105 transition-all flex items-center gap-2">
+    Send <span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Chat History Sidebar -->
+<div id="chatHistorySidebar" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+<div class="absolute right-0 top-0 h-full w-80 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300">
+<div class="flex items-center justify-between p-4 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
+<h2 class="text-lg font-bold text-text-main dark:text-white">Chat History</h2>
+<button id="closeSidebarBtn" class="size-8 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-4">
+<div class="relative mb-4">
+<input id="searchChats" type="text" placeholder="Search conversations..." class="w-full h-10 pl-10 pr-4 rounded-lg bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500 text-sm">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-[18px]">search</span>
+</div>
+<div id="chatList" class="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
+<!-- Chat sessions will be populated here -->
+</div>
+</div>
+<div class="p-4 border-t border-[#e7f3e7] dark:border-[#2a4a2a]">
+<button id="exportChatsBtn" class="w-full h-10 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span> Export Chats
+</button>
+</div>
+</div>
+</div>
+
+<div class="col-span-12 lg:col-span-8 flex flex-col h-full overflow-hidden relative">
+<div class="flex-grow relative bg-[#f0f4f0] dark:bg-[#0d1a0d] overflow-hidden group">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none" style="background-image: radial-gradient(#19e619 1px, transparent 1px); background-size: 24px 24px;"></div>
+<div class="relative w-[60%] h-[60%] flex items-center justify-center transition-transform duration-500 hover:scale-105">
+<img id="mainProductImage" class="object-contain h-full drop-shadow-2xl filter contrast-125 transition-all duration-700" data-alt="3D render" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIqu0Dkayj30CqIBEytniDYhxdyf4g_fC1W6hnNZT2NfDb2eLF8WOSGBLiv4DIrEHoN8PDipk8Gjo6JaUq0bq24pfVk_6y-IfDMvv9Q17Kc16KGU-kZvXHxybdpzOlne9J3j7zMJKDUbrazjdoG0biEHQrLdmrEbUk8wZzHZZ1ZyODYsYauUr5KsKSF-yXAxMtgkSoOQYTDD5RgTfZnqgL3J_M6X6ZFyCtn1i-0-aVHKs2YxvLhCPoY-W2yj7wykgWo9R6h28rgvbR"/>
+<div class="absolute -right-12 top-10 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md">120 cm</div>
+<div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md">80 cm</div>
+</div>
+</div>
+<div class="absolute top-6 right-6 flex flex-col gap-2">
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">3d_rotation</span></button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">add</span></button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">remove</span></button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">view_in_ar</span></button>
+</div>
+<div class="absolute top-6 left-6 flex gap-1 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md p-1 rounded-lg shadow-sm">
+<button class="px-3 py-1 rounded bg-primary text-text-main text-xs font-bold">Realistic</button>
+<button class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium">Wireframe</button>
+<button class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium">Heatmap</button>
+</div>
+</div>
+
+<div class="h-auto shrink-0 bg-surface-light dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] p-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">engineering</span>
+<h3 class="text-lg font-bold text-text-main dark:text-white">Engineering Report</h3>
+</div>
+<span class="text-xs font-medium px-2 py-1 rounded bg-accent-green-light dark:bg-accent-green-dark text-primary">Status: Valid Design</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+<div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4><span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span></div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm"><span class="text-text-main dark:text-white">Standard Bricks (Green)</span><span class="font-bold">x32</span></div>
+<div class="flex justify-between items-center text-sm"><span class="text-text-main dark:text-white">Standard Bricks (White)</span><span class="font-bold">x12</span></div>
+<div class="flex justify-between items-center text-sm"><span class="text-text-main dark:text-white">Joinery Clips</span><span class="font-bold">x56</span></div>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+<div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Strength Analysis</h4><span class="material-symbols-outlined text-gray-400 text-sm">health_metrics</span></div>
+<div class="flex flex-col gap-2 mt-1">
+<div class="flex justify-between text-xs font-medium text-text-main dark:text-white"><span>Load Capacity</span><span class="text-primary">45kg / shelf</span></div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2"><div class="bg-primary h-2 rounded-full" style="width: 85%"></div></div>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1"><span class="material-symbols-outlined text-[14px] align-middle mr-1 text-primary">check_circle</span> Structural integrity verified.</p>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
+<div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-primary/10 to-transparent pointer-events-none"></div>
+<div class="flex flex-col gap-1 z-10">
+<h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
+<div class="flex items-baseline gap-1"><span class="text-3xl font-black text-primary">2.4</span><span class="text-sm font-bold text-text-main dark:text-white">kg</span></div>
+<p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
+</div>
+<div class="size-14 rounded-full border-4 border-accent-green-light dark:border-accent-green-dark border-t-primary border-r-primary flex items-center justify-center rotate-45">
+<span class="material-symbols-outlined text-primary -rotate-45">recycling</span>
+</div>
+</div>
+</div>
+<div class="mt-6 flex justify-end gap-4">
+<button class="px-6 py-2.5 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Save Draft</button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-text-main font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">Add to Cart <span class="material-symbols-outlined text-[18px]">shopping_cart</span></button>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+(function() {
+    const API_URL = ''; 
+    const chatHistory = document.getElementById('chatHistory');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const mainImg = document.getElementById('mainProductImage');
+    const userAvatar = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYMPl5-1dsuNaf1u1k_T53aQzfbdUbN6awNUN9Ea9a52J4HfaifhPRdb7mJ_7JgwtL2b6MDfYZHyb8RYMY98vntD4A4MzmIJSzdOryX0FMSMMTmbsK0cv93yU_QTaeGS22N0nWCR0LpNRIrtUThe0cTjQxkaJqDKtVYvsvUbTyh7SKhK0vKK6ZbwexMW3mUM_rqKrusE1Ld8t7ubQYOtaNRs6rsuB2VkjJ6oS78pdcLiCFpoHviY5TJ2VssXfdZc87D402g2XExrZ-';
+
+    // Chat History System
+    let currentUser = null;
+    let currentChatId = null;
+    let chatSessions = [];
+    const systemPrompt = `You are BrickBot, an AI assistant for BRICKIT. Help users design furniture.
+IMPORTANT: 
+- Always respond in the user's language (Thai, English, or other languages)
+- For Thai users: Use natural, polite Thai language with appropriate particles (ครับ/ค่ะ)
+- If you recommend a product, MUST end with its image URL like this: <image_url>URL</image_url>
+- Use clear, professional language that's easy to understand
+- Maintain friendly and helpful tone appropriate for furniture design consultation`;
+
+    let messages = [{ role: 'system', content: systemPrompt }];
+
+    // Initialize chat system
+    document.addEventListener('DOMContentLoaded', async () => {
+        loadUserData();
+        loadChatSessions();
+        initializeTheme();
+        setupEventListeners();
+        createNewChat();
+    });
+
+    function loadUserData() {
+        const userData = localStorage.getItem('BRICKIT_user');
+        if (userData) {
+            currentUser = JSON.parse(userData);
+            document.getElementById('userAvatarNav').src = userAvatar;
+        }
+    }
+
+    function loadChatSessions() {
+        const stored = localStorage.getItem('BRICKIT_chat_sessions');
+        if (stored) {
+            chatSessions = JSON.parse(stored);
+        }
+    }
+
+    function saveChatSessions() {
+        localStorage.setItem('BRICKIT_chat_sessions', JSON.stringify(chatSessions));
+    }
+
+    function createNewChat() {
+        currentChatId = 'chat_' + Date.now();
+        messages = [{ role: 'system', content: systemPrompt }];
+        
+        const newSession = {
+            id: currentChatId,
+            title: 'New Chat',
+            messages: [],
+            timestamp: new Date().toISOString(),
+            lastMessage: ''
+        };
+        
+        chatSessions.unshift(newSession);
+        if (chatSessions.length > 50) chatSessions.pop(); // Limit to 50 sessions
+        
+        saveChatSessions();
+        clearChatDisplay();
+        updateChatList();
+    }
+
+    function clearChatDisplay() {
+        chatHistory.innerHTML = `
+            <div id="welcomeMessage" class="text-center py-8">
+                <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[32px]">smart_toy</span>
+                </div>
+                <h3 class="text-lg font-bold text-text-main dark:text-white mb-2">Welcome to BrickBot!</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">I'm here to help you design custom furniture. Start by describing what you'd like to create!</p>
+            </div>
+        `;
+    }
+
+    function loadChatSession(chatId) {
+        const session = chatSessions.find(s => s.id === chatId);
+        if (!session) return;
+        
+        currentChatId = chatId;
+        messages = [{ role: 'system', content: systemPrompt }, ...session.messages];
+        
+        clearChatDisplay();
+        
+        // Display messages
+        session.messages.forEach(msg => {
+            if (msg.role === 'user') {
+                appendUserMessage(msg.content, false);
+            } else {
+                const bubble = createBotBubble();
+                const imgMatch = msg.content.match(/<image_url>(.*?)<\/image_url>/);
+                if (imgMatch) {
+                    bubble.textContent = msg.content.replace(/<image_url>.*?<\/image_url>/g, "").trim();
+                    mainImg.src = imgMatch[1];
+                } else {
+                    bubble.textContent = msg.content;
+                }
+            }
+        });
+        
+        updateChatList();
+    }
+
+    function saveCurrentMessage(role, content) {
+        if (!currentChatId) return;
+        
+        const session = chatSessions.find(s => s.id === currentChatId);
+        if (!session) return;
+        
+        const message = { role, content, timestamp: new Date().toISOString() };
+        session.messages.push(message);
+        
+        // Update session metadata
+        if (role === 'user') {
+            session.lastMessage = content.substring(0, 50) + (content.length > 50 ? '...' : '');
+            if (session.messages.length === 1) {
+                session.title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
+            }
+        }
+        session.timestamp = new Date().toISOString();
+        
+        saveChatSessions();
+        updateChatList();
+    }
+
+    function updateChatList() {
+        const chatList = document.getElementById('chatList');
+        const searchTerm = document.getElementById('searchChats').value.toLowerCase();
+        
+        const filteredSessions = chatSessions.filter(session => 
+            session.title.toLowerCase().includes(searchTerm) || 
+            session.lastMessage.toLowerCase().includes(searchTerm)
+        );
+        
+        chatList.innerHTML = filteredSessions.map(session => `
+            <div class="chat-session-item p-3 rounded-lg bg-accent-green-light dark:bg-accent-green-dark hover:bg-primary/20 transition-colors cursor-pointer ${session.id === currentChatId ? 'ring-2 ring-primary' : ''}" data-chat-id="${session.id}">
+                <div class="flex items-start justify-between mb-1">
+                    <h4 class="text-sm font-bold text-text-main dark:text-white truncate flex-1">${session.title}</h4>
+                    <button class="delete-chat-btn size-6 flex items-center justify-center rounded hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors ml-2" data-chat-id="${session.id}">
+                        <span class="material-symbols-outlined text-[14px] text-red-500">delete</span>
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${session.lastMessage || 'No messages yet'}</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${formatDate(session.timestamp)}</p>
+            </div>
+        `).join('');
+        
+        // Add click handlers
+        document.querySelectorAll('.chat-session-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (!e.target.closest('.delete-chat-btn')) {
+                    loadChatSession(item.dataset.chatId);
+                    closeSidebar();
+                }
+            });
+        });
+        
+        document.querySelectorAll('.delete-chat-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteChatSession(btn.dataset.chatId);
+            });
+        });
+    }
+
+    function deleteChatSession(chatId) {
+        if (!confirm('Are you sure you want to delete this chat?')) return;
+        
+        chatSessions = chatSessions.filter(s => s.id !== chatId);
+        saveChatSessions();
+        
+        if (chatId === currentChatId) {
+            createNewChat();
+        } else {
+            updateChatList();
+        }
+    }
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        
+        if (diffHours < 1) return 'Just now';
+        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffHours < 48) return 'Yesterday';
+        return date.toLocaleDateString();
+    }
+
+    // Theme Management
+    function initializeTheme() {
+        // Load saved theme or default to light
+        const savedTheme = localStorage.getItem('BRICKIT_theme') || 'light';
+        setTheme(savedTheme);
+    }
+
+    function setTheme(theme) {
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('span');
+        
+        // Remove both theme classes
+        html.classList.remove('light', 'dark');
+        // Add the new theme class
+        html.classList.add(theme);
+        
+        // Update icon
+        if (theme === 'dark') {
+            themeIcon.textContent = 'dark_mode';
+        } else {
+            themeIcon.textContent = 'light_mode';
+        }
+        
+        // Save theme preference
+        localStorage.setItem('BRICKIT_theme', theme);
+        
+        console.log(`🎨 Theme changed to: ${theme}`);
+    }
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    }
+
+    function setupEventListeners() {
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        
+        // Chat controls
+        document.getElementById('newChatBtn').addEventListener('click', createNewChat);
+        document.getElementById('clearChatBtn').addEventListener('click', () => {
+            if (confirm('Clear current chat? This cannot be undone.')) {
+                createNewChat();
+            }
+        });
+        
+        // Sidebar controls
+        document.getElementById('chatMenuBtn').addEventListener('click', openSidebar);
+        document.getElementById('closeSidebarBtn').addEventListener('click', closeSidebar);
+        document.getElementById('searchChats').addEventListener('input', updateChatList);
+        document.getElementById('exportChatsBtn').addEventListener('click', exportChats);
+        
+        // Close sidebar on backdrop click
+        document.getElementById('chatHistorySidebar').addEventListener('click', (e) => {
+            if (e.target.id === 'chatHistorySidebar') closeSidebar();
+        });
+        
+        // Message input
+        sendBtn.addEventListener('click', send);
+        chatInput.addEventListener('keydown', e => { 
+            if (e.key === 'Enter' && !e.shiftKey) { 
+                e.preventDefault(); 
+                send(); 
+            } 
+        });
+    }
+
+    function openSidebar() {
+        const sidebar = document.getElementById('chatHistorySidebar');
+        const panel = sidebar.querySelector('div > div');
+        sidebar.classList.remove('hidden');
+        setTimeout(() => panel.classList.remove('translate-x-full'), 10);
+        updateChatList();
+    }
+
+    function closeSidebar() {
+        const sidebar = document.getElementById('chatHistorySidebar');
+        const panel = sidebar.querySelector('div > div');
+        panel.classList.add('translate-x-full');
+        setTimeout(() => sidebar.classList.add('hidden'), 300);
+    }
+
+    function exportChats() {
+        const dataStr = JSON.stringify(chatSessions, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `BRICKIT_chats_${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function getTimeLabel() {
+        const d = new Date();
+        return 'Today, ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function appendUserMessage(text, save = true) {
+        // Hide welcome message if present
+        const welcomeMsg = document.getElementById('welcomeMessage');
+        if (welcomeMsg) welcomeMsg.remove();
+        
+        const timeHtml = `<div class="flex justify-center"><span class="text-xs font-medium text-gray-400 uppercase tracking-wider">${getTimeLabel()}</span></div>`;
+        chatHistory.insertAdjacentHTML('beforeend', timeHtml);
+        const html = `<div class="flex items-end gap-3 flex-row-reverse"><div class="size-10 rounded-full shrink-0 overflow-hidden border"><img class="w-full h-full object-cover" src="${userAvatar}"/></div><div class="flex flex-col gap-1 items-end max-w-[85%]"><div class="p-4 rounded-2xl rounded-br-none bg-primary text-text-main text-base font-medium leading-relaxed shadow-sm">${text}</div></div></div>`;
+        chatHistory.insertAdjacentHTML('beforeend', html);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        
+        if (save) {
+            saveCurrentMessage('user', text);
+            messages.push({ role: 'user', content: text });
+        }
+    }
+
+    function createBotBubble() {
+        // Hide welcome message if present
+        const welcomeMsg = document.getElementById('welcomeMessage');
+        if (welcomeMsg) welcomeMsg.remove();
+        
+        const wrap = document.createElement('div');
+        wrap.className = 'flex items-end gap-3';
+        wrap.innerHTML = `<div class="size-10 rounded-full shrink-0 bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary"><span class="material-symbols-outlined filled">smart_toy</span></div><div class="flex flex-col gap-1 items-start max-w-[85%]"><span class="text-xs font-bold text-primary ml-1">BrickBot</span><div class="p-4 rounded-2xl rounded-bl-none bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white text-base leading-relaxed"><p class="response-content whitespace-pre-wrap"></p></div></div>`;
+        chatHistory.appendChild(wrap);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        return wrap.querySelector('.response-content');
+    }
+
+    async function callBackendAPI(userText) {
+        try {
+            console.log('🚀 Sending request to backend:', { messages: messages });
+            
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    messages: messages
+                })
+            });
+
+        console.log('📡 Response status:', response.status);
+        console.log('📡 Response headers:', response.headers);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('❌ Backend Error Response:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}, details: ${errorText}`);
+        }
+
+        // Check if response is JSON (non-streaming)
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            const data = await response.json();
+            console.log('📦 JSON Response:', data);
+                
+            if (data.error) {
+                throw new Error(`Backend error: ${data.error}`);
+            }
+                
+            return data.response || data.message || 'Sorry, I could not generate a response.';
+        }
+
+        // Handle streaming response
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let fullResponse = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+                
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n');
+                
+            for (const line of lines) {
+                if (line.trim()) {
+                    try {
+                        const data = JSON.parse(line);
+                        if (data.message && data.message.content) {
+                            fullResponse += data.message.content;
+                        }
+                    } catch (e) {
+                        // Skip invalid JSON lines
+                        continue;
+                    }
+                }
+            }
+        }
+
+        return fullResponse || 'Sorry, I could not generate a response.';
+            
+    } catch (error) {
+        console.error('❌ Backend API Error:', error);
+        console.error('❌ Error details:', {
+            message: error.message,
+            stack: error.stack,
+            userText: userText,
+            messagesCount: messages.length
+        });
+            
+        // Show specific error to user
+        if (error.message.includes('500')) {
+            return 'Sorry, the server encountered an error. Please check the server logs for details.';
+        } else if (error.message.includes('ollama')) {
+            return 'Sorry, I cannot connect to the AI service. Please make sure Ollama is running on your system.';
+        } else if (error.message.includes('database')) {
+            return 'Sorry, there was a database error. Please try again in a moment.';
+        } else {
+            return `Sorry, I encountered an error: ${error.message}. Please try again.`;
+        }
+    }
+}
+
+async function sendToLLM(userText) {
+    messages.push({ role: 'user', content: userText });
+    const bubble = createBotBubble();
+    bubble.textContent = 'Thinking...';
+
+    try {
+        // Call actual backend API first
+        const response = await callBackendAPI(userText);
+        
+        // Typing effect
+        await typeMessage(bubble, response);
+        
+        messages.push({ role: 'assistant', content: response });
+        saveCurrentMessage('assistant', response);
+        
+        // Handle image updates
+        const imgMatch = response.match(/<image_url>(.*?)<\/image_url>/);
+        if (imgMatch && imgMatch[1]) {
+            updateVisualizer(imgMatch[1]);
+        }
+        
+    } catch (err) { 
+        bubble.textContent = 'Sorry, I encountered an error. Please try again.';
+        console.error('LLM Error:', err);
+    }
+}
+
+async function simulateAPIResponse(userText) {
+    // Simulate processing delay
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+        
+        // Detect if user is writing in Thai
+        const isThai = /[ก-๛]/.test(userText);
+        
+        // Check if this is first message - only greet once
+        const isFirstMessage = messages.length <= 1;
+        
+        // Smart response logic based on user input
+        let response;
+        
+        if (isThai) {
+            // Only greet on first message
+            if (isFirstMessage) {
+                response = `สวัสดีครับ/ค่ะ! ยินดีต้อนรับสู่การออกแบบเฟอร์นิเจอร์จาก BRICKIT ครับ/ค่ะ! 😊
+
+ก่อนอื่น ผม/ดิฉันขอทำความเข้าใจความต้องการของคุณก่อนนะครับ/ค่ะ เพื่อให้ผม/ดิฉันสามารถแนะนำเฟอร์นิเจอร์ที่เหมาะสมกับคุณได้มากที่สุด
+
+1. **พื้นที่ของคุณมีขนาดเท่าไหร่ครับ/คะ?** (What are the dimensions of your space?) เช่น ความยาว, ความกว้าง, และความสูงของพื้นที่ที่คุณต้องการวางเฟอร์นิเจอร์
+2. **คุณกำลังมองหาเฟอร์นิเจอร์ประเภทไหนครับ/คะ?** (What type of furniture are you looking for?) เช่น โต๊ะทำงาน, โซฟา, ชั้นวางของ, หรืออื่นๆ
+3. **คุณมีสไตล์เฟอร์นิเจอร์ที่ชอบเป็นพิเศษไหมครับ/คะ?** (Do you have a particular style you prefer?) เช่น โมเดิร์น, มินิมอล, คลาสสิก, หรืออื่นๆ
+4. **งบประมาณของคุณสำหรับการจัดซื้อเฟอร์นิเจอร์อยู่ที่ประมาณเท่าไหร่ครับ/คะ?** (What's your budget range?)
+5. **คุณต้องการใช้เฟอร์นิเจอร์นี้สำหรับอะไรครับ/คะ?** (How will you use this furniture?) เช่น ทำงาน, ทานอาหาร, พักผ่อน, หรือจัดเก็บของ
+
+เมื่อผม/ดิฉันได้รับข้อมูลเหล่านี้แล้ว ผม/ดิฉันจะสามารถแนะนำผลิตภัณฑ์จากแคตตาล็อกของเราให้คุณได้ครับ/ค่ะ
+
+*   Smart Drawer Kit A: $24.0, <https://lh3.googleusercontent.com/aida-public/AB6AXuAzmWSiYRkx2LyFa4inZdc5plnRv0JxmzOPxaLpt6S5sO9AZ70kdl90C7sdegQTBJrv61CTKUXx2iUS6_LXgHNfCBp2-h4PpgNSI7GVZe12d8tSurGYR2gAu_mbtxuHNxrUqdFT4e0XyKLLRvRN0Bp61hkZwD_0d8uwLZGgTgkWNuios4TxSy1h5FLTCwtUQPmcKi008Vm0z9AfdL7SWFEi2AGTwIzefNF2O9XDYtPDpRQHu4oxh6o3PxviPnKJ_HwX9z74Zz1zH6to>
+*   Monitor Riser M1: $45.0, <https://lh3.googleusercontent.com/aida-public/AB6AXuDixyum7QgGueLFJzevEcCULMA2Pk6zRe09E9oNyrEOqTjc6POANAuO28xWtrV-52IUJUj9Yr7XWHj1n5QDkcjkGekA2oSlGVK_Cnj9kMXgELEnHVRiqYXCsqmGOjZDUAxE-2uBjZWWI9n1rUtP-SvLgVQx3aA0Bc0kuvp1aTn1dHJHDOt-lJEfjOecYi830ChXhfyUTG9Q4EfF57SEZ8RD0xmv5QTugTLYwH-TS7AuTU84Cj_Tdpwq-ckzudX6fJY7ClwFDGqyoAya>
+*   Cable Brick 4-Pack: $18.0, <https://lh3.googleusercontent.com/aida-public/AB6AXuD1Nguv765R3BDTwgZUhsOn-bXp1PIzLwUAGYIpUFPJ6GSBQ5FYpkTXIZWHOZ78TD7iwRVSuImYIs9MPY_OzeMLuZrfPXTWGPV6GcSAJtJlsqQTb6M4gRq4tRcaooUgZ9ArEaAp7nvGrkEm1KpS65aUHV8VG8qV0aIfLPwYHqEbCi1q8mwy1A2A3zTnn2RirfY1JQOY4PBpb2p6r-MgOAvZK-HndnGRR2xChu60imdylB4M1ZkCOaRJau4al78w-S5YlF4rh8CVdvi5>
+*   M-01 Sofa Table: $85.0, <https://lh3.googleusercontent.com/aida-public/AB6AXuArWeoXQvMD1RsboqiWWfsb2fJ_dZtHG_CiMG30y2ZKv7AlqLejZnPBirfHsi8TQR_EYluSC2jCKC5XkVpYjVoaq0roD5SoTa59PHNy09KlThFHE7rSBU7VOrGYV3ESSkAqrZqNAbb6SuNLYI4SeY_x1XnaXKGY7noEog06W7ihuePcuBumqW01Lwfzjwxn30ZrefwzzedVcLKm68-L_-BmQiYZx5gtcrY4HVnTaN0FufURf_xD4ZciZazzCdbepucWc5ezw8RPU-WD>
+*   Storage Cube Set: $120.0, <https://lh3.googleusercontent.com/aida-public/AB6AXuCK575dkB7kzE9sOCzLJ6XugQ1TumfGah5eF-jN7oM0Eph4-HrgExaf2R81Ge6Rum_Qmggfw5GtPyOSFZb5POwdzTYdJjBfUkHIyYLIIxnZY3VZCeueXvkba9t37bhffnejt1JmAIZ3DkxeavcIl9DL-y0l_CrP5WsEnxEyPTtfspwmZIdm9xocCfU_2CmEH1ndCDhwq_wDTYwzg-V8OBlzQmFlN_A0LEqEuNnTeKpOLqcxwj-I9YMuJDHJ_s_sCQB6ND0hrGqvMWIW>
+*   Modu-Counter L200: $1104.0, <https://lh3.googleusercontent.com/aida-public/AB6AXuCK4kS1gaDd5cot348l0PFfgeeJrlmi2t4LnAui62lKoRTZAhRsqeWn2hHbeXOBVJzr4usgZO8sEEErirYouNjrc2lWNC5w6KgCsgNEz9ePFljcDxM3UmFH6GUnNu-lJJCctal97HBmT0o_G9nCzpuQQg0_zUhePpAc6DW0vJw25DFcFcMXedCM-hQwY3pUUA8a--Sg0p0WM_R4ueraMKumfg_CHn4M3PHlA18pDDYMz18kzIQwqbds-aymUag2-8Z0BNn9ul7PFC15>
+*   Exhibition Stand Pro: $2500.0, <https://lh3.googleusercontent.com/aida-public/AB6AXuC7yAL5w9r2Db9S969QuDxrMreiJ7gsuv_DY5zVAnuBz7rCU7QtYM_bDCiQYpLCLY2fKBQ5FYpkTXIZWHOZ78TD7iwRVSuImYIs9MPY_OzeMLuZrfPXTWGPV6GcSAJtJlsqQTb6M4gRq4tRcaooUgZ9ArEaAp7nvGrkEm1KpS65aUHV8VG8qV0aIfLPwYHqEbCi1q8mwy1A2A3zTnn2RirfY1JQOY4PBpb2p6r-MgOAvZK-HndnGRR2xChu60imdylB4M1ZkCOaRJau4al78w-S5YlF4rh8CVdvi5>
+
+เริ่มจากคำถามแรกนะครับ/ค่ะ พื้นที่ของคุณมีขนาดเท่าไหร่ครับ/คะ?`;
+            } else {
+                // For follow-up messages, respond based on content
+                if (userText.includes('เมตร') || userText.includes('ซม') || userText.includes('กว้าง') || userText.includes('ยาว') || userText.includes('สูง')) {
+                    response = `ขอบคุณครับ/ค่ะ! พื้นที่ขนาด ${userText} น่าจะเหมาะกับเฟอร์นิเจอร์หลายรุ่นครับ/ค่ะ
+
+เพื่อให้ได้ผลิตภัณฑ์ที่ตรงใจที่สุด ช่วยบอกอีกนิดหน่อยครับ/ค่ะ:
+- คุณกำลังมองหาเฟอร์นิเจอร์ประเภทไหน? (โต๊ะ, ชั้นวางของ, โซฟา, อื่นๆ)
+- มีสไตล์ที่ชอบเป็นพิเศษไหม? (โมเดิร์น, มินิมอล, คลาสสิก)
+- งบประมาณประมาณเท่าไหร่?
+- จะใช้ทำอะไรเป็นหลัก?`;
+                } else if (userText.includes('โต๊ะ') || userText.includes('table')) {
+                    response = `ดีเลยครับ/ค่ะ! สำหรับโต๊ะ ผม/ดิฉันแนะนำ:
+
+**Smart Drawer Kit A** ($24) - เหมาะสำหรับการใช้งานทั่วไป มีลิ้นชักสำหรับเก็บของ
+**M-01 Sofa Table** ($85) - สามารถใช้เป็นโต๊ะข้างเตียง หรือโต๊ะวางของอื่นๆ ได้
+**Monitor Riser M1** ($45) - ยกจอภาพให้สูงขึ้น เหมาะสำหรับทำงาน
+
+คุณสนใจรุ่นไหนมากที่สุดครับ/ค่ะ? หรืออยากทราบรายละเอียดเพิ่มเติม?`;
+                } else if (userText.includes('ชั้น') || userText.includes('shelf')) {
+                    response = `เยี่ยมมากครับ/ค่ะ! สำหรับชั้นวางของ ผม/ดิฉันแนะนำ:
+
+**Storage Cube Set** ($120) - ชุดชั้นวางของแบบโมดูลาร์ สามารถจัดเรียงได้หลายรูปแบบ
+**Smart Drawer Kit A** ($24) - มีลิ้นชักสำหรับเก็บของเล็กๆ
+
+คุณต้องการชั้นวางของสำหรับจัดอะไรเป็นหลักครับ/ค่ะ?`;
+                } else if (userText.includes('โซฟา') || userText.includes('sofa')) {
+                    response = `สำหรับโซฟา ผม/ดิฉันแนะนำ:
+
+**M-01 Sofa Table** ($85) - โต๊ะข้างโซฟา สามารถวางของหรือเครื่องดื่มได้
+**Storage Cube Set** ($120) - สามารถใช้เป็นที่วางของข้างโซฟาได้
+
+คุณชอบสไตล์ไหนมากกว่าครับ/ค่ะ?`;
+                } else if (userText.includes('งบ') || userText.includes('ราคา') || userText.includes('บาท')) {
+                    response = `เข้าใจเรื่องงบประมาณครับ/ค่ะ! ผม/ดิฉันมีตัวเลือกหลายราคา:
+
+**ราคาประหยัด ($18-24)**: Smart Drawer Kit A, Cable Brick 4-Pack
+**ราคากลาง ($45-120)**: Monitor Riser M1, Storage Cube Set, M-01 Sofa Table  
+**ราคาสูง ($1104-2500)**: Modu-Counter L200, Exhibition Stand Pro
+
+งบประมาณที่คุณสะดวกอยู่ช่วงไหนครับ/ค่ะ?`;
+                } else {
+                    // Generic follow-up
+                    response = `เข้าใจครับ/ค่ะ! เพื่อให้ผม/ดิฉันแนะนำได้ตรงความต้องการ ช่วยบอกรายละเอียดเพิ่มเติมเกี่ยวกับ:
+
+- ประเภทเฟอร์นิเจอร์ที่ต้องการ
+- สไตล์ที่ชอบ
+- งบประมาณ
+- การใช้งานหลัก
+
+ผม/ดิฉันพร้อมช่วยคุณครับ/ค่ะ!`;
+                }
+            }
+        } else {
+            // English responses
+            if (isFirstMessage) {
+                response = `Hello! Welcome to BrickBot! 👋
+
+I'm your furniture design assistant from BRICKIT, ready to help you create custom furniture!
+
+To give you the best recommendations, please tell me:
+
+🪑 **What you need**: Table, chair, shelf, or something else?
+📏 **Space size**: What's your available space?
+🎨 **Style preference**: Modern, minimalist, classic?
+💰 **Budget**: What's your budget range?
+🏠 **Usage**: Which room and main purpose?
+
+Once I understand your needs, I'll recommend the perfect furniture for you! <image_url>https://lh3.googleusercontent.com/aida-public/AB6AXuAIqu0Dkayj30CqIBEytniDYhxdyf4g_fC1W6hnNZT2NfDb2eLF8WOSGBLiv4DIrEHoN8PDipk8Gjo6JaUq0bq24pfVk_6y-IfDMvv9Q17Kc16KGU-kZvXHxybdpzOlne9J3j7zMJKDUbrazjdoG0biEHQrLdmrEbUk8wZzHZZ1ZyODYsYauUr5KsKSF-yXAxMtgkSoOQYTDD5RgTfZnqgL3J_M6X6ZFyCtn1i-0-aVHKs2YxvLhCPoY-W2yj7wykgWo9R6h28rgvbR</image_url>`;
+            } else {
+                // Follow-up responses
+                if (userText.includes('meter') || userText.includes('cm') || userText.includes('wide') || userText.includes('long')) {
+                    response = `Thank you! For a space of ${userText}, several furniture options would work well.
+
+To give you the best recommendations, could you tell me:
+- What type of furniture are you looking for? (table, shelf, sofa, etc.)
+- Any particular style preference? (modern, minimalist, classic)
+- What's your budget range?
+- What's the main purpose?`;
+                } else if (userText.includes('table')) {
+                    response = `Great! For tables, I recommend:
+
+**Smart Drawer Kit A** ($24) - Perfect for general use with pull-out storage
+**M-01 Sofa Table** ($85) - Can be used as a side table or display table
+**Monitor Riser M1** ($45) - Elevates your screen for better ergonomics
+
+Which one interests you most? Or would you like more details?`;
+                } else {
+                    response = `I understand! To help you better, could you provide more details about:
+- The type of furniture you need
+- Your preferred style
+- Your budget range
+- How you'll use it
+
+I'm here to help!`;
+                }
+            }
+        }
+        
+        return response;
+    }
+
+    async function typeMessage(element, text) {
+        element.textContent = '';
+        const words = text.split(' ');
+        
+        for (let i = 0; i < words.length; i++) {
+            element.textContent += (i > 0 ? ' ' : '') + words[i];
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            await new Promise(resolve => setTimeout(resolve, 30));
+        }
+    }
+
+    function updateVisualizer(url) {
+        if (!url || mainImg.src === url) return;
+        mainImg.classList.remove('img-interactive-fade');
+        void mainImg.offsetWidth; 
+        mainImg.src = url;
+        mainImg.classList.add('img-interactive-fade');
+    }
+
+    function send() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        
+        chatInput.value = '';
+        appendUserMessage(text);
+        
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Send';
+        
+        sendToLLM(text).finally(() => { 
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = 'Send <span class="material-symbols-outlined text-[18px]">send</span>';
+        });
+    }
+
+    function quickPrompt(p) { 
+        chatInput.value = p;
+        send();
+    }
+    
+    // Make quickPrompt global for button onclick handlers
+    window.quickPrompt = quickPrompt;
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+            switch(e.key) {
+                case 'k':
+                    e.preventDefault();
+                    openSidebar();
+                    break;
+                case 'n':
+                    e.preventDefault();
+                    createNewChat();
+                    break;
+                case '/':
+                    e.preventDefault();
+                    chatInput.focus();
+                    break;
+            }
+        }
+    });
+
+    // Add error handling for image loading
+    mainImg.addEventListener('error', () => {
+        mainImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjBGNEYwIi8+CjxwYXRoIGQ9Ik04NSA2NUgxMTVWMTM1SDg1VjY1WiIgZmlsbD0iIzE5RTE2OSIvPgo8cGF0aCBkPSJNMTAwIDgwTDExNSAxMDVIMTDWMTM1SDg1VjEwNUgxMTVWMTM1SDg1VjEwNUgxMTVWODBIMTAwWiIgZmlsbD0iIzE5RTE2OSIvPgo8L3N2Zz4K';
+    });
+
+})();
+</script>
+</body></html>

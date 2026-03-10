@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BRICKIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="shared.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-900">
+                        <i class="fas fa-cube text-blue-600 mr-2"></i>
+                        BRICKIT Admin
+                    </h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="adminName" class="text-gray-700"></span>
+                    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i>ออกจากระบบ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 rounded-lg">
+                        <i class="fas fa-box text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">สินค้าทั้งหมด</h3>
+                        <p id="totalProducts" class="text-2xl font-bold text-gray-900">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 rounded-lg">
+                        <i class="fas fa-shopping-cart text-green-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">ออเดอร์วันนี้</h3>
+                        <p id="todayOrders" class="text-2xl font-bold text-gray-900">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-yellow-100 rounded-lg">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">สต็อกต่ำ</h3>
+                        <p id="lowStockCount" class="text-2xl font-bold text-gray-900">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-purple-100 rounded-lg">
+                        <i class="fas fa-users text-purple-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">ผู้ใช้ทั้งหมด</h3>
+                        <p id="totalUsers" class="text-2xl font-bold text-gray-900">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Management Sections -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Stock Management -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        <i class="fas fa-warehouse mr-2"></i>จัดการสต็อก
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="mb-4">
+                        <button onclick="loadLowStockProducts()" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>ดูสินค้าสต็อกต่ำ
+                        </button>
+                    </div>
+                    <div id="stockList" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- Stock items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promotions -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        <i class="fas fa-tags mr-2"></i>จัดการโปรโมชั่น
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="mb-4">
+                        <button onclick="showAddPromotionModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                            <i class="fas fa-plus mr-2"></i>เพิ่มโปรโมชั่น
+                        </button>
+                    </div>
+                    <div id="promotionList" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- Promotions will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        <i class="fas fa-star mr-2"></i>รีวิวล่าสุด
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div id="reviewList" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- Reviews will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        <i class="fas fa-chart-line mr-2"></i>สถิติการขาย
+                    </h2>
+                </div>
+                <div class="p-6">
+                    <div class="mb-4">
+                        <select id="analyticsPeriod" onchange="loadAnalytics()" class="border rounded px-3 py-2">
+                            <option value="7">7 วันล่าสุด</option>
+                            <option value="30">30 วันล่าสุด</option>
+                            <option value="90">90 วันล่าสุด</option>
+                        </select>
+                    </div>
+                    <div id="analyticsChart" class="h-64">
+                        <!-- Analytics chart will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Promotion Modal -->
+    <div id="promotionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <h3 class="text-lg font-semibold mb-4">เพิ่มโปรโมชั่นใหม่</h3>
+            <form id="promotionForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">รหัสโปรโมชั่น</label>
+                    <input type="text" id="promoCode" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">รายละเอียด</label>
+                    <input type="text" id="promoDescription" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">ประเภทส่วนลด</label>
+                    <select id="promoType" class="w-full border rounded px-3 py-2">
+                        <option value="percentage">เปอร์เซ็นต์</option>
+                        <option value="fixed">固定金额</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">มูลค่าส่วนลด</label>
+                    <input type="number" id="promoValue" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">ยอดขั้นต่ำ</label>
+                    <input type="number" id="promoMinOrder" class="w-full border rounded px-3 py-2">
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closePromotionModal()" class="px-4 py-2 border rounded hover:bg-gray-50">
+                        ยกเลิก
+                    </button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        บันทึก
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                // Load stats
+                const [products, analytics, users] = await Promise.all([
+                    fetch('/api/products').then(r => r.json()),
+                    fetch('/api/analytics/users').then(r => r.json()),
+                    fetch('/api/analytics/users').then(r => r.json())
+                ]);
+
+                document.getElementById('totalProducts').textContent = products.length;
+                document.getElementById('totalUsers').textContent = users.total_users || 0;
+                
+                // Load other data
+                loadLowStockProducts();
+                loadPromotions();
+                loadReviews();
+                loadAnalytics();
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Load low stock products
+        async function loadLowStockProducts() {
+            try {
+                const response = await fetch('/api/products/low-stock');
+                const products = await response.json();
+                
+                const stockList = document.getElementById('stockList');
+                stockList.innerHTML = '';
+                
+                products.forEach(item => {
+                    const stockItem = document.createElement('div');
+                    stockItem.className = 'flex items-center justify-between p-3 border rounded';
+                    stockItem.innerHTML = `
+                        <div>
+                            <h4 class="font-medium">${item.product.name}</h4>
+                            <p class="text-sm text-gray-500">สต็อก: ${item.quantity} | ขั้นต่ำ: ${item.low_stock_threshold}</p>
+                        </div>
+                        <button onclick="updateStock(${item.product_id})" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                            อัปเดต
+                        </button>
+                    `;
+                    stockList.appendChild(stockItem);
+                });
+                
+                document.getElementById('lowStockCount').textContent = products.length;
+            } catch (error) {
+                console.error('Error loading low stock products:', error);
+            }
+        }
+
+        // Load promotions
+        async function loadPromotions() {
+            try {
+                const response = await fetch('/api/promotions');
+                const promotions = await response.json();
+                
+                const promotionList = document.getElementById('promotionList');
+                promotionList.innerHTML = '';
+                
+                promotions.forEach(promo => {
+                    const promoItem = document.createElement('div');
+                    promoItem.className = 'p-3 border rounded';
+                    promoItem.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium">${promo.code}</h4>
+                                <p class="text-sm text-gray-500">${promo.description}</p>
+                                <p class="text-sm">ส่วนลด: ${promo.discount_type === 'percentage' ? promo.discount_value + '%' : '$' + promo.discount_value}</p>
+                            </div>
+                            <button onclick="togglePromotion(${promo.id})" class="text-sm px-2 py-1 rounded ${promo.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                                ${promo.is_active ? 'Active' : 'Inactive'}
+                            </button>
+                        </div>
+                    `;
+                    promotionList.appendChild(promoItem);
+                });
+            } catch (error) {
+                console.error('Error loading promotions:', error);
+            }
+        }
+
+        // Load reviews
+        async function loadReviews() {
+            try {
+                const response = await fetch('/api/products/1/reviews'); // Load reviews for product 1 as example
+                const reviews = await response.json();
+                
+                const reviewList = document.getElementById('reviewList');
+                reviewList.innerHTML = '';
+                
+                reviews.slice(0, 5).forEach(review => {
+                    const reviewItem = document.createElement('div');
+                    reviewItem.className = 'p-3 border rounded';
+                    reviewItem.innerHTML = `
+                        <div class="flex items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-1">
+                                    <span class="font-medium">ผู้ใช้ ${review.user_id}</span>
+                                    <div class="ml-2 text-yellow-400">
+                                        ${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}
+                                    </div>
+                                    ${review.is_verified ? '<span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Verified</span>' : ''}
+                                </div>
+                                <p class="text-sm text-gray-600">${review.comment}</p>
+                            </div>
+                        </div>
+                    `;
+                    reviewList.appendChild(reviewItem);
+                });
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+            }
+        }
+
+        // Load analytics
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/api/analytics/sales');
+                const analytics = await response.json();
+                
+                const analyticsChart = document.getElementById('analyticsChart');
+                analyticsChart.innerHTML = '<p class="text-center text-gray-500">Analytics chart will be displayed here</p>';
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+            }
+        }
+
+        // Modal functions
+        function showAddPromotionModal() {
+            document.getElementById('promotionModal').classList.remove('hidden');
+        }
+
+        function closePromotionModal() {
+            document.getElementById('promotionModal').classList.add('hidden');
+        }
+
+        // Form submission
+        document.getElementById('promotionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const promotionData = {
+                code: document.getElementById('promoCode').value,
+                description: document.getElementById('promoDescription').value,
+                discount_type: document.getElementById('promoType').value,
+                discount_value: parseFloat(document.getElementById('promoValue').value),
+                min_order_amount: parseFloat(document.getElementById('promoMinOrder').value) || 0,
+                starts_at: new Date().toISOString(),
+                expires_at: new Date(Date.now() + 30*24*60*60*1000).toISOString() // 30 days from now
+            };
+
+            try {
+                const response = await fetch('/api/promotions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(promotionData)
+                });
+
+                if (response.ok) {
+                    closePromotionModal();
+                    loadPromotions();
+                    showToast('เพิ่มโปรโมชั่นสำเร็จ!', 'success');
+                }
+            } catch (error) {
+                console.error('Error adding promotion:', error);
+                showToast('เกิดข้อผิดพลาด', 'error');
+            }
+        });
+
+        // Initialize dashboard on load
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

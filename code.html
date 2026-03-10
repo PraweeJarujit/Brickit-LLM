@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BRICKIT - AI Co-Creation Journey</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f8fcf8",
+                        "background-dark": "#112111",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e1a",
+                        "text-main": "#0e1b0e",
+                        "text-light": "#e7f3e7",
+                        "accent-green-light": "#e7f3e7",
+                        "accent-green-dark": "#1f3a1f",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f3e7] dark:border-[#2a4a2a] px-6 py-3 bg-surface-light dark:bg-surface-dark shrink-0 z-20">
+<a href="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+</svg>
+</div>
+<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">BRICKIT</h2>
+</a>
+<div class="flex flex-1 justify-center hidden md:flex">
+<div class="flex items-center gap-1 bg-accent-green-light dark:bg-accent-green-dark p-1 rounded-full">
+<div class="px-4 py-1.5 bg-white dark:bg-surface-dark rounded-full shadow-sm text-sm font-bold text-text-main dark:text-white cursor-default">Design</div>
+<div class="px-4 py-1.5 text-sm font-medium text-text-main/60 dark:text-white/60 cursor-pointer hover:text-text-main">Review</div>
+<div class="px-4 py-1.5 text-sm font-medium text-text-main/60 dark:text-white/60 cursor-pointer hover:text-text-main">Order</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-4">
+<button class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white overflow-hidden border-2 border-primary">
+<img class="w-full h-full object-cover" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCniCCMpiiFi2vs3iByKV8gYSBbaAWCfzSP3gvMQkFGTio5KAHaH-KkqgmqIEqezvNnbrd3Cqb0TvhgJnnRUXQ81NhjXqoCDmnoYcYXZKm4tVSSQ08RjF0PnK7UAjIUWDBpX7tOcuhXX6yQ23F69sAEst9ppuCbMwB0XfSFWlVqXQNf_sBNfp-OAX_ZTJMaPwx5PTpRb5crGRP0ET2CvovRaXP56rDqS8SI_T7vjxJh8HN611fajvdgcj0kmuQVK5pkimPI_Yl9zE-o"/>
+</button>
+</div>
+</header>
+<div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 overflow-hidden bg-background-light dark:bg-background-dark">
+<div class="col-span-12 lg:col-span-4 flex flex-col min-h-0 overflow-hidden border-r border-[#e7f3e7] dark:border-[#2a4a2a] bg-white dark:bg-surface-dark relative z-10">
+<div class="p-6 pb-2 shrink-0">
+<h1 class="text-2xl md:text-3xl font-black leading-tight tracking-[-0.033em] text-text-main dark:text-white mb-1">
+                    AI Co-Creation Studio
+                </h1>
+<p class="text-[#4e974e] dark:text-[#6ec76e] text-sm font-medium">
+                    Build your custom furniture with natural language.
+                </p>
+</div>
+<div id="chatHistory" class="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-6 custom-scrollbar">
+</div>
+<div class="p-4 bg-white dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] shrink-0">
+<div class="flex gap-2 mb-3 overflow-x-auto pb-1 no-scrollbar">
+<button type="button" data-prompt="Add shelf" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="text-text-main dark:text-white text-xs font-bold">Add shelf</span>
+</button>
+<button type="button" data-prompt="Make taller" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">height</span>
+<span class="text-text-main dark:text-white text-xs font-bold">Make taller</span>
+</button>
+<button type="button" data-prompt="More green" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+<span class="material-symbols-outlined text-[18px]">palette</span>
+<span class="text-text-main dark:text-white text-xs font-bold">More green</span>
+</button>
+</div>
+<div class="relative w-full">
+<input id="chatInput" class="w-full h-12 pl-4 pr-24 rounded-xl bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500" placeholder="Describe changes or new ideas..." type="text"/>
+<div class="absolute right-1 top-1 h-10 flex items-center gap-1">
+<button class="size-9 flex items-center justify-center rounded-lg text-gray-500 hover:text-primary hover:bg-white/50 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button id="sendBtn" class="h-9 px-4 rounded-lg bg-primary text-text-main font-bold text-sm shadow-md hover:brightness-105 transition-all flex items-center gap-2">
+                            Send
+                            <span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-8 flex flex-col h-full overflow-hidden relative">
+<div class="flex-grow relative bg-[#f0f4f0] dark:bg-[#0d1a0d] overflow-hidden group">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none" style="background-image: radial-gradient(#19e619 1px, transparent 1px); background-size: 24px 24px;">
+</div>
+<div class="relative w-[60%] h-[60%] flex items-center justify-center transition-transform duration-500 hover:scale-105">
+<img class="object-contain h-full drop-shadow-2xl filter contrast-125 hover:rotate-1 transition-transform duration-700" data-alt="3D render of a modern green and white modular bookshelf on a clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIqu0Dkayj30CqIBEytniDYhxdyf4g_fC1W6hnNZT2NfDb2eLF8WOSGBLiv4DIrEHoN8PDipk8Gjo6JaUq0bq24pfVk_6y-IfDMvv9Q17Kc16KGU-kZvXHxybdpzOlne9J3j7zMJKDUbrazjdoG0biEHQrLdmrEbUk8wZzHZZ1ZyODYsYauUr5KsKSF-yXAxMtgkSoOQYTDD5RgTfZnqgL3J_M6X6ZFyCtn1i-0-aVHKs2YxvLhCPoY-W2yj7wykgWo9R6h28rgvbR"/>
+<div class="absolute -right-12 top-10 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md">
+                            120 cm
+                         </div>
+<div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md">
+                            80 cm
+                         </div>
+</div>
+</div>
+<div class="absolute top-6 right-6 flex flex-col gap-2">
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors" title="Rotate">
+<span class="material-symbols-outlined">3d_rotation</span>
+</button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors" title="Zoom In">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors" title="View in AR">
+<span class="material-symbols-outlined">view_in_ar</span>
+</button>
+</div>
+<div class="absolute top-6 left-6 flex gap-1 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md p-1 rounded-lg shadow-sm">
+<button class="px-3 py-1 rounded bg-primary text-text-main text-xs font-bold">Realistic</button>
+<button class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium">Wireframe</button>
+<button class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium">Heatmap</button>
+</div>
+</div>
+<div class="h-auto shrink-0 bg-surface-light dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] p-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">engineering</span>
+<h3 class="text-lg font-bold text-text-main dark:text-white">Engineering Report</h3>
+</div>
+<span class="text-xs font-medium px-2 py-1 rounded bg-accent-green-light dark:bg-accent-green-dark text-primary">Status: Valid Design</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4>
+<span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-text-main dark:text-white">Standard Bricks (Green)</span>
+<span class="font-bold">x32</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-text-main dark:text-white">Standard Bricks (White)</span>
+<span class="font-bold">x12</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-text-main dark:text-white">Joinery Clips</span>
+<span class="font-bold">x56</span>
+</div>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Strength Analysis</h4>
+<span class="material-symbols-outlined text-gray-400 text-sm">health_metrics</span>
+</div>
+<div class="flex flex-col gap-2 mt-1">
+<div class="flex justify-between text-xs font-medium text-text-main dark:text-white">
+<span>Load Capacity</span>
+<span class="text-primary">45kg / shelf</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+<span class="material-symbols-outlined text-[14px] align-middle mr-1 text-primary">check_circle</span>
+                                Structural integrity verified.
+                            </p>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
+<div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-primary/10 to-transparent pointer-events-none"></div>
+<div class="flex flex-col gap-1 z-10">
+<h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-black text-primary">2.4</span>
+<span class="text-sm font-bold text-text-main dark:text-white">kg</span>
+</div>
+<p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
+</div>
+<div class="size-14 rounded-full border-4 border-accent-green-light dark:border-accent-green-dark border-t-primary border-r-primary flex items-center justify-center rotate-45">
+<span class="material-symbols-outlined text-primary -rotate-45">recycling</span>
+</div>
+</div>
+</div>
+<div class="mt-6 flex justify-end gap-4">
+<button class="px-6 py-2.5 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                        Save Draft
+                     </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-text-main font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                        Add to Cart
+                        <span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+(function() {
+  const API_URL = ''; // same origin when served by llm.py
+  const chatHistory = document.getElementById('chatHistory');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const userAvatar = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYMPl5-1dsuNaf1u1k_T53aQzfbdUbN6awNUN9Ea9a52J4HfaifhPRdb7mJ_7JgwtL2b6MDfYZHyb8RYMY98vntD4A4MzmIJSzdOryX0FMSMMTmbsK0cv93yU_QTaeGS22N0nWCR0LpNRIrtUThe0cTjQxkaJqDKtVYvsvUbTyh7SKhK0vKK6ZbwexMW3mUM_rqKrusE1Ld8t7ubQYOtaNRs6rsuB2VkjJ6oS78pdcLiCFpoHviY5TJ2VssXfdZc87D402g2XExrZ-';
+
+  const systemPrompt = `You are BrickBot, an AI assistant for BRICKIT - a custom furniture co-creation platform. Help users design furniture with natural language. Suggest dimensions (cm), colors, and materials. Be concise and design-focused.
+IMPORTANT: Always respond in the same language as the user's message. If the user writes in Thai, respond in Thai. If the user writes in English, respond in English.`;
+
+  let messages = [
+    { role: 'system', content: systemPrompt }
+  ];
+
+  function getTimeLabel() {
+    const d = new Date();
+    const today = new Date();
+    if (d.toDateString() === today.toDateString()) return 'Today, ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (d.toDateString() === yesterday.toDateString()) return 'Yesterday, ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  function appendUserMessage(text) {
+    const timeHtml = `<div class="flex justify-center"><span class="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">${escapeHtml(getTimeLabel())}</span></div>`;
+    chatHistory.insertAdjacentHTML('beforeend', timeHtml);
+    const html = `
+      <div class="flex items-end gap-3 flex-row-reverse">
+        <div class="size-10 rounded-full shrink-0 overflow-hidden border border-gray-200 dark:border-gray-700">
+          <img class="w-full h-full object-cover" data-alt="User avatar small" src="${userAvatar}"/>
+        </div>
+        <div class="flex flex-col gap-1 items-end max-w-[85%]">
+          <div class="p-4 rounded-2xl rounded-br-none bg-primary text-text-main text-base font-medium leading-relaxed shadow-sm">${escapeHtml(text)}</div>
+        </div>
+      </div>`;
+    chatHistory.insertAdjacentHTML('beforeend', html);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  function createBotBubble() {
+    const wrap = document.createElement('div');
+    wrap.className = 'flex items-end gap-3';
+    wrap.innerHTML = `
+      <div class="size-10 rounded-full shrink-0 bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary">
+        <span class="material-symbols-outlined filled">smart_toy</span>
+      </div>
+      <div class="flex flex-col gap-1 items-start max-w-[85%]">
+        <span class="text-xs font-bold text-primary ml-1">BrickBot</span>
+        <div class="p-4 rounded-2xl rounded-bl-none bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white text-base leading-relaxed">
+          <p class="response-content whitespace-pre-wrap"></p>
+        </div>
+      </div>`;
+    chatHistory.appendChild(wrap);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+    return wrap.querySelector('.response-content');
+  }
+
+  function escapeHtml(s) {
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  async function sendToLLM(userText) {
+    messages.push({ role: 'user', content: userText });
+    const bubble = createBotBubble();
+    bubble.textContent = '...';
+
+    try {
+      const resp = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: messages
+        })
+      });
+
+      if (!resp.ok) throw new Error('LLM request failed: ' + resp.status);
+
+      const reader = resp.body.getReader();
+      const dec = new TextDecoder();
+      let full = '';
+      const minLoadingMs = 600;
+      const loadStart = Date.now();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = dec.decode(value, { stream: true });
+        const lines = chunk.split('\n').filter(Boolean);
+        for (const line of lines) {
+          try {
+            const j = JSON.parse(line);
+            const c = j.message?.content ?? '';
+            if (c) {
+              full += c;
+              const elapsed = Date.now() - loadStart;
+              if (elapsed >= minLoadingMs) {
+                bubble.innerHTML = '';
+                bubble.textContent = full;
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+              }
+            }
+          } catch (_) {}
+        }
+      }
+      if (full) {
+        bubble.innerHTML = '';
+        bubble.textContent = full;
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+      }
+
+      messages.push({ role: 'assistant', content: full });
+    } catch (err) {
+      bubble.textContent = 'Cannot reach LLM. Make sure the backend is running (python llm.py) and Ollama has gemma3:4b.\n\nError: ' + err.message;
+    }
+  }
+
+  function send() {
+    const text = (chatInput.value || '').trim();
+    if (!text) return;
+    chatInput.value = '';
+    appendUserMessage(text);
+    sendBtn.disabled = true;
+    sendToLLM(text).finally(() => { sendBtn.disabled = false; });
+  }
+
+  sendBtn.addEventListener('click', send);
+  chatInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  });
+  document.querySelectorAll('.chip-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.dataset.prompt;
+      if (p) { chatInput.value = p; send(); }
+    });
+  });
+})();
+</script>
+</body></html>

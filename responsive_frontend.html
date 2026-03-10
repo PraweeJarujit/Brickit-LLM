@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRICKIT - Responsive Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom responsive styles */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .product-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 640px) {
+            .hide-mobile {
+                display: none !important;
+            }
+            
+            .mobile-full {
+                width: 100% !important;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .tablet-cols {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .desktop-cols {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+        }
+        
+        .chat-container {
+            height: calc(100vh - 200px);
+            max-height: 600px;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                height: calc(100vh - 150px);
+                max-height: 500px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-cube text-blue-600 text-2xl"></i>
+                    <span class="text-xl font-bold text-gray-800">BRICKIT</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="text-gray-600 hover:text-blue-600 transition">หน้าแรก</a>
+                    <a href="#products" class="text-gray-600 hover:text-blue-600 transition">สินค้า</a>
+                    <a href="#ai-studio" class="text-gray-600 hover:text-blue-600 transition">AI Studio</a>
+                    <a href="#orders" class="text-gray-600 hover:text-blue-600 transition">ออเดอร์</a>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-user mr-2"></i>เข้าสู่ระบบ
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 w-64 h-full bg-white shadow-xl z-50 md:hidden">
+            <div class="p-4">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-cube text-blue-600 text-xl"></i>
+                        <span class="text-lg font-bold">BRICKIT</span>
+                    </div>
+                    <button id="close-mobile-menu" class="text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <a href="#home" class="block py-2 text-gray-600 hover:text-blue-600">หน้าแรก</a>
+                    <a href="#products" class="block py-2 text-gray-600 hover:text-blue-600">สินค้า</a>
+                    <a href="#ai-studio" class="block py-2 text-gray-600 hover:text-blue-600">AI Studio</a>
+                    <a href="#orders" class="block py-2 text-gray-600 hover:text-blue-600">ออเดอร์</a>
+                    <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-user mr-2"></i>เข้าสู่ระบบ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
+                ออกแบบเฟอร์นิเจอร์ด้วย AI
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+                ปรึกษากับ AI ผู้เชี่ยวชาญด้านเฟอร์นิเจอร์ เพื่อหาสินค้าที่เหมาะกับพื้นที่ของคุณ
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                    <i class="fas fa-robot mr-2"></i>เริ่มปรึกษา AI
+                </button>
+                <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
+                    <i class="fas fa-th-large mr-2"></i>ดูสินค้า
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">สินค้าของเรา</h2>
+            
+            <!-- Category Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button class="category-btn bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">
+                    ทั้งหมด
+                </button>
+                <button class="category-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition">
+                    ขนาด S
+                </button>
+                <button class="category-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition">
+                    ขนาด M
+                </button>
+                <button class="category-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition">
+                    ขนาด L
+                </button>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 tablet-cols desktop-cols gap-6" id="products-grid">
+                <!-- Product cards will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Studio Section -->
+    <section id="ai-studio" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">AI Design Studio</h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                    <!-- Chat Header -->
+                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-robot text-2xl mr-3"></i>
+                            <div>
+                                <h3 class="font-semibold">BrickBot Assistant</h3>
+                                <p class="text-sm opacity-90">ผู้ช่วยออกแบบเฟอร์นิเจอร์อัจฉริยะ</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div class="chat-container overflow-y-auto p-4" id="chat-messages">
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-comments text-4xl mb-4"></i>
+                            <p>สวัสดีครับ! ผม BrickBot ผู้ช่วยออกแบบเฟอร์นิเจอร์</p>
+                            <p>มีอะไรให้ช่วยไหมครับ?</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Input -->
+                    <div class="border-t p-4">
+                        <div class="flex gap-2">
+                            <input 
+                                type="text" 
+                                id="chat-input"
+                                placeholder="ถามเรื่องเฟอร์นิเจอร์ที่คุณสนใจ..."
+                                class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                            <button 
+                                id="send-btn"
+                                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+                            >
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-cube text-blue-400 text-xl"></i>
+                        <span class="text-lg font-bold">BRICKIT</span>
+                    </div>
+                    <p class="text-gray-400">
+                        ออกแบบเฟอร์นิเจอร์ด้วย AI สำหรับพื้นที่ของคุณ
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">สินค้า</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">ขนาด S</a></li>
+                        <li><a href="#" class="hover:text-white transition">ขนาด M</a></li>
+                        <li><a href="#" class="hover:text-white transition">ขนาด L</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">บริการ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">AI Studio</a></li>
+                        <li><a href="#" class="hover:text-white transition">การสั่งซื้อ</a></li>
+                        <li><a href="#" class="hover:text-white transition">การจัดส่ง</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">ติดต่อ</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-phone mr-2"></i>02-123-4567</p>
+                        <p><i class="fas fa-envelope mr-2"></i>info@BRICKIT.com</p>
+                        <div class="flex space-x-4 mt-4">
+                            <a href="#" class="hover:text-white transition"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="hover:text-white transition"><i class="fab fa-line"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 BRICKIT. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+
+        // Sample products data
+        const products = [
+            {
+                id: 1,
+                name: "Smart Drawer Kit A",
+                description: "Modular dividers for shallow drawers",
+                price: 24.0,
+                image: "https://via.placeholder.com/300x200/3B82F6/FFFFFF?text=Smart+Drawer",
+                category: "S",
+                pattern: "White"
+            },
+            {
+                id: 2,
+                name: "Monitor Riser M1",
+                description: "Ergonomic height, recycled HDPE",
+                price: 45.0,
+                image: "https://via.placeholder.com/300x200/10B981/FFFFFF?text=Monitor+Riser",
+                category: "S",
+                pattern: "Black"
+            },
+            {
+                id: 3,
+                name: "M-01 Sofa Table",
+                description: "Minimalist sofa side table with marble pattern",
+                price: 85.0,
+                image: "https://via.placeholder.com/300x200/F59E0B/FFFFFF?text=Sofa+Table",
+                category: "M",
+                pattern: "Marble"
+            },
+            {
+                id: 4,
+                name: "Storage Cube Set",
+                description: "Stackable cubes for home office",
+                price: 120.0,
+                image: "https://via.placeholder.com/300x200/EF4444/FFFFFF?text=Storage+Cubes",
+                category: "M",
+                pattern: "Solid"
+            },
+            {
+                id: 5,
+                name: "Modu-Counter L200",
+                description: "Professional reception desk for events",
+                price: 1104.0,
+                image: "https://via.placeholder.com/300x200/8B5CF6/FFFFFF?text=Modu-Counter",
+                category: "L",
+                pattern: "Terrazzo"
+            },
+            {
+                id: 6,
+                name: "Exhibition Stand Pro",
+                description: "Modular booth structure for trade shows",
+                price: 2500.0,
+                image: "https://via.placeholder.com/300x200/EC4899/FFFFFF?text=Exhibition+Stand",
+                category: "L",
+                pattern: "Black"
+            }
+        ];
+
+        // Render products
+        function renderProducts(category = 'all') {
+            const grid = document.getElementById('products-grid');
+            const filteredProducts = category === 'all' 
+                ? products 
+                : products.filter(p => p.category === category);
+            
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer">
+                    <div class="aspect-w-16 aspect-h-12 bg-gray-200">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                                ขนาด ${product.category}
+                            </span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">${product.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-blue-600">$${product.price}</span>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                                <i class="fas fa-cart-plus mr-2"></i>เพิ่มลงตะกร้า
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Category filter
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.category-btn').forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                
+                e.target.classList.remove('bg-gray-200', 'text-gray-700');
+                e.target.classList.add('bg-blue-600', 'text-white');
+                
+                const category = e.target.textContent.trim();
+                renderProducts(category === 'ทั้งหมด' ? 'all' : category);
+            });
+        });
+
+        // Chat functionality
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatMessages = document.getElementById('chat-messages');
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`;
+            
+            messageDiv.innerHTML = `
+                <div class="${isUser ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'} 
+                            max-w-xs lg:max-w-md px-4 py-2 rounded-lg">
+                    <p class="text-sm">${message}</p>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "สวัสดีครับ! สนใจเฟอร์นิเจอร์ประเภทไหนเป็นพิเศษครับ?",
+                    "ผมแนะนำ Smart Drawer Kit A สำหรับพื้นที่ขนาดเล็กครับ",
+                    "มีงบประมาณเท่าไหร่ในการซื้อเฟอร์นิเจอร์ครับ?",
+                    "พื้นที่ของคุณมีขนาดเท่าไหร่ครับ?"
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, false);
+            }, 1000);
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initialize
+        renderProducts();
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Responsive adjustments
+        function handleResize() {
+            const width = window.innerWidth;
+            const grid = document.getElementById('products-grid');
+            
+            if (width <= 640) {
+                grid.className = 'grid grid-cols-1 gap-6';
+            } else if (width <= 1024) {
+                grid.className = 'grid grid-cols-2 gap-6';
+            } else {
+                grid.className = 'grid grid-cols-3 gap-6';
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    </script>
+</body>
+</html>

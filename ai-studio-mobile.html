@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="light" lang="th">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>BRICKIT - AI Design Studio</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mobile-first responsive design */
+        .mobile-chat-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f8faf8;
+        }
+        
+        .mobile-chat-input {
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .mobile-quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            scrollbar-width: none;
+        }
+        
+        .mobile-quick-actions::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .quick-action-btn {
+            flex-shrink: 0;
+            padding: 0.5rem 1rem;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #166534;
+            white-space: nowrap;
+        }
+        
+        .message-bubble {
+            max-width: 85%;
+            margin-bottom: 1rem;
+        }
+        
+        .user-message {
+            background: #22c55e;
+            color: white;
+            border-radius: 1.5rem 1.5rem 0.25rem 1.5rem;
+            padding: 0.75rem 1rem;
+            margin-left: auto;
+        }
+        
+        .bot-message {
+            background: white;
+            color: #1f2937;
+            border-radius: 1.5rem 1.5rem 1.5rem 0.25rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0.75rem 1rem;
+        }
+        
+        .typing-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #9ca3af;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        
+        .mobile-header {
+            background: white;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .mobile-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .mobile-title {
+            flex: 1;
+        }
+        
+        .mobile-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .mobile-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 2rem;
+            background: #f9fafb;
+            font-size: 0.875rem;
+        }
+        
+        .mobile-send-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: none;
+        }
+        
+        /* Prevent zoom on iOS */
+        input[type="text"], 
+        input[type="email"], 
+        input[type="password"],
+        textarea {
+            font-size: 16px !important;
+        }
+        
+        /* Safe area for iPhone X+ */
+        @supports (padding: max(0px)) {
+            .mobile-chat-input {
+                padding-bottom: max(1rem, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <div class="mobile-chat-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <button onclick="window.history.back()" class="p-2 -ml-2">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <div class="mobile-avatar">
+                <span class="material-symbols-outlined">smart_toy</span>
+            </div>
+            <div class="mobile-title">
+                <h1 class="font-bold text-gray-900">BrickBot</h1>
+                <p class="text-xs text-gray-500">AI Furniture Designer</p>
+            </div>
+            <button class="p-2 -mr-2">
+                <span class="material-symbols-outlined">more_vert</span>
+            </button>
+        </header>
+
+        <!-- Chat Messages -->
+        <div id="chatMessages" class="mobile-chat-messages">
+            <!-- Welcome Message -->
+            <div class="text-center py-8">
+                <div class="mobile-avatar mx-auto mb-4">
+                    <span class="material-symbols-outlined text-2xl">smart_toy</span>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900 mb-2">ยินดีต้อนรับ!</h2>
+                <p class="text-sm text-gray-600 px-4">
+                    ผม BrickBot พร้อมช่วยคุณออกแบบเฟอร์นิเจอร์
+                </p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white border-t border-gray-200">
+            <div class="mobile-quick-actions px-4">
+                <button onclick="quickPrompt('เพิ่มชั้นวาง')" class="quick-action-btn">
+                    <span class="material-symbols-outlined text-xs">add</span> เพิ่มชั้นวาง
+                </button>
+                <button onclick="quickPrompt('ทำให้สูงขึ้น')" class="quick-action-btn">
+                    <span class="material-symbols-outlined text-xs">height</span> สูงขึ้น
+                </button>
+                <button onclick="quickPrompt('เพิ่มสีเขียว')" class="quick-action-btn">
+                    <span class="material-symbols-outlined text-xs">palette</span> สีเขียว
+                </button>
+                <button onclick="quickPrompt('เปลี่ยนวัสดุ')" class="quick-action-btn">
+                    <span class="material-symbols-outlined text-xs">texture</span> เปลี่ยนวัสดุ
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="mobile-chat-input">
+            <div class="mobile-input-group">
+                <input 
+                    id="chatInput" 
+                    type="text" 
+                    class="mobile-input" 
+                    placeholder="บอก BrickBot ว่าต้องการอะไร..."
+                    maxlength="200"
+                >
+                <button id="sendBtn" class="mobile-send-btn">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile AI Chat Script
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        let isLoading = false;
+        
+        // Add message to chat
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message-bubble ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.textContent = content;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Show typing indicator
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message-bubble bot-message';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return typingDiv;
+        }
+        
+        // Send message to AI
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || isLoading) return;
+            
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Show typing indicator
+            isLoading = true;
+            const typingIndicator = showTyping();
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Remove typing indicator
+                typingIndicator.remove();
+                
+                // Add bot response
+                if (data.response) {
+                    addMessage(data.response, false);
+                } else {
+                    addMessage('ขออภัย มีข้อผิดพลาด กรุณาลองใหม่', false);
+                }
+                
+            } catch (error) {
+                typingIndicator.remove();
+                addMessage('ขออภัย ไม่สามารถเชื่อมต่อได้', false);
+            } finally {
+                isLoading = false;
+            }
+        }
+        
+        // Quick prompt
+        function quickPrompt(prompt) {
+            chatInput.value = prompt;
+            sendMessage();
+        }
+        
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Focus input on load
+        window.addEventListener('load', () => {
+            chatInput.focus();
+        });
+        
+        // Prevent zoom on input focus (iOS)
+        chatInput.addEventListener('focus', () => {
+            document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+        });
+        
+        chatInput.addEventListener('blur', () => {
+            document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0');
+        });
+    </script>
+</body>
+</html>
