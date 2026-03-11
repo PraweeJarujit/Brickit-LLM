@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BRICKIT - Size M Product Listing</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e1a",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+        .dark ::-webkit-scrollbar-thumb { background-color: #334155; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #19e619; cursor: pointer; margin-top: -6px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e2e8f0; border-radius: 2px; }
+        .toast-enter { transform: translateX(100%); opacity: 0; }
+        .toast-enter-active { transform: translateX(0); opacity: 1; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .toast-exit { transform: translateX(100%); opacity: 0; transition: all 0.4s ease-in; }
+        @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.4} }
+        .skeleton-pulse { animation: shimmer 1.4s ease-in-out infinite; }
+    </style>
+    <script src="/shared.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-display transition-colors duration-200">
+<div class="flex flex-col min-h-screen">
+<header class="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+<div class="px-4 md:px-8 py-3 mx-auto max-w-[1400px]">
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 text-gray-900 dark:text-white hover:opacity-80 transition-opacity" href="/">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight">BRICKIT</h2>
+</a>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="/size-s">Size S</a>
+<a class="text-sm font-bold text-primary" href="/size-m">Size M</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="/size-l">Size L</a>
+                <a class="text-sm font-medium hover:text-primary transition-colors" href="/ai-studio">AI Studio</a>
+                <a class="text-sm font-medium hover:text-primary transition-colors" href="/orders">My Orders</a>
+            </nav>
+</div>
+<div class="flex flex-1 justify-end items-center gap-4">
+<div class="hidden md:flex w-full max-w-md">
+<div class="relative w-full group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400 group-focus-within:text-primary">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border-none rounded-lg bg-gray-100 dark:bg-surface-dark focus:ring-2 focus:ring-primary text-sm placeholder-gray-500 transition-shadow" placeholder="Search tables, shelves..." type="text"/>
+</div>
+</div>
+<div class="flex gap-2">
+                <button onclick="toggleDarkMode()" class="flex items-center justify-center size-10 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors text-gray-700 dark:text-gray-300" title="Toggle dark mode">
+                    <span class="material-symbols-outlined" data-dark-icon>dark_mode</span>
+                </button>
+                <button onclick="openCart()" class="flex items-center justify-center size-10 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors relative">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                </button>
+                <a href="/login" class="hidden lg:flex items-center justify-center size-10 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors">
+                    <span class="material-symbols-outlined">person</span>
+                </a>
+                <button onclick="openMobileMenu()" class="lg:hidden flex items-center justify-center size-10 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-dark transition-colors">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<!-- Mobile Menu -->
+<div id="mobile-backdrop" class="fixed inset-0 bg-black/50 z-[300] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="mobile-menu" class="fixed inset-y-0 right-0 z-[400] w-72 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+        <span class="font-bold text-lg dark:text-white">Menu</span>
+        <button onclick="closeMobileMenu()" class="text-gray-400 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <nav class="p-5 flex flex-col gap-4 text-sm font-medium">
+        <a href="/" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Home</a>
+        <a href="/size-s" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Size S</a>
+        <a href="/size-m" class="text-primary font-bold">Size M</a>
+        <a href="/size-l" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Size L</a>
+        <a href="/ai-studio" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">AI Studio</a>
+        <hr class="border-gray-200 dark:border-gray-700"/>
+        <a href="/orders" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">My Orders</a>
+        <a href="/login" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Account</a>
+    </nav>
+    <div class="p-5 mt-auto border-t border-gray-200 dark:border-gray-700">
+        <button onclick="toggleDarkMode()" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" data-dark-icon>dark_mode</span>
+            <span class="text-sm font-medium">Toggle Dark Mode</span>
+        </button>
+    </div>
+</div>
+
+<div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+<div id="cart-backdrop" onclick="closeCart()" class="fixed inset-0 bg-black/50 z-[150] hidden opacity-0 transition-opacity duration-300"></div>
+
+<div id="cart-drawer" class="fixed inset-y-0 right-0 z-[200] w-full max-w-sm bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-surface-light dark:bg-surface-dark">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">shopping_bag</span>
+            ตะกร้าสินค้าของคุณ
+        </h2>
+        <button onclick="closeCart()" class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    
+    <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4 bg-background-light dark:bg-background-dark">
+        </div>
+    
+    <div class="p-5 border-t border-gray-200 dark:border-gray-800 bg-surface-light dark:bg-surface-dark">
+        <div class="flex justify-between items-center mb-4">
+            <span class="text-gray-500 dark:text-gray-400 font-bold">ยอดรวมสุทธิ:</span>
+            <span id="cart-total" class="text-2xl font-black text-primary">$0.00</span>
+        </div>
+        <a href="/checkout" class="w-full py-3.5 bg-primary hover:bg-green-500 text-gray-900 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex justify-center items-center gap-2">
+            ดำเนินการสั่งซื้อ (Checkout)
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+        </a>
+    </div>
+</div>
+<div class="px-4 md:px-8 py-4 mx-auto max-w-[1400px] w-full">
+<div class="flex flex-wrap items-center text-sm gap-2">
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors" href="/">Home</a>
+<span class="text-gray-400">/</span>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors" href="/size-m">Shop</a>
+<span class="text-gray-400">/</span>
+<span class="text-gray-900 dark:text-white font-medium">Size M</span>
+</div>
+</div>
+
+<div class="px-4 md:px-8 mx-auto max-w-[1400px] w-full mb-8">
+<div class="relative w-full rounded-xl overflow-hidden min-h-[300px] flex items-center bg-gray-900">
+<div class="absolute inset-0 z-0">
+<img alt="Modern home office with modular green furniture" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEv1uSoH1MKpiwLlfycpujpRZS7Nh2InLm78KERCTAPWtyB6rLmkURPM-J7TLTDug3FosmBxPjUPP_u5C1LYdUTIuzQfAfeOUjD0vFk8gh1RaZ-i6dCONrfJFTv6Ivmz-Oolkbe_yrMlDulifRz57Iez0JmvqO78xLHVSfOLKTuedyGhJd76hJnMxUS0neVDN5ptA4-njAODRFlYW8dIdrS6jIMNl1RN7JdqA55_QzODLUEEUKikSZBj48X_VZ_bRz8H7iCkjHaoQd"/>
+</div>
+<div class="relative z-10 px-6 md:px-12 py-8 max-w-2xl">
+<h1 class="text-white text-3xl md:text-5xl font-black leading-tight tracking-tight mb-4">
+                        Upgrade your space with sustainable smart systems.
+                    </h1>
+<p class="text-gray-200 text-lg mb-6 max-w-lg">
+                        Modular furniture perfect for home offices and living areas. Made from 100% recycled plastic.
+                    </p>
+</div>
+</div>
+</div>
+
+<main class="flex-grow px-4 md:px-8 pb-12 mx-auto max-w-[1400px] w-full">
+<div class="flex flex-col lg:flex-row gap-8">
+<aside class="w-full lg:w-64 flex-shrink-0 space-y-8 hidden lg:block">
+<div>
+<h3 class="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">category</span>
+                            Categories
+                        </h3>
+<div class="space-y-2 text-sm">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-gray-300 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Tables & Desks</span>
+<span class="ml-auto text-gray-400 text-xs">12</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-gray-300 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Shelving</span>
+<span class="ml-auto text-gray-400 text-xs">8</span>
+</label>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">attach_money</span>
+                            Price Range
+                        </h3>
+<div class="px-1">
+<input class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" max="500" min="0" type="range"/>
+<div class="flex justify-between mt-2 text-sm text-gray-500 font-medium">
+<span>$0</span>
+<span>$500+</span>
+</div>
+</div>
+</div>
+</aside>
+
+<div class="flex-1">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Modular Solutions</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Products in Size M</p>
+</div>
+<div class="ml-auto md:ml-2">
+<select class="bg-transparent border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium focus:ring-primary focus:border-primary py-1.5 pl-3 pr-8">
+<option>Sort by: Featured</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+
+<div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <p class="text-gray-500 dark:text-gray-400 col-span-full py-10 text-center">กำลังโหลดสินค้าจากฐานข้อมูล...</p>
+</div>
+
+</div>
+</div>
+</main>
+</div>
+
+<script>
+    let allProducts = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const userData = localStorage.getItem('brickit_user');
+        if (userData) {
+            const user = JSON.parse(userData);
+            document.querySelectorAll('a[href="/login"]').forEach(link => {
+                const container = document.createElement('div');
+                container.className = "flex items-center gap-3 bg-gray-100 dark:bg-surface-dark px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700";
+                container.innerHTML = `<span class="text-sm font-bold text-primary">${user.username}</span><button onclick="logout()" class="text-xs text-gray-500 hover:text-red-500 underline cursor-pointer">Logout</button>`;
+                link.replaceWith(container);
+            });
+        }
+        loadProducts();
+        updateCartBadge();
+        // Search & Sort listeners
+        document.querySelector('input[type="text"]')?.addEventListener('input', filterAndSort);
+        document.querySelector('select')?.addEventListener('change', filterAndSort);
+    });
+
+    function logout() {
+        localStorage.removeItem('brickit_user');
+        window.location.reload();
+    }
+
+    // ---------------------------------------------------
+    // UI ควบคุมตะกร้าสินค้า (เปิด/ปิด/ลบ/คำนวณเงิน)
+    // ---------------------------------------------------
+    
+    function openCart() {
+        document.getElementById('cart-drawer').classList.remove('translate-x-full');
+        const backdrop = document.getElementById('cart-backdrop');
+        backdrop.classList.remove('hidden');
+        setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+        renderCartItems(); 
+    }
+
+    function closeCart() {
+        document.getElementById('cart-drawer').classList.add('translate-x-full');
+        const backdrop = document.getElementById('cart-backdrop');
+        backdrop.classList.add('opacity-0');
+        setTimeout(() => backdrop.classList.add('hidden'), 300);
+    }
+
+    function renderCartItems() {
+        const cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        const container = document.getElementById('cart-items');
+        const totalElement = document.getElementById('cart-total');
+        
+        container.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="h-full flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 mt-20">
+                    <span class="material-symbols-outlined text-[64px] mb-4 opacity-50">production_quantity_limits</span>
+                    <p class="font-medium text-lg">ตะกร้าของคุณยังว่างเปล่า</p>
+                </div>`;
+            totalElement.textContent = '$0.00';
+            return;
+        }
+
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            container.innerHTML += `
+                <div class="flex gap-3 bg-white dark:bg-surface-dark p-3 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <div class="size-16 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-bold text-gray-900 dark:text-white line-clamp-1">${item.name}</h4>
+                        <p class="text-primary font-bold text-sm mt-0.5">$${item.price.toFixed(2)}</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="updateCartQty(${index},-1)" class="size-7 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-red-100 dark:hover:bg-red-900/30 font-bold text-base flex items-center justify-center transition-colors">−</button>
+                            <span class="w-5 text-center text-sm font-bold dark:text-white">${item.quantity}</span>
+                            <button onclick="updateCartQty(${index},1)" class="size-7 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-primary/20 font-bold text-base flex items-center justify-center transition-colors">+</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end justify-between">
+                        <span class="font-black text-gray-900 dark:text-white text-sm">$${itemTotal.toFixed(2)}</span>
+                        <button onclick="removeFromCart(${index})" class="text-gray-300 hover:text-red-500 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                    </div>
+                </div>`;
+        });
+        
+        totalElement.textContent = '$' + total.toFixed(2);
+    }
+
+    function updateCartQty(index, delta) {
+        let cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        cart[index].quantity += delta;
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
+        localStorage.setItem('brickit_cart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems();
+    }
+
+    function removeFromCart(index) {
+        let cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('brickit_cart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems(); 
+    }
+
+    // ---------------------------------------------------
+    // ระบบตะกร้าสินค้า & ป๊อปอัปแจ้งเตือนสวยๆ (Toast)
+    // ---------------------------------------------------
+    
+    function showToast(name, image) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'pointer-events-auto w-80 bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800 p-4 flex items-center gap-4 toast-enter';
+        
+        toast.innerHTML = `
+            <div class="relative size-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                <img src="${image}" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-lg"></div>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-bold text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    เพิ่มลงตะกร้าแล้ว
+                </p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 truncate">${name}</p>
+            </div>
+            <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        `;
+
+        container.appendChild(toast);
+
+        requestAnimationFrame(() => {
+            toast.classList.remove('toast-enter');
+            toast.classList.add('toast-enter-active');
+        });
+
+        setTimeout(() => {
+            toast.classList.remove('toast-enter-active');
+            toast.classList.add('toast-exit');
+            setTimeout(() => toast.remove(), 400); 
+        }, 3500);
+    }
+
+    function addToCart(name, price, image) {
+        let cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        const existingItem = cart.find(item => item.name === name);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ name: name, price: price, image: image, quantity: 1 });
+        }
+        
+        localStorage.setItem('brickit_cart', JSON.stringify(cart));
+        updateCartBadge();
+        showToast(name, image);
+    }
+
+    function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        const cartIcons = document.querySelectorAll('.material-symbols-outlined');
+        cartIcons.forEach(icon => {
+            if (icon.textContent.trim() === 'shopping_cart') {
+                const btnContainer = icon.parentElement;
+                btnContainer.classList.add('relative'); // Ensure relative positioning
+                
+                let badge = btnContainer.querySelector('.cart-badge');
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'cart-badge absolute top-0 right-0 -mt-1 -mr-1 size-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm pointer-events-none';
+                    btnContainer.appendChild(badge);
+                }
+                
+                badge.textContent = totalItems;
+                badge.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        });
+    }
+
+    // ---------------------------------------------------
+    // Product Loading + Search/Sort/Skeleton
+    // ---------------------------------------------------
+    async function loadProducts() {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = Array(4).fill(`
+            <div class="skeleton-pulse bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col">
+                <div class="aspect-square bg-gray-200 dark:bg-gray-700"></div>
+                <div class="p-4 flex flex-col gap-3">
+                    <div class="h-5 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    <div class="h-10 mt-2 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+                </div>
+            </div>`).join('');
+        try {
+            const res = await fetch('/api/products/m');
+            allProducts = await res.json();
+            filterAndSort();
+        } catch (e) {
+            console.error(e);
+            grid.innerHTML = '<p class="text-red-500 col-span-full text-center py-10">ไม่สามารถโหลดข้อมูลสินค้าได้</p>';
+        }
+    }
+
+    function filterAndSort() {
+        const query = (document.querySelector('input[type="text"]')?.value || '').toLowerCase();
+        const sort = document.querySelector('select')?.value || '';
+        let list = allProducts.filter(p =>
+            p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+        );
+        if (sort === 'Price: Low to High') list.sort((a, b) => a.price - b.price);
+        else if (sort === 'Price: High to Low') list.sort((a, b) => b.price - a.price);
+        const grid = document.getElementById('product-grid');
+        if (list.length === 0) {
+            grid.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-10">ไม่พบสินค้าที่ค้นหา</p>';
+            return;
+        }
+        grid.innerHTML = list.map(p => `
+            <div class="group bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col">
+                <div class="relative aspect-square overflow-hidden bg-gray-100">
+                    <img src="${p.image_url}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"/>
+                </div>
+                <div class="p-4 flex flex-col flex-grow">
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white line-clamp-1 mb-1">${p.name}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${p.description}</p>
+                    <p class="text-xs text-primary mb-2 font-bold">Pattern: ${p.pattern}</p>
+                    <div class="mt-auto flex items-center justify-between">
+                        <span class="text-lg font-bold text-primary">$${p.price.toFixed(2)}</span>
+                    </div>
+                    <button onclick="addToCart('${p.name}', ${p.price}, '${p.image_url}')" class="w-full mt-3 bg-gray-100 dark:bg-gray-800 hover:bg-primary hover:text-gray-900 text-gray-900 dark:text-white font-bold py-2 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                        <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                        Add to Cart
+                    </button>
+                </div>
+            </div>`).join('');
+    }
+</script>
+</body></html>

@@ -2,19 +2,39 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>BRICKIT - AI Co-Creation Journey</title>
+<title>BRICKKIT - AI Co-Creation Journey</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Noto+Sans+Thai:wght@400;500;700;900&family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/css/output.css">
-<script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "background-light": "#f8fcf8",
+                        "background-dark": "#112111",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e1a",
+                        "text-main": "#0e1b0e",
+                        "text-light": "#e7f3e7",
+                        "accent-green-light": "#e7f3e7",
+                        "accent-green-dark": "#1f3a1f",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans", "Noto Sans Thai", "sans-serif"],
+                        "body": ["Noto Sans", "Noto Sans Thai", "sans-serif"],
+                        "thai": ["Noto Sans Thai", "Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
 <style>
-    /* Smooth transitions for theme switching */
-    * {
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    }
-    
     .custom-scrollbar::-webkit-scrollbar { width: 6px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -121,7 +141,7 @@
     }
 </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display overflow-hidden h-screen flex flex-col">
 
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f3e7] dark:border-[#2a4a2a] px-6 py-3 bg-surface-light dark:bg-surface-dark shrink-0 z-20">
 <a href="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
@@ -130,19 +150,16 @@
 <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
 </svg>
 </div>
-<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">BRICKIT</h2>
+<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">BRICKKIT</h2>
 </a>
 <div class="flex flex-1 justify-center hidden md:flex">
-<div class="flex items-center gap-1 bg-accent-green-light dark:bg-accent-green-dark p-1 rounded-full shadow-sm">
-<a href="#" class="px-4 py-1 rounded bg-primary text-text-main text-xs font-bold hover:brightness-105 transition-all">Design</a>
-<a href="/checkout" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Review</a>
-<a href="/checkout" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Order</a>
+<div class="flex items-center gap-1 bg-accent-green-light dark:bg-accent-green-dark p-1 rounded-full">
+<div class="px-4 py-1.5 bg-white dark:bg-surface-dark rounded-full shadow-sm text-sm font-bold text-text-main dark:text-white cursor-default">Design</div>
+<div class="px-4 py-1.5 text-sm font-medium text-text-main/60 dark:text-white/60 cursor-pointer hover:text-text-main">Review</div>
+<div class="px-4 py-1.5 text-sm font-medium text-text-main/60 dark:text-white/60 cursor-pointer hover:text-text-main">Order</div>
 </div>
 </div>
 <div class="flex items-center justify-end gap-4">
-<button id="themeToggle" class="size-10 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
-<span class="material-symbols-outlined text-[18px]">light_mode</span>
-</button>
 <button class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
 <span class="material-symbols-outlined">help</span>
 </button>
@@ -152,8 +169,8 @@
 </div>
 </header>
 
-<div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 overflow-x-hidden bg-background-light dark:bg-background-dark">
-<div class="col-span-12 lg:col-span-4 flex flex-col min-h-0 lg:min-h-0 lg:max-h-screen overflow-hidden border-r border-[#e7f3e7] dark:border-[#2a4a2a] bg-white dark:bg-surface-dark relative z-10 lg:sticky lg:top-0">
+<div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 overflow-hidden bg-background-light dark:bg-background-dark">
+<div class="col-span-12 lg:col-span-4 flex flex-col min-h-0 overflow-hidden border-r border-[#e7f3e7] dark:border-[#2a4a2a] bg-white dark:bg-surface-dark relative z-10">
 <div class="p-4 pb-2 shrink-0 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
 <div class="flex items-center justify-between mb-2">
 <h1 class="text-xl md:text-2xl font-black leading-tight tracking-[-0.033em] text-text-main dark:text-white">AI Co-Creation Studio</h1>
@@ -177,7 +194,7 @@
             <span class="material-symbols-outlined text-[32px]">smart_toy</span>
         </div>
         <h3 class="text-lg font-bold text-text-main dark:text-white mb-2">ยินดีต้อนรับสู่ BrickBot! / Welcome to BrickBot!</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400">กำลังเชื่อมต่อกับ AI Assistant...</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">ผมพร้อมช่วยคุณออกแบบเฟอร์นิเจอร์ตามที่คุณต้องการ! เริ่มต้นด้วยการบอกผมว่าคุณอยากสร้างอะไรครับ / I'm here to help you design custom furniture. Start by describing what you'd like to create!</p>
     </div>
 </div>
 <div class="p-4 bg-white dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] shrink-0">
@@ -221,6 +238,7 @@
 </div>
 </div>
 
+<!-- Chat History Sidebar -->
 <div id="chatHistorySidebar" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
 <div class="absolute right-0 top-0 h-full w-80 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300">
 <div class="flex items-center justify-between p-4 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
@@ -235,6 +253,7 @@
 <span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-[18px]">search</span>
 </div>
 <div id="chatList" class="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
+<!-- Chat sessions will be populated here -->
 </div>
 </div>
 <div class="p-4 border-t border-[#e7f3e7] dark:border-[#2a4a2a]">
@@ -246,30 +265,25 @@
 </div>
 
 <div class="col-span-12 lg:col-span-8 flex flex-col h-full overflow-hidden relative">
-<div class="flex-grow relative bg-[#f0f4f0] dark:bg-[#0d1a0d] overflow-hidden group min-h-[400px]">
+<div class="flex-grow relative bg-[#f0f4f0] dark:bg-[#0d1a0d] overflow-hidden group">
 <div class="absolute inset-0 flex items-center justify-center">
 <div class="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none" style="background-image: radial-gradient(#19e619 1px, transparent 1px); background-size: 24px 24px;"></div>
-<div class="relative w-full h-full flex items-center justify-center">
-<div id="plotlyViewer" class="w-full h-full flex items-center justify-center">
-    <div class="text-center text-gray-500 dark:text-gray-400">
-        <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary animate-pulse">
-            <span class="material-symbols-outlined text-[32px]">view_in_ar</span>
-        </div>
-        <p>รอข้อมูลจาก AI เพื่อสร้างแบบจำลอง 3 มิติ...</p>
-    </div>
+<div class="relative w-[60%] h-[60%] flex items-center justify-center transition-transform duration-500 hover:scale-105">
+<img id="mainProductImage" class="object-contain h-full drop-shadow-2xl filter contrast-125 transition-all duration-700" data-alt="3D render" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIqu0Dkayj30CqIBEytniDYhxdyf4g_fC1W6hnNZT2NfDb2eLF8WOSGBLiv4DIrEHoN8PDipk8Gjo6JaUq0bq24pfVk_6y-IfDMvv9Q17Kc16KGU-kZvXHxybdpzOlne9J3j7zMJKDUbrazjdoG0biEHQrLdmrEbUk8wZzHZZ1ZyODYsYauUr5KsKSF-yXAxMtgkSoOQYTDD5RgTfZnqgL3J_M6X6ZFyCtn1i-0-aVHKs2YxvLhCPoY-W2yj7wykgWo9R6h28rgvbR"/>
+<div class="absolute -right-12 top-10 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md">120 cm</div>
+<div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-md">80 cm</div>
 </div>
 </div>
-</div>
-
 <div class="absolute top-6 right-6 flex flex-col gap-2">
-<button onclick="resetCamera()" class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">3d_rotation</span></button>
-<button onclick="zoomIn()" class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">add</span></button>
-<button onclick="zoomOut()" class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">remove</span></button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">3d_rotation</span></button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">add</span></button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">remove</span></button>
+<button class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">view_in_ar</span></button>
 </div>
 <div class="absolute top-6 left-6 flex gap-1 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md p-1 rounded-lg shadow-sm">
-<button onclick="setViewMode('realistic')" class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-bold transition-colors">Realistic</button>
-<button onclick="setViewMode('wireframe')" class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Wireframe</button>
-<button onclick="setViewMode('heatmap')" class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Heatmap</button>
+<button class="px-3 py-1 rounded bg-primary text-text-main text-xs font-bold">Realistic</button>
+<button class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium">Wireframe</button>
+<button class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium">Heatmap</button>
 </div>
 </div>
 
@@ -279,27 +293,37 @@
 <span class="material-symbols-outlined text-primary">engineering</span>
 <h3 class="text-lg font-bold text-text-main dark:text-white">Engineering Report</h3>
 </div>
-<span class="text-xs font-medium px-2 py-1 rounded bg-accent-green-light dark:bg-accent-green-dark text-primary">Status: Awaiting AI</span>
+<span class="text-xs font-medium px-2 py-1 rounded bg-accent-green-light dark:bg-accent-green-dark text-primary">Status: Valid Design</span>
 </div>
-
-<div id="engineeringReportContent" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
-        <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4><span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span></div>
-        <p class="text-sm text-gray-500 text-center py-4">Waiting for model generation...</p>
-    </div>
-    <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
-        <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Color Recipe</h4><span class="material-symbols-outlined text-gray-400 text-sm">palette</span></div>
-        <p class="text-sm text-gray-500 text-center py-4">Waiting for model generation...</p>
-    </div>
-    <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
-        <div class="flex flex-col gap-1 z-10">
-            <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
-            <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-gray-400">--</span><span class="text-sm font-bold text-text-main dark:text-white">kg</span></div>
-            <p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
-        </div>
-    </div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+<div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4><span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span></div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm"><span class="text-text-main dark:text-white">Standard Bricks (Green)</span><span class="font-bold">x32</span></div>
+<div class="flex justify-between items-center text-sm"><span class="text-text-main dark:text-white">Standard Bricks (White)</span><span class="font-bold">x12</span></div>
+<div class="flex justify-between items-center text-sm"><span class="text-text-main dark:text-white">Joinery Clips</span><span class="font-bold">x56</span></div>
 </div>
-
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+<div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Strength Analysis</h4><span class="material-symbols-outlined text-gray-400 text-sm">health_metrics</span></div>
+<div class="flex flex-col gap-2 mt-1">
+<div class="flex justify-between text-xs font-medium text-text-main dark:text-white"><span>Load Capacity</span><span class="text-primary">45kg / shelf</span></div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2"><div class="bg-primary h-2 rounded-full" style="width: 85%"></div></div>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1"><span class="material-symbols-outlined text-[14px] align-middle mr-1 text-primary">check_circle</span> Structural integrity verified.</p>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
+<div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-primary/10 to-transparent pointer-events-none"></div>
+<div class="flex flex-col gap-1 z-10">
+<h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
+<div class="flex items-baseline gap-1"><span class="text-3xl font-black text-primary">2.4</span><span class="text-sm font-bold text-text-main dark:text-white">kg</span></div>
+<p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
+</div>
+<div class="size-14 rounded-full border-4 border-accent-green-light dark:border-accent-green-dark border-t-primary border-r-primary flex items-center justify-center rotate-45">
+<span class="material-symbols-outlined text-primary -rotate-45">recycling</span>
+</div>
+</div>
+</div>
 <div class="mt-6 flex justify-end gap-4">
 <button class="px-6 py-2.5 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Save Draft</button>
 <button class="px-6 py-2.5 rounded-lg bg-primary text-text-main font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">Add to Cart <span class="material-symbols-outlined text-[18px]">shopping_cart</span></button>
@@ -314,17 +338,18 @@
     const chatHistory = document.getElementById('chatHistory');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
-    const plotlyViewer = document.getElementById('plotlyViewer');
+    const mainImg = document.getElementById('mainProductImage');
     const userAvatar = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAYMPl5-1dsuNaf1u1k_T53aQzfbdUbN6awNUN9Ea9a52J4HfaifhPRdb7mJ_7JgwtL2b6MDfYZHyb8RYMY98vntD4A4MzmIJSzdOryX0FMSMMTmbsK0cv93yU_QTaeGS22N0nWCR0LpNRIrtUThe0cTjQxkaJqDKtVYvsvUbTyh7SKhK0vKK6ZbwexMW3mUM_rqKrusE1Ld8t7ubQYOtaNRs6rsuB2VkjJ6oS78pdcLiCFpoHviY5TJ2VssXfdZc87D402g2XExrZ-';
 
     // Chat History System
     let currentUser = null;
     let currentChatId = null;
     let chatSessions = [];
-    const systemPrompt = `You are BrickBot, an AI assistant for BRICKIT. Help users design furniture.
+    const systemPrompt = `You are BrickBot, an AI assistant for BRICKKIT. Help users design furniture.
 IMPORTANT: 
 - Always respond in the user's language (Thai, English, or other languages)
 - For Thai users: Use natural, polite Thai language with appropriate particles (ครับ/ค่ะ)
+- If you recommend a product, MUST end with its image URL like this: <image_url>URL</image_url>
 - Use clear, professional language that's easy to understand
 - Maintain friendly and helpful tone appropriate for furniture design consultation`;
 
@@ -334,18 +359,12 @@ IMPORTANT:
     document.addEventListener('DOMContentLoaded', async () => {
         loadUserData();
         loadChatSessions();
-        initializeTheme();
         setupEventListeners();
-        
-        if (chatSessions.length === 0) {
-            createNewChat();
-        } else {
-            loadChatSession(chatSessions[0].id);
-        }
+        createNewChat();
     });
 
     function loadUserData() {
-        const userData = localStorage.getItem('BRICKIT_user');
+        const userData = localStorage.getItem('brickkit_user');
         if (userData) {
             currentUser = JSON.parse(userData);
             document.getElementById('userAvatarNav').src = userAvatar;
@@ -353,14 +372,14 @@ IMPORTANT:
     }
 
     function loadChatSessions() {
-        const stored = localStorage.getItem('BRICKIT_chat_sessions');
+        const stored = localStorage.getItem('brickkit_chat_sessions');
         if (stored) {
             chatSessions = JSON.parse(stored);
         }
     }
 
     function saveChatSessions() {
-        localStorage.setItem('BRICKIT_chat_sessions', JSON.stringify(chatSessions));
+        localStorage.setItem('brickkit_chat_sessions', JSON.stringify(chatSessions));
     }
 
     function createNewChat() {
@@ -376,33 +395,11 @@ IMPORTANT:
         };
         
         chatSessions.unshift(newSession);
-        if (chatSessions.length > 50) chatSessions.pop();
+        if (chatSessions.length > 50) chatSessions.pop(); // Limit to 50 sessions
         
         saveChatSessions();
         clearChatDisplay();
         updateChatList();
-
-        setTimeout(() => {
-            triggerInitialGreeting();
-        }, 800);
-    }
-
-    async function triggerInitialGreeting() {
-        const initialPrompt = "ระบบ: ผู้ใช้เปิดแชทใหม่แล้ว โปรดทักทายลูกค้าอย่างสุภาพและเริ่มสอบถามว่าต้องการเฟอร์นิเจอร์ประเภทไหน พร้อมทั้งขอรายละเอียด ขนาด (กว้าง ยาว สูง) จำนวนชั้น และ สี ทันที (ไม่ต้องรอให้ผู้ใช้พิมพ์ก่อน)";
-        messages.push({ role: 'user', content: initialPrompt });
-        
-        const bubble = createBotBubble();
-        bubble.textContent = 'BrickBot is typing...';
-
-        try {
-            const response = await callBackendAPI(initialPrompt);
-            await typeMessage(bubble, response);
-            messages.push({ role: 'assistant', content: response });
-            saveCurrentMessage('assistant', response);
-        } catch (err) { 
-            bubble.textContent = 'ขออภัย ระบบขัดข้อง ไม่สามารถเชื่อมต่อ AI ได้ครับ';
-            console.error('LLM Error:', err);
-        }
     }
 
     function clearChatDisplay() {
@@ -412,7 +409,7 @@ IMPORTANT:
                     <span class="material-symbols-outlined text-[32px]">smart_toy</span>
                 </div>
                 <h3 class="text-lg font-bold text-text-main dark:text-white mb-2">Welcome to BrickBot!</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400">กำลังประมวลผลการเชื่อมต่อ...</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">I'm here to help you design custom furniture. Start by describing what you'd like to create!</p>
             </div>
         `;
     }
@@ -426,24 +423,18 @@ IMPORTANT:
         
         clearChatDisplay();
         
-        const welcomeMsg = document.getElementById('welcomeMessage');
-        if (welcomeMsg) welcomeMsg.remove();
-        
+        // Display messages
         session.messages.forEach(msg => {
             if (msg.role === 'user') {
-                if (!msg.content.startsWith('ระบบ:')) {
-                    appendUserMessage(msg.content, false);
-                }
+                appendUserMessage(msg.content, false);
             } else {
                 const bubble = createBotBubble();
-                // Filter out JSON from history display
-                const jsonRegex = /```json\s*([\s\S]*?)\s*```/;
-                if(jsonRegex.test(msg.content)){
-                     let cleanText = msg.content.replace(jsonRegex, '').trim();
-                     if(!cleanText) cleanText = "รับทราบครับ! กำลังสร้างแบบจำลอง 3 มิติให้คุณ โปรดดูที่หน้าจอด้านขวาครับ 🚀";
-                     bubble.textContent = cleanText;
+                const imgMatch = msg.content.match(/<image_url>(.*?)<\/image_url>/);
+                if (imgMatch) {
+                    bubble.textContent = msg.content.replace(/<image_url>.*?<\/image_url>/g, "").trim();
+                    mainImg.src = imgMatch[1];
                 } else {
-                     bubble.textContent = msg.content;
+                    bubble.textContent = msg.content;
                 }
             }
         });
@@ -460,19 +451,15 @@ IMPORTANT:
         const message = { role, content, timestamp: new Date().toISOString() };
         session.messages.push(message);
         
-        if (role === 'user' && !content.startsWith('ระบบ:')) {
+        // Update session metadata
+        if (role === 'user') {
             session.lastMessage = content.substring(0, 50) + (content.length > 50 ? '...' : '');
-            if (session.messages.filter(m => m.role === 'user' && !m.content.startsWith('ระบบ:')).length === 1) {
+            if (session.messages.length === 1) {
                 session.title = content.substring(0, 30) + (content.length > 30 ? '...' : '');
             }
-        } else if (role === 'assistant' && !session.lastMessage) {
-            // Clean JSON from preview
-             let cleanText = content.replace(/```json\s*([\s\S]*?)\s*```/, '').trim();
-             if(!cleanText) cleanText = "Model generated successfully.";
-            session.lastMessage = cleanText.substring(0, 50) + '...';
         }
-        
         session.timestamp = new Date().toISOString();
+        
         saveChatSessions();
         updateChatList();
     }
@@ -499,6 +486,7 @@ IMPORTANT:
             </div>
         `).join('');
         
+        // Add click handlers
         document.querySelectorAll('.chat-session-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 if (!e.target.closest('.delete-chat-btn')) {
@@ -523,11 +511,7 @@ IMPORTANT:
         saveChatSessions();
         
         if (chatId === currentChatId) {
-            if (chatSessions.length > 0) {
-                loadChatSession(chatSessions[0].id);
-            } else {
-                createNewChat();
-            }
+            createNewChat();
         } else {
             updateChatList();
         }
@@ -545,37 +529,8 @@ IMPORTANT:
         return date.toLocaleDateString();
     }
 
-    function initializeTheme() {
-        const savedTheme = localStorage.getItem('BRICKIT_theme') || 'light';
-        setTheme(savedTheme);
-    }
-
-    function setTheme(theme) {
-        const html = document.documentElement;
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('span');
-        
-        html.classList.remove('light', 'dark');
-        html.classList.add(theme);
-        
-        if (theme === 'dark') {
-            themeIcon.textContent = 'dark_mode';
-        } else {
-            themeIcon.textContent = 'light_mode';
-        }
-        
-        localStorage.setItem('BRICKIT_theme', theme);
-    }
-
-    function toggleTheme() {
-        const html = document.documentElement;
-        const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        setTheme(newTheme);
-    }
-
     function setupEventListeners() {
-        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        // Chat controls
         document.getElementById('newChatBtn').addEventListener('click', createNewChat);
         document.getElementById('clearChatBtn').addEventListener('click', () => {
             if (confirm('Clear current chat? This cannot be undone.')) {
@@ -583,15 +538,18 @@ IMPORTANT:
             }
         });
         
+        // Sidebar controls
         document.getElementById('chatMenuBtn').addEventListener('click', openSidebar);
         document.getElementById('closeSidebarBtn').addEventListener('click', closeSidebar);
         document.getElementById('searchChats').addEventListener('input', updateChatList);
         document.getElementById('exportChatsBtn').addEventListener('click', exportChats);
         
+        // Close sidebar on backdrop click
         document.getElementById('chatHistorySidebar').addEventListener('click', (e) => {
             if (e.target.id === 'chatHistorySidebar') closeSidebar();
         });
         
+        // Message input
         sendBtn.addEventListener('click', send);
         chatInput.addEventListener('keydown', e => { 
             if (e.key === 'Enter' && !e.shiftKey) { 
@@ -622,7 +580,7 @@ IMPORTANT:
         const url = URL.createObjectURL(dataBlob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `BRICKIT_chats_${new Date().toISOString().split('T')[0]}.json`;
+        link.download = `brickkit_chats_${new Date().toISOString().split('T')[0]}.json`;
         link.click();
         URL.revokeObjectURL(url);
     }
@@ -633,6 +591,7 @@ IMPORTANT:
     }
 
     function appendUserMessage(text, save = true) {
+        // Hide welcome message if present
         const welcomeMsg = document.getElementById('welcomeMessage');
         if (welcomeMsg) welcomeMsg.remove();
         
@@ -649,6 +608,7 @@ IMPORTANT:
     }
 
     function createBotBubble() {
+        // Hide welcome message if present
         const welcomeMsg = document.getElementById('welcomeMessage');
         if (welcomeMsg) welcomeMsg.remove();
         
@@ -660,327 +620,86 @@ IMPORTANT:
         return wrap.querySelector('.response-content');
     }
 
-    async function callBackendAPI(userText) {
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages: messages })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, details: ${errorText}`);
-        }
-
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            const data = await response.json();
-            if (data.error) throw new Error(data.error);
-            return data.response || data.message;
-        }
-
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let fullResponse = '';
-
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            
-            const chunk = decoder.decode(value);
-            const lines = chunk.split('\n');
-            
-            for (const line of lines) {
-                if (line.trim()) {
-                    try {
-                        const data = JSON.parse(line);
-                        if (data.message && data.message.content) {
-                            fullResponse += data.message.content;
-                        }
-                    } catch (e) { continue; }
-                }
-            }
-        }
-        return fullResponse;
-    }
-
     async function sendToLLM(userText) {
         messages.push({ role: 'user', content: userText });
         const bubble = createBotBubble();
         bubble.textContent = 'Thinking...';
 
         try {
-            const response = await callBackendAPI(userText);
-            console.log("AI Response Received:", response); // Debugging
-
-            // 1. Better Regex to find JSON anywhere in text
-            const jsonMatch = response.match(/\{[\s\S]*?"generate_3d"\s*:\s*true[\s\S]*?\}/);
+            // Simulate API call (replace with actual API)
+            const response = await simulateAPIResponse(userText);
             
-            if (jsonMatch) {
-                console.log("✅ JSON Block Detected!");
-                let parsedData = null;
-                try {
-                    parsedData = JSON.parse(jsonMatch[0]);
-                    
-                    // 2. Hide JSON from Chat Bubble
-                    let cleanText = response.replace(/```json[\s\S]*?```/g, "").replace(jsonMatch[0], "").trim();
-                    if (cleanText.length < 5) cleanText = "รับทราบครับ! ผมกำลังสร้างแบบจำลอง 3 มิติให้คุณ โปรดดูที่หน้าจอด้านขวาครับ 🚀";
-                    
-                    await typeMessage(bubble, cleanText);
-
-                    // 3. Trigger 3D Rendering
-                    console.log("🚀 Calling renderGeneratedModel with:", parsedData);
-                    renderGeneratedModel(parsedData);
-
-                } catch (e) {
-                    console.error("❌ JSON Parse Error:", e);
-                    await typeMessage(bubble, response);
-                }
-            } else {
-                console.log("ℹ️ No JSON detected, showing normal message.");
-                await typeMessage(bubble, response);
-            }
-
+            // Typing effect
+            await typeMessage(bubble, response);
+            
             messages.push({ role: 'assistant', content: response });
             saveCurrentMessage('assistant', response);
             
+            // Handle image updates
+            const imgMatch = response.match(/<image_url>(.*?)<\/image_url>/);
+            if (imgMatch && imgMatch[1]) {
+                updateVisualizer(imgMatch[1]);
+            }
+            
         } catch (err) { 
-            bubble.textContent = 'ขออภัย ระบบขัดข้องครับ';
+            bubble.textContent = 'Sorry, I encountered an error. Please try again.';
             console.error('LLM Error:', err);
         }
     }
 
-    async function renderGeneratedModel(requirementJson) {
-        try {
-            console.log('🎨 Generating 3D model with requirements:', requirementJson);
-            
-            const response = await fetch('/api/generate-model', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requirementJson)
-            });
-
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-            const modelData = await response.json();
-            console.log('📦 Model data received:', modelData);
-
-            if (modelData.status === 'success' && modelData.plotly_json) {
-                // Render Plotly Model
-                Plotly.newPlot('plotlyViewer', modelData.plotly_json.data, modelData.plotly_json.layout, {
-                    responsive: true,
-                    displayModeBar: false
-                });
-
-                // Update Report
-                updateEngineeringReport(modelData);
-            } else {
-                throw new Error(modelData.error || 'Failed to generate model');
-            }
-        } catch (error) {
-            console.error('❌ Error generating 3D model:', error);
-            plotlyViewer.innerHTML = `
-                <div class="text-center text-red-500 dark:text-red-400 p-8">
-                    <div class="size-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-[32px]">error</span>
-                    </div>
-                    <p class="font-medium">Failed to generate 3D model</p>
-                    <p class="text-sm mt-2">${error.message}</p>
-                </div>
-            `;
-        }
-    }
-
-    function updateEngineeringReport(modelData) {
-        const reportContent = document.getElementById('engineeringReportContent');
-        if (!reportContent) return;
-
-        const bom = modelData.bom || {};
-        const totalPieces = modelData.total_blocks || 0;
-        const colorMix = modelData.color_mix || {};
-        const ecoImpact = modelData.eco_impact_kg || 0;
-
-        // 1. Build BOM HTML
-        let bomHtml = '<div class="space-y-1 mt-2 max-h-[150px] overflow-y-auto custom-scrollbar pr-2">';
-        for (const [brickType, count] of Object.entries(bom)) {
-            bomHtml += `
-                <div class="flex justify-between items-center py-1 border-b border-gray-100 dark:border-gray-800">
-                    <span class="text-xs text-text-main dark:text-gray-300">${brickType}</span>
-                    <span class="text-xs font-bold text-primary">x${count}</span>
-                </div>
-            `;
-        }
-        bomHtml += '</div>';
-
-        // 2. Build Color Mix HTML
-        let colorHtml = '';
-        if (colorMix.status === 'success' && colorMix.mix_caps && colorMix.mix_caps.length > 0) {
-            colorHtml = '<div class="space-y-2 mt-2">';
-            colorHtml += `<div class="text-xs text-gray-500 flex justify-between"><span>Target:</span> <div class="w-4 h-4 rounded-full border border-gray-300" style="background-color:${colorMix.target_hex}"></div></div>`;
-            colorHtml += '<div class="max-h-[120px] overflow-y-auto custom-scrollbar pr-2">';
-            colorMix.mix_caps.forEach(cap => {
-                colorHtml += `
-                    <div class="flex justify-between items-center py-1">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full shadow-sm" style="background-color:${cap.hex}"></div>
-                            <span class="text-xs text-text-main dark:text-gray-300 truncate w-20">${cap.color_name}</span>
-                        </div>
-                        <span class="text-xs font-bold">${cap.caps} caps</span>
-                    </div>
-                `;
-            });
-            colorHtml += '</div></div>';
+    async function simulateAPIResponse(userText) {
+        // Simulate processing delay
+        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+        
+        // Detect if user is writing in Thai
+        const isThai = /[ก-๛]/.test(userText);
+        
+        // Response logic based on language
+        let responses;
+        if (isThai) {
+            responses = [
+                "ได้เลยครับ! ผมจะช่วยคุณออกแบบเฟอร์นิเจอร์ตามที่คุณต้องการ และสร้างภาพ 3D ให้คุณดูครับ",
+                "ไอเดียที่ยอดเยี่ยมเลยครับ! ผมมองเห็นว่าการออกแบบนี้จะเข้ากับสไตล์ของคุณได้ดีมากครับ",
+                "ผมจะปรับขนาดและรายละเอียดให้เหมาะกับความต้องการของคุณมากขึ้นครับ",
+                "ได้เลยครับ ผมจะอัปเดตการออกแบบตามสเปคที่คุณระบุมาให้ครับ"
+            ];
         } else {
-            colorHtml = `<p class="text-xs text-gray-500 mt-2">Using solid color: <br><span class="font-bold" style="color:${modelData.color_hex || '#000'}">${modelData.color_hex || 'Default'}</span></p>`;
+            responses = [
+                "I'll help you design that! Let me create a 3D visualization for you.",
+                "Great idea! I can see this working well with your design.",
+                "Let me adjust the dimensions to better suit your needs.",
+                "I'll update the design with your specifications."
+            ];
         }
-
-        // 3. Download Button HTML
-        let downloadHtml = '';
-        if (modelData.saved_file || modelData.metadata) {
-            downloadHtml = `
-                <div class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <button onclick="downloadModelJSON()" class="w-full bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">download</span>
-                        <span class="text-sm font-medium">Download Model JSON</span>
-                    </button>
-                </div>
-            `;
+        
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        
+        // Add image URL for demonstration
+        if (Math.random() > 0.5) {
+            return randomResponse + " <image_url>https://lh3.googleusercontent.com/aida-public/AB6AXuAIqu0Dkayj30CqIBEytniDYhxdyf4g_fC1W6hnNZT2NfDb2eLF8WOSGBLiv4DIrEHoN8PDipk8Gjo6JaUq0bq24pfVk_6y-IfDMvv9Q17Kc16KGU-kZvXHxybdpzOlne9J3j7zMJKDUbrazjdoG0biEHQrLdmrEbUk8wZzHZZ1ZyODYsYauUr5KsKSF-yXAxMtgkSoOQYTDD5RgTfZnqgL3J_M6X6ZFyCtn1i-0-aVHKs2YxvLhCPoY-W2yj7wykgWo9R6h28rgvbR</image_url>";
         }
-
-        // 4. Inject HTML
-        reportContent.innerHTML = `
-            <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-1">
-                <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4><span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span></div>
-                <div class="flex justify-between items-center bg-primary/10 dark:bg-primary/20 p-2 rounded mt-1">
-                    <span class="text-xs font-bold">Total Pieces</span>
-                    <span class="text-sm font-bold text-primary">${totalPieces}</span>
-                </div>
-                ${bomHtml}
-            </div>
-            
-            <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-1">
-                <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Color Recipe</h4><span class="material-symbols-outlined text-gray-400 text-sm">palette</span></div>
-                ${colorHtml}
-                <div class="mt-auto pt-2 text-[10px] text-gray-400 text-right">ΔE: ${colorMix.delta_e || 'N/A'}</div>
-            </div>
-            
-            <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
-                <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-primary/10 to-transparent pointer-events-none"></div>
-                <div class="flex flex-col gap-1 z-10">
-                    <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
-                    <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-primary">${ecoImpact}</span><span class="text-sm font-bold text-text-main dark:text-white">kg</span></div>
-                    <p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
-                </div>
-                <div class="size-14 rounded-full border-4 border-accent-green-light dark:border-accent-green-dark border-t-primary border-r-primary flex items-center justify-center rotate-45">
-                    <span class="material-symbols-outlined text-primary -rotate-45">recycling</span>
-                </div>
-            </div>
-            
-            ${downloadHtml}
-        `;
-
-        // Store model data globally for download
-        window.currentModelData = modelData;
-    }
-
-    function downloadModelJSON() {
-        const modelData = window.currentModelData;
-        if (!modelData) {
-            alert('No model data available for download');
-            return;
-        }
-
-        try {
-            // Create a clean copy of the data for download
-            const downloadData = {
-                ...modelData,
-                downloaded_at: new Date().toISOString(),
-                download_version: "1.0"
-            };
-
-            // Convert to JSON string
-            const jsonString = JSON.stringify(downloadData, null, 2);
-            
-            // Create blob
-            const blob = new Blob([jsonString], { type: 'application/json' });
-            
-            // Create download link
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            
-            // Generate filename
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-            const itemType = (modelData.metadata?.item_type || 'model').replace(/[^a-zA-Z0-9]/g, '_');
-            link.download = `${itemType}_${timestamp}.json`;
-            
-            // Trigger download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Clean up
-            URL.revokeObjectURL(url);
-            
-            console.log('✅ Model JSON downloaded successfully');
-        } catch (error) {
-            console.error('❌ Error downloading model JSON:', error);
-            alert('Failed to download model JSON. Please try again.');
-        }
+        
+        return randomResponse;
     }
 
     async function typeMessage(element, text) {
         element.textContent = '';
         const words = text.split(' ');
+        
         for (let i = 0; i < words.length; i++) {
             element.textContent += (i > 0 ? ' ' : '') + words[i];
             chatHistory.scrollTop = chatHistory.scrollHeight;
-            await new Promise(resolve => setTimeout(resolve, 20)); // Sped up slightly
+            await new Promise(resolve => setTimeout(resolve, 30));
         }
     }
 
-    // --- 3D VIEW CONTROLS (GLOBAL FUNCTIONS) ---
-    window.setViewMode = function(mode) {
-        if (!document.querySelector('#plotlyViewer .js-plotly-plot')) return;
-        let update = {};
-        if (mode === 'realistic') update = {opacity: 1.0};
-        if (mode === 'wireframe') update = {opacity: 0.1}; // Makes faces almost transparent, edges remain
-        if (mode === 'heatmap') update = {opacity: 0.7}; // Semi-transparent
-        Plotly.restyle('plotlyViewer', update);
-    };
-
-    window.zoomIn = function() {
-        const gd = document.getElementById('plotlyViewer');
-        if (!gd || !gd.layout || !gd.layout.scene) return;
-        const currentCamera = gd.layout.scene.camera || {eye: {x:1.25, y:1.25, z:1.25}};
-        const newCamera = {
-            eye: {
-                x: currentCamera.eye.x * 0.8,
-                y: currentCamera.eye.y * 0.8,
-                z: currentCamera.eye.z * 0.8
-            }
-        };
-        Plotly.relayout('plotlyViewer', {'scene.camera': newCamera});
-    };
-
-    window.zoomOut = function() {
-        const gd = document.getElementById('plotlyViewer');
-        if (!gd || !gd.layout || !gd.layout.scene) return;
-        const currentCamera = gd.layout.scene.camera || {eye: {x:1.25, y:1.25, z:1.25}};
-        const newCamera = {
-            eye: {
-                x: currentCamera.eye.x * 1.2,
-                y: currentCamera.eye.y * 1.2,
-                z: currentCamera.eye.z * 1.2
-            }
-        };
-        Plotly.relayout('plotlyViewer', {'scene.camera': newCamera});
-    };
-
-    window.resetCamera = function() {
-        if (!document.querySelector('#plotlyViewer .js-plotly-plot')) return;
-        Plotly.relayout('plotlyViewer', {'scene.camera': {eye: {x: 1.25, y: 1.25, z: 1.25}}});
-    };
+    function updateVisualizer(url) {
+        if (!url || mainImg.src === url) return;
+        mainImg.classList.remove('img-interactive-fade');
+        void mainImg.offsetWidth; 
+        mainImg.src = url;
+        mainImg.classList.add('img-interactive-fade');
+    }
 
     function send() {
         const text = chatInput.value.trim();
@@ -1002,7 +721,34 @@ IMPORTANT:
         chatInput.value = p;
         send();
     }
+    
+    // Make quickPrompt global for button onclick handlers
     window.quickPrompt = quickPrompt;
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+            switch(e.key) {
+                case 'k':
+                    e.preventDefault();
+                    openSidebar();
+                    break;
+                case 'n':
+                    e.preventDefault();
+                    createNewChat();
+                    break;
+                case '/':
+                    e.preventDefault();
+                    chatInput.focus();
+                    break;
+            }
+        }
+    });
+
+    // Add error handling for image loading
+    mainImg.addEventListener('error', () => {
+        mainImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjBGNEYwIi8+CjxwYXRoIGQ9Ik04NSA2NUgxMTVWMTM1SDg1VjY1WiIgZmlsbD0iIzE5RTE2OSIvPgo8cGF0aCBkPSJNMTAwIDgwTDExNSAxMDVIMTDWMTM1SDg1VjEwNUgxMTVWMTM1SDg1VjEwNUgxMTVWODBIMTAwWiIgZmlsbD0iIzE5RTE2OSIvPgo8L3N2Zz4K';
+    });
 
 })();
 </script>

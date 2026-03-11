@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Size S Collection - BRICKIT</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;900&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19e619",
+                        "primary-dark": "#14b814",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e1a",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .toast-enter { transform: translateX(100%); opacity: 0; }
+        .toast-enter-active { transform: translateX(0); opacity: 1; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .toast-exit { transform: translateX(100%); opacity: 0; transition: all 0.4s ease-in; }
+        @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.4} }
+        .skeleton-pulse { animation: shimmer 1.4s ease-in-out infinite; }
+    </style>
+    <script src="/shared.js"></script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
+
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-surface-dark/95 backdrop-blur-md">
+    <div class="container mx-auto px-4 lg:px-8 h-16 flex items-center justify-between gap-4">
+        <a class="flex items-center gap-2 font-bold text-xl" href="/">
+            <div class="size-6 text-primary">
+                <svg fill="currentColor" viewbox="0 0 48 48"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path></svg>
+            </div>
+            BRICKIT
+        </a>
+        <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+            <a class="text-primary font-bold" href="/size-s">Size S</a>
+            <a class="hover:text-primary transition-colors" href="/size-m">Size M</a>
+            <a class="hover:text-primary transition-colors" href="/size-l">Size L</a>
+            <a class="hover:text-primary transition-colors" href="/ai-studio">AI Studio</a>
+            <a class="hover:text-primary transition-colors" href="/orders">My Orders</a>
+        </nav>
+        <div class="flex-1 max-w-md hidden md:block">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                <input class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-full py-2 pl-10 text-sm focus:ring-1 focus:ring-primary" placeholder="Search tables, shelves..." type="text"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300" title="Toggle dark mode">
+                <span class="material-symbols-outlined" data-dark-icon>dark_mode</span>
+            </button>
+            <button onclick="openCart()" class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <span class="material-symbols-outlined">shopping_cart</span>
+            </button>
+            <div id="user-nav-status" class="hidden lg:flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full border dark:border-slate-700">
+                <span class="text-xs font-bold text-primary">test</span>
+                <button onclick="logout()" class="text-[10px] text-gray-400 hover:text-red-500 underline font-bold">Logout</button>
+            </div>
+            <button onclick="openMobileMenu()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="container mx-auto px-4 lg:px-8 py-4">
+    <nav class="flex text-xs text-gray-500 mb-4">
+        <a class="hover:text-primary" href="/">Home</a><span class="mx-2">/</span>
+        <a class="hover:text-primary" href="#">Shop</a><span class="mx-2">/</span>
+        <span class="font-bold text-slate-900 dark:text-white">Size S</span>
+    </nav>
+
+    <div class="relative w-full rounded-2xl overflow-hidden h-64 mb-8 bg-slate-900 shadow-xl">
+        <img class="absolute inset-0 w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEv1uSoH1MKpiwLlfycpujpRZS7Nh2InLm78KERCTAPWtyB6rLmkURPM-J7TLTDug3FosmBxPjUPP_u5C1LYdUTIuzQfAfeOUjD0vFk8gh1RaZ-i6dCONrfJFTv6Ivmz-Oolkbe_yrMlDulifRz57Iez0JmvqO78xLHVSfOLKTuedyGhJd76hJnMxUS0neVDN5ptA4-njAODRFlYW8dIdrS6jIMNl1RN7JdqA55_QzODLUEEUKikSZBj48X_VZ_bRz8H7iCkjHaoQd" alt="Sized S Banner"/>
+        <div class="absolute inset-0 flex flex-col justify-center px-12">
+            <h1 class="text-white text-4xl font-black mb-2 leading-tight">Upgrade your space with<br/>sustainable smart systems.</h1>
+            <p class="text-gray-200 text-sm max-w-md">Modular furniture perfect for personal space and home offices. Made from 100% recycled plastic.</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-10">
+        <aside class="w-full lg:w-64 space-y-8 shrink-0">
+            <div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-lg">category</span> Categories
+                </h3>
+                <div class="space-y-3 text-sm">
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <input checked class="rounded border-gray-300 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                        <span class="group-hover:text-primary transition-colors dark:text-gray-300">Tables & Desks</span>
+                        <span class="ml-auto text-gray-400 text-xs">12</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer group">
+                        <input class="rounded border-gray-300 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+                        <span class="group-hover:text-primary transition-colors dark:text-gray-300">Shelving</span>
+                        <span class="ml-auto text-gray-400 text-xs">8</span>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-lg">sell</span> Price Range
+                </h3>
+                <input class="w-full accent-primary h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer" max="500" min="0" type="range"/>
+                <div class="flex justify-between text-xs text-gray-400 mt-2"><span>$0</span><span>$500+</span></div>
+            </div>
+        </aside>
+
+        <div class="flex-1">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900 dark:text-white">Modular Solutions</h2>
+                    <p class="text-xs text-gray-500 mt-1">Showing all products in Size S Collection</p>
+                </div>
+                <select class="bg-transparent border border-slate-200 dark:border-slate-700 rounded-lg text-xs dark:text-white px-4 py-2 focus:ring-1 focus:ring-primary">
+                    <option>Sort by: Featured</option>
+                    <option>Price: Low to High</option>
+                </select>
+            </div>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                </div>
+        </div>
+    </div>
+</main>
+
+<!-- Mobile Menu -->
+<div id="mobile-backdrop" class="fixed inset-0 bg-black/50 z-[300] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="mobile-menu" class="fixed inset-y-0 right-0 z-[400] w-72 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+        <span class="font-bold text-lg dark:text-white">Menu</span>
+        <button onclick="closeMobileMenu()" class="text-gray-400 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <nav class="p-5 flex flex-col gap-4 text-sm font-medium">
+        <a href="/" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Home</a>
+        <a href="/size-s" class="text-primary font-bold">Size S</a>
+        <a href="/size-m" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Size M</a>
+        <a href="/size-l" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Size L</a>
+        <a href="/ai-studio" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">AI Studio</a>
+        <hr class="border-gray-200 dark:border-gray-700"/>
+        <a href="/orders" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">My Orders</a>
+        <a href="/login" class="text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">Account</a>
+    </nav>
+    <div class="p-5 mt-auto border-t border-gray-200 dark:border-gray-700">
+        <button onclick="toggleDarkMode()" class="flex items-center gap-3 text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
+            <span class="material-symbols-outlined" data-dark-icon>dark_mode</span>
+            <span class="text-sm font-medium">Toggle Dark Mode</span>
+        </button>
+    </div>
+</div>
+
+<div id="cart-backdrop" onclick="closeCart()" class="fixed inset-0 bg-black/50 z-[150] hidden opacity-0 transition-opacity duration-300"></div>
+<div id="cart-drawer" class="fixed inset-y-0 right-0 z-[200] w-full max-w-sm bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b flex justify-between items-center bg-white dark:bg-surface-dark">
+        <h2 class="text-lg font-bold flex items-center gap-2 dark:text-white">
+            <span class="material-symbols-outlined text-primary">shopping_bag</span> ตะกร้าของคุณ
+        </h2>
+        <button onclick="closeCart()" class="text-gray-400 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50 dark:bg-background-dark custom-scrollbar"></div>
+    <div class="p-5 border-t bg-white dark:bg-surface-dark">
+        <div class="flex justify-between items-center mb-4">
+            <span class="font-bold text-gray-500">ยอดรวมทั้งหมด:</span>
+            <span id="cart-total" class="text-2xl font-black text-primary">$0.00</span>
+        </div>
+        <a href="/checkout" class="block w-full py-4 bg-primary hover:bg-primary-dark text-black text-center font-black rounded-xl shadow-lg transition-all">CHECKOUT NOW</a>
+    </div>
+</div>
+<div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+
+<script>
+    let allProducts = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProducts();
+        updateCartBadge();
+        // Search & Sort
+        document.querySelector('input[type="text"]')?.addEventListener('input', filterAndSort);
+        document.querySelector('select')?.addEventListener('change', filterAndSort);
+    });
+
+    function logout() { localStorage.removeItem('brickit_user'); window.location.href = '/login'; }
+
+    async function loadProducts() {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = Array(6).fill(`
+            <div class="skeleton-pulse flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
+                <div class="aspect-square bg-gray-200 dark:bg-gray-700"></div>
+                <div class="p-6 flex flex-col gap-3">
+                    <div class="h-5 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    <div class="h-10 mt-4 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
+                </div>
+            </div>`).join('');
+        try {
+            const res = await fetch('/api/products/s');
+            allProducts = await res.json();
+            filterAndSort();
+        } catch (e) {
+            grid.innerHTML = '<p class="col-span-full text-center text-red-500 font-bold py-20">Failed to load products.</p>';
+        }
+    }
+
+    function filterAndSort() {
+        const query = (document.querySelector('input[type="text"]')?.value || '').toLowerCase();
+        const sort = document.querySelector('select')?.value || '';
+        let list = allProducts.filter(p =>
+            p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+        );
+        if (sort === 'Price: Low to High') list.sort((a, b) => a.price - b.price);
+        else if (sort === 'Price: High to Low') list.sort((a, b) => b.price - a.price);
+        renderProducts(list);
+    }
+
+    function renderProducts(products) {
+        const grid = document.getElementById('product-grid');
+        if (products.length === 0) {
+            grid.innerHTML = '<p class="col-span-full text-center py-20 text-gray-400 italic">No products found.</p>';
+            return;
+        }
+        grid.innerHTML = products.map(p => `
+            <div class="group flex flex-col bg-white dark:bg-surface-dark rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-primary transition-all duration-300">
+                <div class="relative aspect-square overflow-hidden bg-slate-100">
+                    <img src="${p.image_url}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="p-6 flex flex-col flex-1">
+                    <h3 class="font-bold text-lg dark:text-white mb-1 group-hover:text-primary transition-colors">${p.name}</h3>
+                    <p class="text-xs text-gray-500 mb-4 line-clamp-2">${p.description}</p>
+                    <p class="text-xs font-bold text-primary mb-4 bg-primary/5 inline-block px-2 py-1 rounded">Pattern: ${p.pattern}</p>
+                    <div class="mt-auto flex items-center justify-between pt-4 border-t dark:border-slate-800">
+                        <span class="text-xl font-black text-slate-900 dark:text-white">$${p.price.toFixed(2)}</span>
+                        <button onclick="addToCart('${p.name}', ${p.price}, '${p.image_url}')" class="size-11 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-primary hover:text-black transition-all flex items-center justify-center">
+                            <span class="material-symbols-outlined">add_shopping_cart</span>
+                        </button>
+                    </div>
+                </div>
+            </div>`).join('');
+    }
+
+    function openCart() {
+        document.getElementById('cart-drawer').classList.remove('translate-x-full');
+        const backdrop = document.getElementById('cart-backdrop');
+        backdrop.classList.remove('hidden');
+        requestAnimationFrame(() => backdrop.classList.remove('opacity-0'));
+        renderCartItems();
+    }
+
+    function closeCart() {
+        document.getElementById('cart-drawer').classList.add('translate-x-full');
+        const backdrop = document.getElementById('cart-backdrop');
+        backdrop.classList.add('opacity-0');
+        setTimeout(() => backdrop.classList.add('hidden'), 300);
+    }
+
+    function addToCart(name, price, image) {
+        let cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        const exist = cart.find(i => i.name === name);
+        if (exist) exist.quantity += 1;
+        else cart.push({ name, price, image, quantity: 1 });
+        localStorage.setItem('brickit_cart', JSON.stringify(cart));
+        updateCartBadge();
+        showToast(name, image);
+    }
+
+    function renderCartItems() {
+        const cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        const container = document.getElementById('cart-items');
+        const totalEl = document.getElementById('cart-total');
+        let total = 0;
+        container.innerHTML = '';
+        if (cart.length === 0) {
+            container.innerHTML = '<div class="text-center py-20 text-gray-400"><span class="material-symbols-outlined text-5xl block mb-4">shopping_cart_off</span><p class="font-bold">Your cart is empty</p></div>';
+            totalEl.textContent = '$0.00';
+            return;
+        }
+        cart.forEach((item, idx) => {
+            total += item.price * item.quantity;
+            container.innerHTML += `
+                <div class="flex gap-3 bg-white dark:bg-surface-dark p-3 rounded-xl shadow-sm border dark:border-slate-700">
+                    <img src="${item.image}" class="size-16 rounded-lg object-cover shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold dark:text-white line-clamp-1">${item.name}</p>
+                        <p class="text-primary font-bold text-sm">$${item.price.toFixed(2)}</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="updateCartQty(${idx},-1)" class="size-7 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-red-100 dark:hover:bg-red-900/30 font-bold text-base flex items-center justify-center transition-colors">−</button>
+                            <span class="w-5 text-center text-sm font-bold dark:text-white">${item.quantity}</span>
+                            <button onclick="updateCartQty(${idx},1)" class="size-7 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-primary/20 font-bold text-base flex items-center justify-center transition-colors">+</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end justify-between">
+                        <p class="text-sm font-black dark:text-white">$${(item.price*item.quantity).toFixed(2)}</p>
+                        <button onclick="removeFromCart(${idx})" class="text-gray-300 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+                    </div>
+                </div>`;
+        });
+        totalEl.textContent = '$' + total.toFixed(2);
+    }
+
+    function updateCartQty(idx, delta) {
+        let cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        cart[idx].quantity += delta;
+        if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+        localStorage.setItem('brickit_cart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems();
+    }
+
+    function removeFromCart(idx) {
+        let cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        cart.splice(idx, 1);
+        localStorage.setItem('brickit_cart', JSON.stringify(cart));
+        renderCartItems();
+        updateCartBadge();
+    }
+
+    function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('brickkit_cart')) || [];
+        const count = cart.reduce((s, i) => s + i.quantity, 0);
+        const btn = document.querySelector('button[onclick="openCart()"]');
+        if (!btn) return;
+        btn.classList.add('relative');
+        let badge = btn.querySelector('.badge');
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'badge absolute -top-1 -right-1 bg-red-500 text-white text-[10px] size-4 rounded-full flex items-center justify-center font-bold';
+            btn.appendChild(badge);
+        }
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    function showToast(name, image) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'pointer-events-auto w-80 bg-white dark:bg-surface-dark rounded-2xl shadow-2xl border dark:border-slate-800 p-4 flex items-center gap-4 toast-enter-active';
+        toast.innerHTML = `<img src="${image}" class="size-12 rounded-lg object-cover shadow-sm"><div class="flex-1"><p class="text-xs font-black text-primary uppercase">Added to cart</p><p class="text-sm font-bold dark:text-white truncate">${name}</p></div>`;
+        container.appendChild(toast);
+        setTimeout(() => { toast.classList.add('toast-exit'); setTimeout(() => toast.remove(), 400); }, 3000);
+    }
+</script>
+</body>
+</html>

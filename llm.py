@@ -7,8 +7,8 @@ import httpx
 import json
 from datetime import datetime, timedelta, timezone
 from typing import List
-from fastapi import FastAPI, HTTPException, Depends, status
-from fastapi.responses import StreamingResponse, FileResponse
+from fastapi import FastAPI, HTTPException, Depends, status, Request
+from fastapi.responses import StreamingResponse, FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -48,6 +48,7 @@ except Exception as e:
 
 import models
 from database import engine, get_db
+import furniture_modeler
 
 # สร้างตารางในฐานข้อมูล
 models.Base.metadata.create_all(bind=engine)
@@ -301,7 +302,7 @@ async def chat(request: ChatRequest, db: Session = Depends(get_db)):
         
         # Process messages
         messages = [{"role": m.role, "content": m.content} for m in request.messages]
-        conversation_text = " ".join([m.content for m in messages])
+        conversation_text = " ".join([m["content"] for m in messages])
         
         print(f"💬 Processing {len(messages)} messages")
         
@@ -357,39 +358,84 @@ Required parameters:
 
 def check_all_parameters_present(conversation_text: str) -> bool:
     """Check if all required parameters are present in conversation"""
-    required_keywords = [
-        'table', 'shelf', 'chair', 'desk', 'cabinet',  # product types
-        'width', 'length', 'height',  # dimensions
-        'color', 'finish', 'material'  # appearance
-    ]
+    import re
     
-    # Check for at least one product type and dimension
-    has_product = any(keyword in conversation_text.lower() for keyword in ['table', 'shelf', 'chair', 'desk', 'cabinet'])
-    has_dimensions = any(dim in conversation_text.lower() for dim in ['width', 'length', 'height', 'cm', 'centimeter'])
-    has_appearance = any(appearing in conversation_text.lower() for appearing in ['color', 'finish', 'material'])
+    # Check for valid product types
+    valid_product_types = ['shelf', 'shoe_rack', 'cable_box', 'device_stand', 'stationery']
+    has_product = any(ptype in conversation_text.lower() for ptype in valid_product_types)
     
-    return has_product and has_dimensions and has_appearance
+    # Check for dimensions (numbers with cm or just numbers)
+    dimension_pattern = r'\b(\d+)\s*(?:cm)?\b'
+    dimension_matches = re.findall(dimension_pattern, conversation_text.lower())
+    has_dimensions = len(dimension_matches) >= 3  # Need at least 3 dimensions
+    
+    # Check for HEX color
+    color_pattern = r'#[0-9a-fA-F]{6}'
+    has_color = re.search(color_pattern, conversation_text) is not None
+    
+    return has_product and has_dimensions and has_color
 
 def extract_requirements_json(conversation_text: str) -> str:
     """Extract requirements as JSON from conversation"""
     import re
     import json
     
-    # Try to find JSON in the conversation
-    json_match = re.search(r'\{.*\}', conversation_text, re.DOTALL)
-    if json_match:
-        try:
-            return json_match.group(0)
-        except:
-            pass
+    # Extract product type
+    valid_product_types = ['shelf', 'shoe_rack', 'cable_box', 'device_stand', 'stationery']
+    product_type = None
+    for ptype in valid_product_types:
+        if ptype in conversation_text.lower():
+            product_type = ptype
+            break
     
-    # If no JSON found, return None
+    # Extract dimensions
+    dimension_pattern = r'\b(\d+)\s*(?:cm)?\b'
+    dimensions = re.findall(dimension_pattern, conversation_text.lower())
+    
+    # Extract color
+    color_pattern = r'#[0-9a-fA-F]{6}'
+    color_match = re.search(color_pattern, conversation_text)
+    color = color_match.group() if color_match else '#19e619'
+    
+    # Check for walls (for shoe rack)
+    has_walls = 'wall' in conversation_text.lower() and 'shoe_rack' in conversation_text.lower()
+    
+    # Build JSON if we have enough data
+    if product_type and len(dimensions) >= 3 and color:
+        json_data = {
+            "generate_3d": True,
+            "product_type": product_type,
+            "width": int(dimensions[0]) if len(dimensions) > 0 else 32,
+            "length": int(dimensions[1]) if len(dimensions) > 1 else 20,
+            "height": int(dimensions[2]) if len(dimensions) > 2 else 16,
+            "color": color,
+            "has_walls": has_walls
+        }
+        return f"```json\n{json.dumps(json_data, indent=2)}\n```"
+    
     return None
 
 async def stream_ollama(messages: list):
+    """Stream response from Ollama API"""
     async with httpx.AsyncClient(timeout=300.0) as client:
-        async with client.stream("POST", f"{OLLAMA_URL}/api/chat", json={"model": MODEL, "messages": messages}) as resp:
-            async for chunk in resp.aiter_text(): yield chunk + "\n"
+        try:
+            async with client.stream("POST", f"{OLLAMA_URL}/api/chat", json={"model": MODEL, "messages": messages, "stream": True}) as resp:
+                async for chunk in resp.aiter_text():
+                    # Parse Ollama streaming response
+                    if chunk.strip():
+                        try:
+                            # Try to parse as JSON first (newer Ollama versions)
+                            data = json.loads(chunk)
+                            if "message" in data and "content" in data["message"]:
+                                yield json.dumps({"message": {"content": data["message"]["content"]}}) + "\n"
+                            elif "content" in data:  # Direct content field
+                                yield json.dumps({"message": {"content": data["content"]}}) + "\n"
+                        except json.JSONDecodeError:
+                            # If not JSON, treat as plain text content
+                            yield json.dumps({"message": {"content": chunk}}) + "\n"
+        except Exception as e:
+            print(f"❌ Ollama streaming error: {e}")
+            yield json.dumps({"error": f"Streaming error: {str(e)}"}) + "\n"
 
 
 # --- Chat History API ---
@@ -757,6 +803,23 @@ def track_user_activity(activity: dict, db: Session = Depends(get_db)):
     db.add(new_activity)
     db.commit()
     return {"message": "Activity tracked"}
+
+# --- 3D Model Generation API ---
+@app.post("/api/generate-model")
+async def generate_model(request: Request):
+    try:
+        payload = await request.json()
+        result = furniture_modeler.generate_model_json(
+            item_type=payload.get("product_type", "shelf"),
+            w=payload.get("width", 32),
+            l=payload.get("length", 20),
+            h=payload.get("height", 16),
+            scale=payload.get("scale", 1.0),
+            color_hex=payload.get("color", "#19e619")
+        )
+        return result
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 # --- Page Routes ---
 @app.get("/")

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class', // <--- เพิ่มบรรทัดนี้เข้ามาครับ เพื่อให้ใช้ปุ่ม Toggle ได้
   content: [
     "./index.html",
     "./ai-studio.html",
