@@ -425,7 +425,12 @@ def generate_model_from_requirements(requirements):
         length = requirements.get('length', 32)
         height = requirements.get('height', 96)
         color = requirements.get('color', BASE_COLOR)
-        has_walls = requirements.get('has_walls', False) # เพิ่มการดึงค่า has_walls ตรงนี้
+        special_features = requirements.get('special_features', [])
+        has_walls = requirements.get('has_walls', 'walls' in special_features)
+        
+        # Debug: Print wall detection
+        print(f"🔍 Debug: special_features = {special_features}")
+        print(f"🔍 Debug: has_walls = {has_walls}")
         
         product_mapping = {
             'ชั้นวางรองเท้า': 'shoe_rack',

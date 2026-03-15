@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>How BRICKIT Works - AI Furniture Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/output.css">
+<style>
+    * { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .img-interactive-fade { animation: imgFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    @keyframes imgFadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .animate-slide-in-right { animation: slideInRight 0.3s ease-out; }
+    .animate-slide-in-left { animation: slideInLeft 0.3s ease-out; }
+    .animate-pulse { animation: pulse 2s infinite; }
+    .animate-spin { animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .chat-session-item { transition: all 0.2s ease; }
+    .chat-session-item:hover { transform: translateX(-2px); }
+    button { transition: all 0.2s ease; }
+    button:active { transform: scale(0.95); }
+    input:focus { outline: none; box-shadow: 0 0 0 2px rgba(25, 230, 25, 0.2); }
+    .thai-text { font-family: "Noto Sans Thai", "Noto Sans", sans-serif; line-height: 1.6; letter-spacing: 0.02em; }
+    .response-content { min-height: 1.5rem; line-height: 1.6; }
+    .backdrop-blur-sm { backdrop-filter: blur(4px); }
+    .shadow-professional { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .gradient-text { background: linear-gradient(135deg, #19e619 0%, #0e8b0e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .mic-recording { background-color: #ef4444 !important; color: white !important; animation: pulse-red 1.5s infinite; }
+    @keyframes pulse-red { 0%, 100% { background-color: #ef4444 !important; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 50% { background-color: #dc2626 !important; box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } }
+    
+    /* Hero Section Animations */
+    .hero-gradient {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+    }
+    .dark .hero-gradient {
+        background: linear-gradient(135deg, #0a2e0a 0%, #0d4a0d 50%, #145214 100%);
+    }
+    
+    .step-card {
+        transition: all 0.3s ease;
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        position: relative;
+    }
+    .dark .step-card {
+        background: linear-gradient(145deg, #1f2937 0%, #111827 100%);
+    }
+    
+    .step-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border-color: #19e619;
+    }
+    
+    .step-card:hover .icon-circle {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #19e619 0%, #0e8b0e 100%);
+    }
+    
+    .step-card:hover .icon-circle .material-symbols-outlined {
+        color: white;
+    }
+    
+    .step-number {
+        background: linear-gradient(135deg, #19e619 0%, #0e8b0e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .icon-circle {
+        background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        transition: all 0.3s ease;
+    }
+    .dark .icon-circle {
+        background: linear-gradient(135deg, #0d4a0d 0%, #145214 100%);
+    }
+    .dark .icon-circle {
+        background: linear-gradient(135deg, #145214 0%, #0d4a0d 100%);
+    }
+    
+    .floating {
+        animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f3e7] dark:border-[#2a4a2a] px-6 py-3 bg-surface-light dark:bg-surface-dark shrink-0 z-20">
+    <a href="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
+        <div class="size-8 text-primary">
+            <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+            </svg>
+        </div>
+        <h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">BRICKIT</h2>
+    </a>
+    <div class="flex flex-1 justify-center hidden md:flex">
+        <div class="flex items-center gap-1 bg-accent-green-light dark:bg-accent-green-dark p-1 rounded-full shadow-sm">
+            <a href="/ai-studio.html" class="px-4 py-1 rounded bg-primary text-text-main text-xs font-bold hover:brightness-105 transition-all">Design</a>
+            <a href="/how-it-works.html" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">How It Works</a>
+            <a href="#" onclick="alert('เมนูนี้อยู่ระหว่างการพัฒนาครับ'); return false;" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Order</a>
+        </div>
+    </div>
+    <div class="flex items-center justify-end gap-4">
+        <div id="pointsDisplay" class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-accent-green-light dark:bg-accent-green-dark text-primary font-bold text-sm">
+            <span class="material-symbols-outlined text-[16px]">stars</span>
+            <span>0 Points</span>
+        </div>
+        <button id="themeToggle" class="size-10 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+            <span class="material-symbols-outlined text-[18px]">light_mode</span>
+        </button>
+        <button id="helpBtn" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+            <span class="material-symbols-outlined">help</span>
+        </button>
+        <a href="/login" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white overflow-hidden border-2 border-primary">
+            <img id="userAvatarNav" class="w-full h-full object-cover" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCniCCMpiiFi2vs3iByKV8gYSBbaAWCfzSP3gvMQkFGTio5KAHaH-KkqgmqIEqezvNnbrd3Cqb0TvhgJnnRUXQ81NhjXqoCDmnoYcYXZKm4tVSSQ08RjF0PnK7UAjIUWDBpX7tOcuhXX6yQ23F69sAEst9ppuCbMwB0XfSFWlVqXQNf_sBNfp-OAX_ZTJMaPwx5PTpRb5crGRP0ET2CvovRaXP56rDqS8SI_T7vjxJh8HN611fajvdgcj0kmuQVK5pkimPI_Yl9zE-o"/>
+        </a>
+    </div>
+</header>
+
+<main class="flex-1">
+    <section class="hero-gradient dark:from-gray-900 dark:to-gray-800 py-20 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-10 left-10 size-32 bg-primary rounded-full blur-3xl floating"></div>
+            <div class="absolute top-20 right-20 size-24 bg-green-400 rounded-full blur-2xl floating" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-10 left-1/3 size-28 bg-blue-400 rounded-full blur-3xl floating" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-[#e7f3e7] dark:border-[#2a4a2a] mb-6">
+                <span class="material-symbols-outlined text-primary text-[20px]">lightbulb</span>
+                <span class="text-sm font-medium text-text-main dark:text-white">Transform Ideas into Reality</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-black leading-tight tracking-[-0.033em] text-text-main dark:text-white mb-6">
+                How <span class="gradient-text">BRICKIT</span> Works
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                Discover how our AI-powered platform transforms your ideas into sustainable furniture made from recycled plastic bottle caps. Three simple steps to create your perfect piece.
+            </p>
+            
+            <div class="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="/ai-studio" class="px-10 py-4 rounded-xl bg-primary text-text-main font-bold text-lg shadow-xl hover:brightness-110 transition-all flex items-center justify-center gap-3 hover:scale-105">
+                    <span class="material-symbols-outlined text-[24px]">rocket_launch</span>
+                    Start Designing
+                </a>
+                <a href="#steps" class="px-10 py-4 rounded-xl border-2 border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-3 hover:border-primary">
+                    <span class="material-symbols-outlined text-[24px]">info</span>
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="steps" class="py-20 px-6 bg-white dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-green-light dark:bg-accent-green-dark mb-4">
+                    <span class="material-symbols-outlined text-primary text-[20px]">route</span>
+                    <span class="text-sm font-medium text-primary">Simple Process</span>
+                </div>
+                
+                <h2 class="text-3xl md:text-4xl font-bold text-text-main dark:text-white mb-4">
+                    Your Journey to Custom Furniture
+                </h2>
+                
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    From concept to reality, our streamlined process makes creating custom furniture effortless and enjoyable.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
+                <div class="step-card rounded-3xl p-10 border-2 border-[#e7f3e7] dark:border-[#2a4a2a] relative overflow-hidden">
+                    <div class="absolute top-6 right-6 text-7xl font-black step-number opacity-10">01</div>
+                    
+                    <div class="icon-circle size-20 rounded-full flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-[36px] text-primary">smart_toy</span>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold text-text-main dark:text-white mb-6">Design with AI</h3>
+                    
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                        Simply describe your ideal furniture piece using natural language. Our AI assistant BrickBot understands your needs and preferences to generate a custom 3D model tailored to your specifications.
+                    </p>
+                    
+                    <ul class="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Type your ideas in Thai or English</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Specify dimensions, colors, and features</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Get instant 3D visualization</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-6 pt-6 border-t border-[#e7f3e7] dark:border-[#2a4a2a]">
+                        <div class="flex items-center gap-2 text-primary font-medium">
+                            <span class="material-symbols-outlined text-[18px]">psychology</span>
+                            <span>AI-Powered Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card rounded-3xl p-10 border-2 border-[#e7f3e7] dark:border-[#2a4a2a] relative overflow-hidden">
+                    <div class="absolute top-6 right-6 text-7xl font-black step-number opacity-10">02</div>
+                    
+                    <div class="icon-circle size-20 rounded-full flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-[36px] text-primary">engineering</span>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold text-text-main dark:text-white mb-6">Review & Eco Impact</h3>
+                    
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                        Examine your design in detail with our comprehensive engineering report. Understand the environmental impact and exact materials needed for your sustainable furniture piece.
+                    </p>
+                    
+                    <ul class="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Bill of Materials breakdown</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Plastic bottle caps recycling impact</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Color recipe and assembly guide</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-6 pt-6 border-t border-[#e7f3e7] dark:border-[#2a4a2a]">
+                        <div class="flex items-center gap-2 text-primary font-medium">
+                            <span class="material-symbols-outlined text-[18px]">eco</span>
+                            <span>100% Sustainable</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card rounded-3xl p-10 border-2 border-[#e7f3e7] dark:border-[#2a4a2a] relative overflow-hidden">
+                    <div class="absolute top-6 right-6 text-7xl font-black step-number opacity-10">03</div>
+                    
+                    <div class="icon-circle size-20 rounded-full flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-[36px] text-primary">shopping_cart</span>
+                    </div>
+                    
+                    <h3 class="text-3xl font-bold text-text-main dark:text-white mb-6">Order & Assemble</h3>
+                    
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                        Once satisfied with your design, place your order and receive a complete kit with all necessary components. Assembly is as easy as building a puzzle with our detailed instructions.
+                    </p>
+                    
+                    <ul class="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Pre-cut recycled plastic pieces</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Step-by-step assembly guide</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                            <span>Tools and accessories included</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-6 pt-6 border-t border-[#e7f3e7] dark:border-[#2a4a2a]">
+                        <div class="flex items-center gap-2 text-primary font-medium">
+                            <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+                            <span>Ready to Build</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 bg-accent-green-light dark:bg-accent-green-dark">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-text-main dark:text-white mb-4">
+                    Why Choose BRICKIT?
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Experience the future of sustainable furniture design with our innovative approach.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center">
+                    <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <span class="material-symbols-outlined text-[24px] text-primary">recycling</span>
+                    </div>
+                    <h4 class="font-bold text-text-main dark:text-white mb-2">100% Recycled</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Made entirely from plastic bottle caps, reducing waste and environmental impact.</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center">
+                    <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <span class="material-symbols-outlined text-[24px] text-primary">architecture</span>
+                    </div>
+                    <h4 class="font-bold text-text-main dark:text-white mb-2">Custom Design</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">AI-powered personalization ensures your furniture matches your unique style and needs.</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center">
+                    <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <span class="material-symbols-outlined text-[24px] text-primary">construction</span>
+                    </div>
+                    <h4 class="font-bold text-text-main dark:text-white mb-2">Easy Assembly</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Puzzle-like design makes building your furniture fun and straightforward.</p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 text-center">
+                    <div class="size-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                        <span class="material-symbols-outlined text-[24px] text-primary">trending_up</span>
+                    </div>
+                    <h4 class="font-bold text-text-main dark:text-white mb-2">Future-Proof</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Durable, sustainable furniture that grows with your needs and values.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-6 bg-white dark:bg-gray-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="bg-gradient-to-r from-primary/10 to-green-400/10 dark:from-primary/20 dark:to-green-400/20 rounded-2xl p-12 border border-[#e7f3e7] dark:border-[#2a4a2a]">
+                <h2 class="text-3xl md:text-4xl font-bold text-text-main dark:text-white mb-4">
+                    Ready to Create Something Amazing?
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                    Join thousands of users who have already transformed their spaces with sustainable, custom-designed furniture.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/ai-studio" class="px-8 py-3 rounded-lg bg-primary text-text-main font-bold text-lg shadow-lg hover:brightness-105 transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+                        Start Creating Now
+                    </a>
+                    <a href="#" onclick="alert('เมนูนี้อยู่ระหว่างการพัฒนาครับ'); return false;" class="px-8 py-3 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[20px]">play_circle</span>
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="bg-surface-light dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] py-12 px-6">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="size-8 text-primary">
+                        <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-text-main dark:text-white">BRICKIT</h3>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                    Transforming plastic waste into beautiful, sustainable furniture through AI-powered design.
+                </p>
+                <div class="flex gap-3">
+                    <a href="#" class="size-8 rounded-lg bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">facebook</span>
+                    </a>
+                    <a href="#" class="size-8 rounded-lg bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">alternate_email</span>
+                    </a>
+                    <a href="#" class="size-8 rounded-lg bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">share</span>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-text-main dark:text-white mb-4">Product</h4>
+                <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                    <li><a href="/ai-studio.html" class="hover:text-primary transition-colors">AI Studio</a></li>
+                    <li><a href="/how-it-works.html" class="hover:text-primary transition-colors">How It Works</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Gallery</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Pricing</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-text-main dark:text-white mb-4">Company</h4>
+                <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                    <li><a href="#" class="hover:text-primary transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Sustainability</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Blog</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Careers</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-text-main dark:text-white mb-4">Support</h4>
+                <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                    <li><a href="#" class="hover:text-primary transition-colors">Help Center</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Shipping Info</a></li>
+                    <li><a href="#" class="hover:text-primary transition-colors">Returns</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-12 pt-8 border-t border-[#e7f3e7] dark:border-[#2a4a2a] text-center text-sm text-gray-600 dark:text-gray-300">
+            <p>© 2024 BRICKIT. All rights reserved. | Made with ♻️ in Thailand</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.className = savedTheme;
+    updateThemeIcon(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = html.className;
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        html.className = newTheme;
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
+    
+    function updateThemeIcon(theme) {
+        const icon = themeToggle.querySelector('span');
+        if (icon) {
+            icon.textContent = theme === 'light' ? 'dark_mode' : 'light_mode';
+        }
+    }
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
+    // Help button
+    document.getElementById('helpBtn').addEventListener('click', () => {
+        alert('คำแนะนำการใช้งาน BRICKIT:\n\n1. ไปที่ AI Studio เพื่อเริ่มออกแบบเฟอร์นิเจอร์\n2. พิมพ์บอก AI ว่าต้องการออกแบบแบบไหน\n3. รอ AI สร้างแบบจำลอง 3D ให้\n4. ตรวจสอบรายละเอียดและสั่งซื้อ');
+    });
+</script>
+
+</body>
+</html>

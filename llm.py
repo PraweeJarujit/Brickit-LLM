@@ -76,16 +76,12 @@ for dir_name in STATIC_DIRS:
         print(f"📁 Created directory: {dir_path}")
 
 # Mount static files (only if directories exist)
-# Use current working directory since CSS is in the same folder as llm.py
 print(f"🔍 Debug: Current working directory: {os.getcwd()}")
 
 css_path = os.path.join(os.getcwd(), "css")
 js_path = os.path.join(os.getcwd(), "js") 
 images_path = os.path.join(os.getcwd(), "images")
 static_path = os.path.join(os.getcwd(), "static")
-
-print(f"🔍 Debug: CSS path: {css_path}")
-print(f"🔍 Debug: CSS exists: {os.path.exists(css_path)}")
 
 if os.path.exists(css_path):
     app.mount("/css", StaticFiles(directory=css_path), name="css")
@@ -114,30 +110,23 @@ app.add_middleware(
 OLLAMA_URL = "http://localhost:11434"
 MODEL = "gemma3:4b" 
 
-SYSTEM_PROMPT = """You are BrickBot, a professional furniture design assistant for BRICKIT.
+SYSTEM_PROMPT = """You are BrickBot, a professional AI furniture design consultant for BRICKIT. 
+Our furniture is crafted from 100% recycled plastic bottle caps (ฝาน้ำดื่มพลาสติก).
 
 CRITICAL INSTRUCTIONS:
-1. ALWAYS reply in the user's language (Thai, English, or other languages)
-2. For Thai users: Use natural, polite Thai with appropriate particles (ครับ/ค่ะ)
-3. BE PROACTIVE: Ask clarifying questions to understand user needs better
-4. COLLECT REQUIREMENTS: Ask about size, style, materials, budget, usage
-5. Recommend ONLY from catalog with <image_url>URL</image_url> format
-6. Guide users through design process step-by-step
-7. Maintain professional yet friendly tone
+1. ALWAYS reply in the user's language (Thai, English, or other languages).
+2. For Thai users: Use natural, polite Thai with appropriate particles (ครับ/ค่ะ) and act like a personal design assistant.
+3. BE PROACTIVE: Ask clarifying questions to understand user needs better.
+4. COLLECT REQUIREMENTS: Ask about size (width, length, height), style, and color. Default color is White (#FFFFFF).
+5. NEVER use technical jargon like "Loading JSON...", "Outputting code", or "Generating script".
+6. Instead, use natural, human-like phrases such as "เข้าใจครับ กำลังประมวลผลการออกแบบ 3 มิติให้ครับ กรุณารอสักครู่นะครับ".
+7. Maintain a professional, empathetic, and friendly tone throughout the conversation.
 
 DESIGN PROCESS:
-- Start by understanding their space and needs
-- Ask specific questions about dimensions, style preferences
-- Suggest suitable products from catalog
-- Provide detailed recommendations with images
-- Help them visualize the final result
-
-EXAMPLE QUESTIONS TO ASK:
-- What are the dimensions of your space?
-- What style do you prefer (modern, minimalist, etc.)?
-- What's your budget range?
-- How will you use this furniture?
-- Any specific color preferences?"""
+- Start by understanding their space and needs.
+- Ask specific questions about dimensions and color preferences.
+- If they request an update, acknowledge it politely and prepare to regenerate the 3D model.
+- Help them visualize the final result enthusiastically."""
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -235,7 +224,6 @@ def forgot_password(request: dict, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="ไม่พบผู้ใช้นี้ในระบบ")
     
     # ในระบบจริงควรส่งอีเมล แต่ตอนนี้แสดงรหัสผ่านเดิม (ไม่ปลอดภัยแต่เป็น demo)
-    # สมมติว่าเราเก็บรหัสผ่านเดิมไว้ หรือสร้างรหัสผ่านใหม่
     new_password = f"temp_{user.username[:3]}123"
     
     # อัปเดตรหัสผ่านใหม่
@@ -295,10 +283,8 @@ async def chat(request: ChatRequest, db: Session = Depends(get_db)):
     try:
         print(f"🤖 Chat API called with messages: {len(request.messages) if request.messages else 0}")
         
-        # รับ messages จากหน้าเว็บมาใช้งานตรงๆ (หน้าเว็บมีการส่ง System Prompt ที่ถูกต้องมาแล้ว)
         messages = [{"role": m.role, "content": m.content} for m in request.messages]
         
-        # ส่งให้ AI Ollama คิดเลยโดยไม่แอบแทรกคำสั่งกวนใจอีก
         try:
             print(f"🔄 Calling Ollama at {OLLAMA_URL} with model {MODEL}")
             return StreamingResponse(stream_ollama(messages), media_type="application/x-ndjson")
@@ -316,60 +302,6 @@ async def chat(request: ChatRequest, db: Session = Depends(get_db)):
             "error": str(e),
             "error_type": type(e).__name__
         }
-        # Check if this is the first message (proactive greeting)
-        if not request.messages or len(request.messages) == 0:
-            print("👋 Sending proactive greeting")
-            greeting = get_proactive_greeting()
-            return {"response": greeting, "is_greeting": True}
-        
-        # Process messages
-        messages = [{"role": m.role, "content": m.content} for m in request.messages]
-        conversation_text = " ".join([m["content"] for m in messages])
-        
-        print(f"💬 Processing {len(messages)} messages")
-        
-        # Enhanced system prompt with requirement gathering logic
-        enhanced_system_prompt = f"""{get_system_prompt()}
-
-{catalog}
-
-Current conversation context:
-{conversation_text}
-
-Analyze the conversation:
-1. Have ALL required parameters been gathered?
-2. If YES, output the complete JSON and professional closing
-3. If NO, continue asking for missing information naturally
-
-Required parameters:
-- product_type
-- main_purpose  
-- dimensions (width, length, height)
-- features (tiers/shelves/drawers)
-- appearance (color/finish/material)
-"""
-        
-        messages.insert(0, {"role": "system", "content": enhanced_system_prompt})
-        
-        # Check Ollama availability
-        try:
-            print(f"🔄 Calling Ollama at {OLLAMA_URL} with model {MODEL}")
-            return StreamingResponse(stream_ollama(messages), media_type="application/x-ndjson")
-        except Exception as e:
-            print(f"❌ Ollama connection error: {e}")
-            return {"response": "Sorry, I'm having trouble connecting to the AI service. Please make sure Ollama is running.", "error": "ollama_connection_failed"}
-            
-    except Exception as e:
-        print(f"❌ Chat API Error: {str(e)}")
-        print(f"❌ Error type: {type(e).__name__}")
-        import traceback
-        print(f"❌ Full traceback: {traceback.format_exc()}")
-        
-        return {
-            "response": "Sorry, I encountered an unexpected error. Please try again.",
-            "error": str(e),
-            "error_type": type(e).__name__
-        }
 
 async def stream_ollama(messages: list):
     """Stream response from Ollama API"""
@@ -377,17 +309,14 @@ async def stream_ollama(messages: list):
         try:
             async with client.stream("POST", f"{OLLAMA_URL}/api/chat", json={"model": MODEL, "messages": messages, "stream": True}) as resp:
                 async for chunk in resp.aiter_text():
-                    # Parse Ollama streaming response
                     if chunk.strip():
                         try:
-                            # Try to parse as JSON first (newer Ollama versions)
                             data = json.loads(chunk)
                             if "message" in data and "content" in data["message"]:
                                 yield json.dumps({"message": {"content": data["message"]["content"]}}) + "\n"
-                            elif "content" in data:  # Direct content field
+                            elif "content" in data:
                                 yield json.dumps({"message": {"content": data["content"]}}) + "\n"
                         except json.JSONDecodeError:
-                            # If not JSON, treat as plain text content
                             yield json.dumps({"message": {"content": chunk}}) + "\n"
         except Exception as e:
             print(f"❌ Ollama streaming error: {e}")
@@ -767,18 +696,51 @@ async def generate_model(request: Request):
         payload = await request.json()
         print(f"🎨 Model generation request: {payload}")
         
+        # --- Default Color Check ---
+        payload['color'] = payload.get('color', '#FFFFFF')
+        
         # --- NEW VALIDATION ADDED HERE ---
-        # ตรวจสอบว่ามีข้อมูลจำเป็นถูกส่งมาครบถ้วนหรือไม่ก่อนโยนให้ furniture_model
+        # ตรวจสอบว่ามีข้อมูลจำเป็นถูกส่งมาครบถ้วนก่อนโยนให้ furniture_model
         required_keys = ["product_type", "width", "length", "height", "color"]
         missing_keys = [key for key in required_keys if key not in payload]
-        
+
         if missing_keys:
             error_msg = f"Missing required parameters: {', '.join(missing_keys)}"
             print(f"❌ {error_msg}")
             return JSONResponse(
-                status_code=400, 
+                status_code=400,
                 content={"error": error_msg, "details": "AI did not generate a complete JSON block."}
             )
+        
+        # --- BOTTLE CAPS CALCULATION ---
+        # คำนวณจำนวน bottle caps ที่ใช้
+        try:
+            # คำนวณปริมาตรจากขนาด (volume)
+            volume = payload.get('width', 50) * payload.get('length', 50) * payload.get('height', 50)
+            estimated_bricks = max(10, int(volume / 200))  # สูตรสำหรับคำนวณ bricks
+            
+            # 1 brick = 45 bottle caps (based on standard LEGO 2x4 brick)
+            CAPS_PER_BRICK = 45
+            total_bottle_caps = estimated_bricks * CAPS_PER_BRICK
+            
+            # เพิ่มข้อมูล bottle caps ลงใน response
+            bottle_caps_calculation = {
+                'total_bricks': estimated_bricks,
+                'caps_per_brick': CAPS_PER_BRICK,
+                'total_bottle_caps': total_bottle_caps,
+                'caps_weight_kg': round(total_bottle_caps * 0.002, 2)  # 1 cap = 2 grams
+            }
+            
+            print(f"🧮 Bottle Caps Calculation: {estimated_bricks} bricks × {CAPS_PER_BRICK} caps = {total_bottle_caps:,} bottle caps")
+            
+        except Exception as e:
+            print(f"⚠️ Error calculating bottle caps: {e}")
+            bottle_caps_calculation = {
+                'total_bricks': 0,
+                'caps_per_brick': 45,
+                'total_bottle_caps': 0,
+                'caps_weight_kg': 0.0
+            }
         # ---------------------------------
 
         # Import furniture_model
@@ -793,6 +755,9 @@ async def generate_model(request: Request):
                 status_code=400, 
                 content={"error": f"Failed to generate model - internal function rejected the parameters. Request: {payload}"}
             )
+        
+        # แทรกผลการคำนวณลงใน Result ที่จะส่งกลับไปหน้า UI
+        result['bottle_caps_calculation'] = bottle_caps_calculation
         
         # Save model to file for debugging
         import datetime
@@ -826,6 +791,8 @@ async def ai_studio(): return FileResponse("ai-studio.html")
 async def ai_studio_mobile(): return FileResponse("ai-studio-mobile.html")
 @app.get("/ai-studio/fixed")
 async def ai_studio_fixed(): return FileResponse("ai-studio-fixed.html")
+@app.get("/how-it-works.html")
+async def how_it_works(): return FileResponse("how-it-works.html")
 @app.get("/size-s")
 async def size_s(): return FileResponse("size-s.html")
 @app.get("/size-m")

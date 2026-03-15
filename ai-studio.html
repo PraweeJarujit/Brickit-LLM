@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="light" lang="en"><head>
+<html class="light" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>BRICKIT - AI Co-Creation Journey</title>
@@ -10,305 +11,286 @@
 <link rel="stylesheet" href="/css/output.css">
 <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
 <style>
-    /* Smooth transitions for theme switching */
-    * {
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    }
-    
+    * { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
     .custom-scrollbar::-webkit-scrollbar { width: 6px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Image Transition Animation */
     .img-interactive-fade { animation: imgFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-    @keyframes imgFadeIn {
-        from { opacity: 0; transform: scale(0.98); }
-        to { opacity: 1; transform: scale(1); }
-    }
-    
-    /* Chat Animations */
-    @keyframes slideInRight {
-        from { opacity: 0; transform: translateX(20px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    
-    @keyframes slideInLeft {
-        from { opacity: 0; transform: translateX(-20px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-    
-    .animate-slide-in-right {
-        animation: slideInRight 0.3s ease-out;
-    }
-    
-    .animate-slide-in-left {
-        animation: slideInLeft 0.3s ease-out;
-    }
-    
-    .animate-pulse {
-        animation: pulse 2s infinite;
-    }
-    
-    /* Loading spinner */
-    .animate-spin {
-        animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-    
-    /* Hover effects */
-    .chat-session-item {
-        transition: all 0.2s ease;
-    }
-    
-    .chat-session-item:hover {
-        transform: translateX(-2px);
-    }
-    
-    /* Button improvements */
-    button {
-        transition: all 0.2s ease;
-    }
-    
-    button:active {
-        transform: scale(0.95);
-    }
-    
-    /* Focus styles */
-    input:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(25, 230, 25, 0.2);
-    }
-    
-    /* Thai text support */
-    .thai-text {
-        font-family: "Noto Sans Thai", "Noto Sans", sans-serif;
-        line-height: 1.6;
-        letter-spacing: 0.02em;
-    }
-    
-    /* Message bubble improvements */
-    .response-content {
-        min-height: 1.5rem;
-        line-height: 1.6;
-    }
-    
-    /* Sidebar backdrop blur */
-    .backdrop-blur-sm {
-        backdrop-filter: blur(4px);
-    }
-    
-    /* Professional shadows */
-    .shadow-professional {
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-    
-    /* Gradient text */
-    .gradient-text {
-        background: linear-gradient(135deg, #19e619 0%, #0e8b0e 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
+    @keyframes imgFadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .animate-slide-in-right { animation: slideInRight 0.3s ease-out; }
+    .animate-slide-in-left { animation: slideInLeft 0.3s ease-out; }
+    .animate-pulse { animation: pulse 2s infinite; }
+    .animate-spin { animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .chat-session-item { transition: all 0.2s ease; }
+    .chat-session-item:hover { transform: translateX(-2px); }
+    button { transition: all 0.2s ease; }
+    button:active { transform: scale(0.95); }
+    input:focus { outline: none; box-shadow: 0 0 0 2px rgba(25, 230, 25, 0.2); }
+    .thai-text { font-family: "Noto Sans Thai", "Noto Sans", sans-serif; line-height: 1.6; letter-spacing: 0.02em; }
+    .response-content { min-height: 1.5rem; line-height: 1.6; }
+    .backdrop-blur-sm { backdrop-filter: blur(4px); }
+    .shadow-professional { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .gradient-text { background: linear-gradient(135deg, #19e619 0%, #0e8b0e 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .mic-recording { background-color: #ef4444 !important; color: white !important; animation: pulse-red 1.5s infinite; }
+    @keyframes pulse-red { 0%, 100% { background-color: #ef4444 !important; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 50% { background-color: #dc2626 !important; box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } }
 </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display h-screen overflow-hidden flex flex-col">
 
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f3e7] dark:border-[#2a4a2a] px-6 py-3 bg-surface-light dark:bg-surface-dark shrink-0 z-20">
-<a href="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
-<div class="size-8 text-primary">
-<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
-</svg>
-</div>
-<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">BRICKIT</h2>
-</a>
-<div class="flex flex-1 justify-center hidden md:flex">
-<div class="flex items-center gap-1 bg-accent-green-light dark:bg-accent-green-dark p-1 rounded-full shadow-sm">
-<a href="#" onclick="alert('เมนูนี้อยู่ระหว่างการพัฒนาครับ'); return false;" class="px-4 py-1 rounded bg-primary text-text-main text-xs font-bold hover:brightness-105 transition-all">Design</a>
-<a href="#" onclick="alert('เมนูนี้อยู่ระหว่างการพัฒนาครับ'); return false;" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Review</a>
-<a href="#" onclick="alert('เมนูนี้อยู่ระหว่างการพัฒนาครับ'); return false;" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Order</a>
-</div>
-</div>
-<div class="flex items-center justify-end gap-4">
-<div id="pointsDisplay" class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-accent-green-light dark:bg-accent-green-dark text-primary font-bold text-sm">
-<span class="material-symbols-outlined text-[16px]">stars</span>
-<span>0 Points</span>
-</div>
-<button id="themeToggle" class="size-10 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
-<span class="material-symbols-outlined text-[18px]">light_mode</span>
-</button>
-<button id="helpBtn" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
-<span class="material-symbols-outlined">help</span>
-</button>
-<a href="/login" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white overflow-hidden border-2 border-primary">
-<img id="userAvatarNav" class="w-full h-full object-cover" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCniCCMpiiFi2vs3iByKV8gYSBbaAWCfzSP3gvMQkFGTio5KAHaH-KkqgmqIEqezvNnbrd3Cqb0TvhgJnnRUXQ81NhjXqoCDmnoYcYXZKm4tVSSQ08RjF0PnK7UAjIUWDBpX7tOcuhXX6yQ23F69sAEst9ppuCbMwB0XfSFWlVqXQNf_sBNfp-OAX_ZTJMaPwx5PTpRb5crGRP0ET2CvovRaXP56rDqS8SI_T7vjxJh8HN611fajvdgcj0kmuQVK5pkimPI_Yl9zE-o"/>
-</a>
-</div>
+    <a href="/" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
+        <div class="size-8 text-primary">
+            <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z"></path>
+            </svg>
+        </div>
+        <h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">BRICKIT</h2>
+    </a>
+    <div class="flex flex-1 justify-center hidden md:flex">
+        <div class="flex items-center gap-1 bg-accent-green-light dark:bg-accent-green-dark p-1 rounded-full shadow-sm">
+            <a href="/ai-studio.html" class="px-4 py-1 rounded bg-primary text-text-main text-xs font-bold hover:brightness-105 transition-all">Design</a>
+            <a href="/how-it-works.html" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">How It Works</a>
+            <a href="#" onclick="alert('เมนูนี้อยู่ระหว่างการพัฒนาครับ'); return false;" class="px-4 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Order</a>
+        </div>
+    </div>
+    <div class="flex items-center justify-end gap-4">
+        <div id="pointsDisplay" class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-accent-green-light dark:bg-accent-green-dark text-primary font-bold text-sm">
+            <span class="material-symbols-outlined text-[16px]">stars</span>
+            <span>0 Points</span>
+        </div>
+        <button id="themeToggle" class="size-10 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+            <span class="material-symbols-outlined text-[18px]">light_mode</span>
+        </button>
+        <button id="helpBtn" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+            <span class="material-symbols-outlined">help</span>
+        </button>
+        <button id="cartBtn" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors relative">
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span id="cartCount" class="absolute -top-1 -right-1 size-5 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center hidden">0</span>
+        </button>
+        <a href="/login" class="size-10 flex items-center justify-center rounded-full bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white overflow-hidden border-2 border-primary">
+            <img id="userAvatarNav" class="w-full h-full object-cover" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCniCCMpiiFi2vs3iByKV8gYSBbaAWCfzSP3gvMQkFGTio5KAHaH-KkqgmqIEqezvNnbrd3Cqb0TvhgJnnRUXQ81NhjXqoCDmnoYcYXZKm4tVSSQ08RjF0PnK7UAjIUWDBpX7tOcuhXX6yQ23F69sAEst9ppuCbMwB0XfSFWlVqXQNf_sBNfp-OAX_ZTJMaPwx5PTpRb5crGRP0ET2CvovRaXP56rDqS8SI_T7vjxJh8HN611fajvdgcj0kmuQVK5pkimPI_Yl9zE-o"/>
+        </a>
+    </div>
 </header>
 
-<div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 h-screen overflow-hidden bg-background-light dark:bg-background-dark">
-<div class="col-span-12 lg:col-span-4 flex flex-col h-screen overflow-hidden border-r border-[#e7f3e7] dark:border-[#2a4a2a] bg-white dark:bg-surface-dark relative z-10 lg:sticky lg:top-0">
-<div class="p-4 pb-2 shrink-0 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
-<div class="flex items-center justify-between mb-2">
-<h1 class="text-xl md:text-2xl font-black leading-tight tracking-[-0.033em] text-text-main dark:text-white">AI Co-Creation Studio</h1>
-<button id="chatMenuBtn" class="size-8 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
-<span class="material-symbols-outlined text-[18px]">history</span>
-</button>
-</div>
-<p class="text-[#4e974e] dark:text-[#6ec76e] text-xs font-medium">Build your custom furniture with natural language.</p>
-<div class="flex gap-2 mt-3">
-<button id="newChatBtn" class="flex-1 h-8 rounded-lg bg-primary text-text-main text-xs font-bold hover:brightness-105 transition-all flex items-center justify-center gap-1">
-<span class="material-symbols-outlined text-[16px]">add</span> New Chat
-</button>
-<button id="clearChatBtn" class="h-8 px-3 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white text-xs font-bold hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-<span class="material-symbols-outlined text-[16px]">clear</span>
-</button>
-</div>
-</div>
-<div id="chatHistory" class="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-6 custom-scrollbar">
-    <div id="welcomeMessage" class="text-center py-8">
-        <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary">
-            <span class="material-symbols-outlined text-[32px]">smart_toy</span>
-        </div>
-        <h3 class="text-lg font-bold text-text-main dark:text-white mb-2">ยินดีต้อนรับสู่ BrickBot! / Welcome to BrickBot!</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400">กำลังเชื่อมต่อกับ AI Assistant...</p>
-    </div>
-</div>
-<div class="p-4 bg-white dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] shrink-0">
-<div class="flex gap-2 mb-3 overflow-x-auto pb-1 no-scrollbar">
-<button type="button" onclick="quickPrompt('อยากได้โต๊ะทำงาน')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
-<span class="material-symbols-outlined text-[18px]">desk</span>
-<span class="text-text-main dark:text-white text-xs font-bold">โต๊ะทำงาน</span>
-</button>
-<button type="button" onclick="quickPrompt('สร้างชั้นวางหนังสือ')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
-<span class="material-symbols-outlined text-[18px]">shelves</span>
-<span class="text-text-main dark:text-white text-xs font-bold">ชั้นวางหนังสือ</span>
-</button>
-<button type="button" onclick="showMiniColorPicker()" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 text-white px-4 hover:opacity-90 transition shadow-md animate-pulse border-2 border-white dark:border-surface-dark">
-<span class="material-symbols-outlined text-[18px]">palette</span>
-<span class="text-white text-xs font-bold">🎨 สี</span>
-</button>
-<button type="button" onclick="quickPrompt('ขอสไตล์มินิมอล')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
-<span class="material-symbols-outlined text-[18px]">chair</span>
-<span class="text-text-main dark:text-white text-xs font-bold">สไตล์มินิมอล</span>
-</button>
-<button type="button" onclick="quickPrompt('ปรับขนาดให้เล็กลง')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
-<span class="material-symbols-outlined text-[18px]">compress</span>
-<span class="text-text-main dark:text-white text-xs font-bold">ลดขนาด</span>
-</button>
-</div>
-<div class="relative w-full">
-<input id="chatInput" class="w-full h-12 pl-4 pr-24 rounded-xl bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500" placeholder="พิมพ์คำอธิบายหรือไอเดียใหม่ๆ... / Describe changes or new ideas..." type="text"/>
-<div class="absolute right-1 top-1 h-10 flex items-center gap-1">
-<button id="micBtn" class="size-9 flex items-center justify-center rounded-lg text-gray-500 hover:text-primary hover:bg-white/50 dark:hover:bg-white/10 transition-colors">
-<span class="material-symbols-outlined">mic</span>
-</button>
-<button id="sendBtn" class="h-9 px-4 rounded-lg bg-primary text-text-main font-bold text-sm shadow-md hover:brightness-105 transition-all flex items-center gap-2">
-    Send <span class="material-symbols-outlined text-[18px]">send</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-
-<div id="chatHistorySidebar" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
-<div class="absolute right-0 top-0 h-full w-80 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300">
-<div class="flex items-center justify-between p-4 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
-<h2 class="text-lg font-bold text-text-main dark:text-white">Chat History</h2>
-<button id="closeSidebarBtn" class="size-8 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<div class="p-4">
-<div class="relative mb-4">
-<input id="searchChats" type="text" placeholder="Search conversations..." class="w-full h-10 pl-10 pr-4 rounded-lg bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500 text-sm">
-<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-[18px]">search</span>
-</div>
-<div id="chatList" class="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
-</div>
-</div>
-<div class="p-4 border-t border-[#e7f3e7] dark:border-[#2a4a2a]">
-<button id="exportChatsBtn" class="w-full h-10 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white text-sm font-bold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-[18px]">download</span> Export Chats
-</button>
-</div>
-</div>
-</div>
-
-<div class="col-span-12 lg:col-span-8 flex flex-col h-full overflow-hidden relative">
-<div class="flex-grow relative bg-[#f0f4f0] dark:bg-[#0d1a0d] overflow-hidden group min-h-[40vh] md:min-h-[400px]">
-<div class="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none z-0" style="background-image: radial-gradient(#19e619 1px, transparent 1px); background-size: 24px 24px;"></div>
-
-<div class="absolute inset-0 w-full h-full z-10">
-    <div id="plotlyLoadingState" class="absolute inset-0 flex items-center justify-center z-10">
-        <div class="text-center text-gray-500 dark:text-gray-400">
-            <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary animate-pulse">
-                <span class="material-symbols-outlined text-[32px]">view_in_ar</span>
+<div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 overflow-hidden bg-background-light dark:bg-background-dark">
+    
+    <!-- LEFT COLUMN: AI Chat -->
+    <div class="col-span-12 lg:col-span-4 flex flex-col h-full overflow-hidden border-r border-[#e7f3e7] dark:border-[#2a4a2a] bg-white dark:bg-surface-dark relative z-10 lg:sticky lg:top-0">
+        <div class="p-4 pb-2 shrink-0 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
+            <div class="flex items-center justify-between mb-2">
+                <h1 class="text-xl md:text-2xl font-black leading-tight tracking-[-0.033em] text-text-main dark:text-white">AI Co-Creation Studio</h1>
+                <button id="chatMenuBtn" class="size-8 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">history</span>
+                </button>
             </div>
-            <p>รอข้อมูลจาก AI เพื่อสร้างแบบจำลอง 3 มิติ...</p>
+            <p class="text-[#4e974e] dark:text-[#6ec76e] text-xs font-medium">Build your custom furniture with natural language.</p>
+            <div class="flex gap-2 mt-3">
+                <button id="newChatBtn" class="flex-1 h-8 rounded-lg bg-primary text-text-main text-xs font-bold hover:brightness-105 transition-all flex items-center justify-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">add</span> New Chat
+                </button>
+                <button id="clearChatBtn" class="h-8 px-3 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white text-xs font-bold hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">clear</span>
+                </button>
+            </div>
+        </div>
+        
+        <div id="chatHistory" class="flex-1 min-h-0 overflow-y-auto p-4 flex flex-col gap-6 custom-scrollbar">
+            <div id="welcomeMessage" class="text-center py-8">
+                <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[32px]">smart_toy</span>
+                </div>
+                <h3 class="text-lg font-bold text-text-main dark:text-white mb-2">ยินดีต้อนรับสู่ BrickBot!</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">กำลังเชื่อมต่อกับ AI Assistant...</p>
+            </div>
+        </div>
+
+        <!-- Chat Input & Quick Prompts Area -->
+        <div class="p-4 bg-white dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] shrink-0">
+            <div class="flex flex-wrap gap-2 mb-3 pb-1 relative overflow-visible z-20">
+                <!-- Button 1: Furniture -->
+                <div class="relative">
+                    <button type="button" onclick="toggleFurnitureMenu()" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+                        <span class="text-sm">🛋️</span>
+                        <span class="text-text-main dark:text-white text-xs font-bold">เฟอร์นิเจอร์</span>
+                        <span class="material-symbols-outlined text-[14px]">arrow_drop_up</span>
+                    </button>
+                    <!-- Drop-up Menu -->
+                    <div id="furnitureMenu" class="hidden absolute bottom-[115%] left-0 bg-white dark:bg-surface-dark rounded-lg shadow-2xl border border-[#e7f3e7] dark:border-[#2a4a2a] z-[100] min-w-[160px] overflow-hidden">
+                        <button type="button" onclick="quickPrompt('ต้องการออกแบบชั้นวางของ (shelf)'); toggleFurnitureMenu()" class="w-full text-left px-3 py-2 text-xs text-text-main dark:text-white hover:bg-accent-green-light dark:hover:bg-accent-green-dark transition-colors rounded-t-lg">ชั้นวางของ</button>
+                        <button type="button" onclick="quickPrompt('ต้องการออกแบบตู้เก็บรองเท้า (shoe_rack)'); toggleFurnitureMenu()" class="w-full text-left px-3 py-2 text-xs text-text-main dark:text-white hover:bg-accent-green-light dark:hover:bg-accent-green-dark transition-colors">ตู้เก็บรองเท้า</button>
+                        <button type="button" onclick="quickPrompt('ต้องการออกแบบกล่องเก็บสายไฟ (cable_box)'); toggleFurnitureMenu()" class="w-full text-left px-3 py-2 text-xs text-text-main dark:text-white hover:bg-accent-green-light dark:hover:bg-accent-green-dark transition-colors">กล่องเก็บสายไฟ</button>
+                        <button type="button" onclick="quickPrompt('ต้องการออกแบบที่วางอุปกรณ์ (device_stand)'); toggleFurnitureMenu()" class="w-full text-left px-3 py-2 text-xs text-text-main dark:text-white hover:bg-accent-green-light dark:hover:bg-accent-green-dark transition-colors">ที่วางอุปกรณ์</button>
+                        <button type="button" onclick="quickPrompt('ต้องการออกแบบที่จัดเก็บเครื่องเขียน (stationery)'); toggleFurnitureMenu()" class="w-full text-left px-3 py-2 text-xs text-text-main dark:text-white hover:bg-accent-green-light dark:hover:bg-accent-green-dark transition-colors rounded-b-lg">เครื่องเขียน</button>
+                    </div>
+                </div>
+
+                <!-- Button 2: Increase Size -->
+                <button type="button" onclick="quickPrompt('ช่วยเพิ่มขนาดให้ใหญ่ขึ้นหน่อย')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+                    <span class="text-sm">➕</span>
+                    <span class="text-text-main dark:text-white text-xs font-bold">เพิ่มขนาด</span>
+                </button>
+
+                <!-- Button 3: Decrease Size -->
+                <button type="button" onclick="quickPrompt('ช่วยลดขนาดให้เล็กลงหน่อย')" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+                    <span class="text-sm">➖</span>
+                    <span class="text-text-main dark:text-white text-xs font-bold">ลดขนาด</span>
+                </button>
+
+                <!-- Button 4: Choose Color -->
+                <button type="button" onclick="showInlineColorPicker(event)" class="chip-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-accent-green-light dark:bg-accent-green-dark px-3 hover:bg-primary/20 transition">
+                    <span class="text-sm">🎨</span>
+                    <span class="text-text-main dark:text-white text-xs font-bold">เลือกสี</span>
+                </button>
+            </div>
+
+            <div class="relative w-full">
+                <!-- Chat Input Field restored here -->
+                <input id="chatInput" class="w-full h-12 pl-4 pr-24 rounded-xl bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500" placeholder="พิมพ์คำอธิบายหรือไอเดียใหม่ๆ..." type="text"/>
+                <div class="absolute right-1 top-1 h-10 flex items-center gap-1">
+                    <button id="micBtn" class="size-9 flex items-center justify-center rounded-lg text-gray-500 hover:text-primary hover:bg-white/50 dark:hover:bg-white/10 transition-colors">
+                        <span class="material-symbols-outlined">mic</span>
+                    </button>
+                    <button id="sendBtn" class="h-9 px-4 rounded-lg bg-primary text-text-main font-bold text-sm shadow-md hover:brightness-105 transition-all flex items-center gap-2">
+                        Send <span class="material-symbols-outlined text-[18px]">send</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="plotlyViewer" class="w-full h-full absolute inset-0 z-20"></div>
-</div>
 
-<div class="absolute top-6 right-6 flex flex-col gap-2 z-30">
-<button onclick="resetCamera()" class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">3d_rotation</span></button>
-<button onclick="zoomIn()" class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">add</span></button>
-<button onclick="zoomOut()" class="size-10 bg-white dark:bg-surface-dark shadow-lg rounded-lg flex items-center justify-center text-text-main dark:text-white hover:text-primary transition-colors"><span class="material-symbols-outlined">remove</span></button>
-</div>
-<div class="absolute top-6 left-6 flex gap-1 bg-white/80 dark:bg-surface-dark/80 backdrop-blur-md p-1 rounded-lg shadow-sm z-30">
-<button onclick="setViewMode('realistic')" class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-bold transition-colors">Realistic</button>
-<button onclick="setViewMode('wireframe')" class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Wireframe</button>
-<button onclick="setViewMode('heatmap')" class="px-3 py-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-main dark:text-white text-xs font-medium transition-colors">Heatmap</button>
-</div>
-</div>
+    <!-- RIGHT COLUMN: 3D Viewer & Report -->
+    <div class="col-span-12 lg:col-span-8 flex flex-col h-full overflow-hidden relative">
+        <!-- 3D Viewer Container (Top Area) -->
+        <div id="viewerContainer" class="flex-1 relative bg-[#f0f4f0] dark:bg-[#0d1a0d] overflow-hidden group min-h-[40vh] md:min-h-[400px]">
+            <div class="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none z-0" style="background-image: radial-gradient(#19e619 1px, transparent 1px); background-size: 24px 24px;"></div>
+            
+            <div id="plotlyLoadingState" class="absolute inset-0 flex items-center justify-center z-20">
+                <div class="text-center text-gray-500 dark:text-gray-400">
+                    <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center text-primary animate-pulse">
+                        <span class="material-symbols-outlined text-[32px]">view_in_ar</span>
+                    </div>
+                    <p>รอข้อมูลจาก AI เพื่อสร้างแบบจำลอง 3 มิติ...</p>
+                </div>
+            </div>
+            
+            <!-- Plotly Container -->
+            <div id="plotlyViewer" class="absolute inset-0 w-full h-full z-10"></div>
+        </div>
 
-<div class="h-auto shrink-0 bg-surface-light dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] p-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] relative z-30">
-<div class="flex items-center justify-between mb-4">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">engineering</span>
-<h3 class="text-lg font-bold text-text-main dark:text-white">Engineering Report</h3>
-</div>
-<span class="text-xs font-medium px-2 py-1 rounded bg-accent-green-light dark:bg-accent-green-dark text-primary">Status: Awaiting AI</span>
-</div>
+        <!-- Engineering Report Container (Bottom Area) -->
+        <div class="h-auto shrink-0 bg-surface-light dark:bg-surface-dark border-t border-[#e7f3e7] dark:border-[#2a4a2a] p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">engineering</span>
+                    <h3 class="text-lg font-bold text-text-main dark:text-white">Engineering Report</h3>
+                </div>
+                <span class="text-xs font-medium px-2 py-1 rounded bg-accent-green-light dark:bg-accent-green-dark text-primary">Status: Awaiting AI</span>
+            </div>
 
-<div id="engineeringReportContent" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
-        <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4><span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span></div>
-        <p class="text-sm text-gray-500 text-center py-4">Waiting for model generation...</p>
-    </div>
-    <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
-        <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Color Recipe</h4><span class="material-symbols-outlined text-gray-400 text-sm">palette</span></div>
-        <p class="text-sm text-gray-500 text-center py-4">Waiting for model generation...</p>
-    </div>
-    <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
-        <div class="flex flex-col gap-1 z-10">
-            <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
-            <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-gray-400">--</span><span class="text-sm font-bold text-text-main dark:text-white">kg</span></div>
-            <p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
+            <div id="engineeringReportContent" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+                    <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4><span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span></div>
+                    <p class="text-sm text-gray-500 text-center py-4">Waiting for model generation...</p>
+                </div>
+                <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
+                    <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Color Recipe</h4><span class="material-symbols-outlined text-gray-400 text-sm">palette</span></div>
+                    <p class="text-sm text-gray-500 text-center py-4">Waiting for model generation...</p>
+                </div>
+                <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
+                    <div class="flex flex-col gap-1 z-10">
+                        <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
+                        <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-gray-400">--</span><span class="text-sm font-bold text-text-main dark:text-white">caps</span></div>
+                        <p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-4">
+                <button id="saveDraftBtn" class="px-6 py-2.5 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Save Draft</button>
+                <button id="downloadJsonBtn" onclick="window.downloadModelJSON()" class="px-6 py-2.5 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">download</span> Download JSON
+                </button>
+                <button id="addToCartBtn" class="px-6 py-2.5 rounded-lg bg-primary text-text-main font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">Add to Cart <span class="material-symbols-outlined text-[18px]">shopping_cart</span></button>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="mt-6 flex justify-end gap-4">
-<button id="saveDraftBtn" class="px-6 py-2.5 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Save Draft</button>
-<button id="downloadJsonBtn" onclick="window.downloadModelJSON()" class="px-6 py-2.5 rounded-lg border border-[#e7f3e7] dark:border-[#2a4a2a] text-text-main dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-white/5 transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px]">download</span> Download JSON
-</button>
-<button id="addToCartBtn" class="px-6 py-2.5 rounded-lg bg-primary text-text-main font-bold text-sm shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 transition-all flex items-center gap-2">Add to Cart <span class="material-symbols-outlined text-[18px]">shopping_cart</span></button>
+<!-- Inline Color Picker Tooltip -->
+<div id="inlineColorPicker" class="hidden absolute z-[100] bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700" style="bottom: 120%; left: 0; padding: 16px; width: 280px;">
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; justify-items: center;">
+        <div onclick="selectInlineColor('#FFFFFF', 'สีขาว')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #FFFFFF; width: 36px; height: 36px; border-radius: 50%; border: 1px solid #d1d5db; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" title="ขาว"></div>
+        <div onclick="selectInlineColor('#000000', 'สีดำ')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #000000; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="ดำ"></div>
+        <div onclick="selectInlineColor('#FF0000', 'สีแดง')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #FF0000; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="แดง"></div>
+        <div onclick="selectInlineColor('#FF7F00', 'สีส้ม')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #FF7F00; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="ส้ม"></div>
+        <div onclick="selectInlineColor('#FFFF00', 'สีเหลือง')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #FFFF00; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="เหลือง"></div>
+        <div onclick="selectInlineColor('#00FF00', 'สีเขียว')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #00FF00; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="เขียว"></div>
+        <div onclick="selectInlineColor('#0000FF', 'สีน้ำเงิน')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #0000FF; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="น้ำเงิน"></div>
+        <div onclick="selectInlineColor('#4B0082', 'สีคราม')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #4B0082; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="คราม"></div>
+        <div onclick="selectInlineColor('#9400D3', 'สีม่วง')" class="cursor-pointer hover:scale-110 transition-transform" style="background-color: #9400D3; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.1);" title="ม่วง"></div>
+    </div>
 </div>
+
+<!-- Cart Sidebar -->
+<div id="cartSidebar" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+    <div class="absolute right-0 top-0 h-full w-80 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300">
+        <div class="flex items-center justify-between p-4 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
+            <h2 class="text-lg font-bold text-text-main dark:text-white">Shopping Cart</h2>
+            <button id="closeCartBtn" class="size-8 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto p-4">
+            <div id="cartItems" class="space-y-4">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            
+            <div id="emptyCart" class="hidden text-center py-12">
+                <div class="size-16 mx-auto mb-4 rounded-full bg-accent-green-light dark:bg-accent-green-dark flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[32px] text-primary">shopping_bag</span>
+                </div>
+                <h3 class="text-lg font-bold text-text-main dark:text-white mb-2">Your cart is empty</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300">Start designing your custom furniture!</p>
+            </div>
+        </div>
+        
+        <div class="border-t border-[#e7f3e7] dark:border-[#2a4a2a] p-4">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Total:</span>
+                <span id="cartTotal" class="text-lg font-bold text-text-main dark:text-white">฿0</span>
+            </div>
+            <button id="checkoutBtn" class="w-full py-3 rounded-lg bg-primary text-text-main font-bold text-lg shadow-lg hover:brightness-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                Checkout
+            </button>
+        </div>
+    </div>
 </div>
-</div>
+
+<!-- Chat History Sidebar -->
+<div id="chatHistorySidebar" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+    <div class="absolute right-0 top-0 h-full w-80 bg-white dark:bg-surface-dark shadow-2xl transform translate-x-full transition-transform duration-300">
+        <div class="flex items-center justify-between p-4 border-b border-[#e7f3e7] dark:border-[#2a4a2a]">
+            <h2 class="text-lg font-bold text-text-main dark:text-white">Chat History</h2>
+            <button id="closeSidebarBtn" class="size-8 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-4">
+            <div class="relative mb-4">
+                <input id="searchChats" type="text" placeholder="Search conversations..." class="w-full h-10 pl-10 pr-4 rounded-lg bg-accent-green-light dark:bg-accent-green-dark border-none focus:ring-2 focus:ring-primary text-text-main dark:text-white placeholder:text-gray-500 text-sm">
+                <span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-[18px]">search</span>
+            </div>
+            <div id="chatList" class="space-y-2 max-h-96 overflow-y-auto custom-scrollbar"></div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -325,32 +307,28 @@
     let currentChatId = null;
     let chatSessions = [];
     
-   // --- System Prompt ป้องกัน Error 400 (Bad Request) ---
-   const systemPrompt = `You are BrickBot, an AI assistant for BRICKIT. Help users design furniture.
+    const systemPrompt = `You are BrickBot, a professional AI furniture design consultant for BRICKIT. 
+Our furniture is crafted from 100% recycled plastic bottle caps (ฝาน้ำดื่มพลาสติก).
 
-🌱 ABOUT OUR MATERIALS:
-Our furniture is made from 100% recycled plastic bottle caps.
+CRITICAL INSTRUCTIONS:
+1. Speak in natural, polite Thai (ครับ/ค่ะ). NEVER act like a robot generating code.
+2. Ask for requirements: Product type, Dimensions (width, length, height), and Color.
+3. DEFAULT COLOR IS WHITE (#FFFFFF) if not specified by user.
+4. When you have ALL requirements, output EXACTLY ONE JSON block like the example below to trigger the 3D generation.
+5. NEVER say "I am an AI, I cannot show 3D images". Just output the JSON. The system will handle the 3D rendering.
 
-📋 FURNITURE TYPES: "ชั้นวางรองเท้า" (shoe_rack), "โต๊ะ" (table), "เก้าอี้" (chair), "ตู้" (cabinet), "ชั้นวางหนังสือ" (shelf).
-
-🎯 JSON GENERATION RULES (CRITICAL - PREVENT 400 ERROR):
-1. You MUST NOT generate JSON if any of these 5 basic details are missing: product_type, width, length, height, color.
-2. If the user only provides a color (e.g., "ฉันเลือกโทนสีแดง..."), DO NOT output JSON. You MUST reply by asking what furniture they want to build and what size.
-3. Only when ALL 5 details are clearly known, output the JSON block EXACTLY like the example below.
-
-📝 EXAMPLE OF EXPECTED OUTPUT:
+REQUIRED JSON FORMAT (Must include "generate_3d": true):
 \`\`\`json
 {
   "generate_3d": true,
-  "product_type": "shelf",
+  "product_type": "shoe_rack",
   "width": 80,
-  "length": 80,
-  "height": 100,
-  "color": "#FF7F00",
-  "has_walls": true
+  "length": 40,
+  "height": 50,
+  "color": "#FFFFFF",
+  "special_features": ["walls"]
 }
-\`\`\`
-IMPORTANT: Always respond in the user's language with a polite tone (ครับ/ค่ะ)!`;
+\`\`\``;
 
     let messages = [{ role: 'system', content: systemPrompt }];
 
@@ -434,7 +412,12 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
         messages = [{ role: 'system', content: systemPrompt }];
         
         window.currentModelData = null;
-        if (plotlyViewer) plotlyViewer.innerHTML = '';
+        if (plotlyViewer) {
+            plotlyViewer.innerHTML = '';
+            if (window.Plotly && window.Plotly.purge) {
+                window.Plotly.purge(plotlyViewer);
+            }
+        }
         if (plotlyLoadingState) {
             plotlyLoadingState.style.display = 'flex';
             plotlyLoadingState.innerHTML = `
@@ -461,7 +444,7 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
                 <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
                     <div class="flex flex-col gap-1 z-10">
                         <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
-                        <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-gray-400">--</span><span class="text-sm font-bold text-text-main dark:text-white">kg</span></div>
+                        <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-gray-400">--</span><span class="text-sm font-bold text-text-main dark:text-white">caps</span></div>
                         <p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
                     </div>
                 </div>
@@ -489,32 +472,12 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
     }
 
     async function triggerInitialGreeting() {
-        const initialPrompt = "ระบบ: ผู้ใช้เปิดแชทใหม่แล้ว โปรดทักทายลูกค้าอย่างสุภาพและแนะนำตัวสั้นๆ ห้ามสร้าง JSON เด็ดขาด";
-        messages.push({ role: 'user', content: initialPrompt });
-        
+        const welcomeText = "สวัสดีครับคุณลูกค้า ยินดีต้อนรับสู่บริการออกแบบเฟอร์นิเจอร์จากฝาน้ำดื่มครับ ผมคือ BrickBot ผู้ช่วยออกแบบเฟอร์นิเจอร์ BRICKIT ครับ ผมพร้อมให้คำปรึกษาและช่วยออกแบบเฟอร์นิเจอร์สุดสร้างสรรค์ให้คุณนะครับ 😊 วันนี้สนใจให้ออกแบบชิ้นไหนดีครับ?";
         const bubble = createBotBubble();
-        bubble.textContent = 'BrickBot is typing...';
-
-        try {
-            const response = await callBackendAPI(initialPrompt);
-            let cleanText = response;
-            const jsonRegex = /```json\s*([\s\S]*?)\s*```/g;
-            const jsonBlockRegex = /\{[\s\S]*?"generate_3d"\s*:\s*true[\s\S]*?\}/g;
-            
-            cleanText = cleanText.replace(jsonRegex, '').replace(jsonBlockRegex, '').trim();
-            
-            if(!cleanText || cleanText.length < 5) {
-                cleanText = "สวัสดีครับ! ยินดีต้อนรับสู่ BrickBot พร้อมช่วยคุณออกแบบเฟอร์นิเจอร์รักษ์โลกแล้วครับ วันนี้สนใจออกแบบชิ้นไหนดีครับ?";
-            }
-
-            await typeMessage(bubble, cleanText);
-            
-            messages.push({ role: 'assistant', content: cleanText });
-            saveCurrentMessage('assistant', cleanText);
-        } catch (err) { 
-            bubble.textContent = 'ขออภัย ระบบขัดข้อง ไม่สามารถเชื่อมต่อ AI ได้ครับ';
-            console.error('LLM Error:', err);
-        }
+        await typeMessage(bubble, welcomeText);
+        
+        messages.push({ role: 'assistant', content: welcomeText });
+        saveCurrentMessage('assistant', welcomeText);
     }
 
     function clearChatDisplay() {
@@ -550,9 +513,7 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
                 const bubble = createBotBubble();
                 const jsonRegex = /```json\s*([\s\S]*?)\s*```/;
                 if(jsonRegex.test(msg.content)){
-                     let cleanText = msg.content.replace(jsonRegex, '').trim();
-                     if(!cleanText) cleanText = "รับทราบครับ! กำลังสร้างแบบจำลอง 3 มิติให้คุณ โปรดดูที่หน้าจอด้านขวาครับ 🚀";
-                     bubble.textContent = cleanText;
+                     bubble.textContent = "เข้าใจแล้วครับคุณลูกค้า! กำลังประมวลผลและสร้างโมเดล 3 มิติให้ครับ กรุณารอสักครู่นะครับ 🚀";
                 } else {
                      bubble.textContent = msg.content;
                 }
@@ -693,43 +654,31 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
             }
         });
         
+        document.getElementById('cartBtn').addEventListener('click', openCart);
+        document.getElementById('closeCartBtn').addEventListener('click', closeCart);
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            alert('Checkout functionality coming soon!');
+        });
+        
+        document.getElementById('cartSidebar').addEventListener('click', (e) => {
+            if (e.target.id === 'cartSidebar') {
+                closeCart();
+            }
+        });
+        
         document.getElementById('chatMenuBtn').addEventListener('click', openSidebar);
         document.getElementById('closeSidebarBtn').addEventListener('click', closeSidebar);
         document.getElementById('searchChats').addEventListener('input', updateChatList);
-        document.getElementById('exportChatsBtn').addEventListener('click', exportChats);
         
         document.getElementById('helpBtn').addEventListener('click', () => {
-            alert('คำแนะนำการใช้งาน BrickBot:\\n\\n1. พิมพ์บอก AI ว่าต้องการเฟอร์นิเจอร์แบบไหน (เช่น โต๊ะ เก้าอี้ ชั้นวาง)\\n2. รอ AI ประมวลผลและสร้างแบบจำลอง 3 มิติ\\n3. ใช้เมาส์หมุน ซูม หรือเปลี่ยนมุมมอง 3D ได้ทางหน้าต่างขวา\\n4. สามารถสั่งปรับแก้ได้ตลอดเวลา เช่น "ขอสีฟ้า" หรือ "ทำให้สูงขึ้น"\\n5. กด Save Draft หรือ Add to Cart เมื่อพอใจผลงาน');
+            alert('คำแนะนำการใช้งาน BrickBot:\\n\\n1. พิมพ์บอก AI ว่าต้องการเฟอร์นิเจอร์แบบไหน\\n2. รอ AI ประมวลผลและสร้างแบบจำลอง 3 มิติ\\n3. ใช้เมาส์หมุน ซูม หรือเปลี่ยนมุมมองได้\\n4. สามารถสั่งปรับแก้ได้ตลอดเวลา');
         });
         
         const micBtn = document.getElementById('micBtn');
         if (micBtn) {
-            micBtn.addEventListener('click', function() {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (SpeechRecognition) {
-                    const recognition = new SpeechRecognition();
-                    recognition.lang = 'th-TH'; 
-                    recognition.continuous = false;
-                    
-                    recognition.onstart = () => {
-                        this.classList.add('text-red-500', 'bg-red-50', 'dark:bg-red-900/20');
-                        chatInput.placeholder = 'กำลังฟังเสียงของคุณ...';
-                    };
-                    
-                    recognition.onresult = (event) => {
-                        const transcript = event.results[0][0].transcript;
-                        chatInput.value += (chatInput.value ? ' ' : '') + transcript;
-                    };
-                    
-                    recognition.onend = () => {
-                        this.classList.remove('text-red-500', 'bg-red-50', 'dark:bg-red-900/20');
-                        chatInput.placeholder = 'พิมพ์คำอธิบายหรือไอเดียใหม่ๆ... / Describe changes or new ideas...';
-                    };
-                    
-                    recognition.start();
-                } else {
-                    alert('ขออภัย เบราว์เซอร์ของคุณไม่รองรับการสั่งงานด้วยเสียงครับ');
-                }
+            micBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                startRecording();
             });
         }
         
@@ -855,17 +804,6 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
         setTimeout(() => sidebar.classList.add('hidden'), 300);
     }
 
-    function exportChats() {
-        const dataStr = JSON.stringify(chatSessions, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `BRICKIT_chats_${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
-        URL.revokeObjectURL(url);
-    }
-
     function getTimeLabel() {
         const d = new Date();
         return 'Today, ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
@@ -961,7 +899,7 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
                     parsedData = JSON.parse(jsonMatch[0]);
                     
                     let cleanText = response.replace(/```json[\s\S]*?```/g, "").replace(jsonMatch[0], "").trim();
-                    if (cleanText.length < 5) cleanText = "รับทราบครับ! ผมกำลังสร้างแบบจำลอง 3 มิติให้คุณ โปรดดูที่หน้าจอด้านขวาครับ 🚀";
+                    if (cleanText.length < 5) cleanText = "เข้าใจแล้วครับคุณลูกค้า! กำลังประมวลผลการออกแบบ 3 มิติให้ครับ กรุณารอสักครู่นะครับ 🚀";
                     
                     await typeMessage(bubble, cleanText);
                     renderGeneratedModel(parsedData);
@@ -984,12 +922,32 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
         }
     }
 
+    async function typeMessage(element, text) {
+        element.textContent = '';
+        const words = text.split(' ');
+        for (let i = 0; i < words.length; i++) {
+            element.textContent += (i > 0 ? ' ' : '') + words[i];
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            await new Promise(resolve => setTimeout(resolve, 20)); 
+        }
+    }
+
     async function renderGeneratedModel(requirementJson) {
         try {
+            if (plotlyViewer) {
+                plotlyViewer.innerHTML = '';
+                if (window.Plotly && window.Plotly.purge) {
+                    window.Plotly.purge(plotlyViewer);
+                }
+            }
+            
+            const modelColor = requirementJson.color || '#FFFFFF';
+            const payload = {...requirementJson, color: modelColor};
+            
             const response = await fetch('/api/generate-model', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(requirementJson)
+                body: JSON.stringify(payload)
             });
 
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -1018,119 +976,123 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
                     }, 100);
                 });
 
-                updateEngineeringReport(modelData, requirementJson);
+                updateEngineeringReport(modelData, payload);
             } else {
                 throw new Error(modelData.error || 'Failed to generate model');
             }
         } catch (error) {
             console.error('❌ Error generating 3D model:', error);
-            if(plotlyLoadingState) plotlyLoadingState.style.display = 'flex';
-            plotlyLoadingState.innerHTML = `
-                <div class="text-center text-red-500 dark:text-red-400 p-8">
-                    <div class="size-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
+            if(plotlyLoadingState) {
+                plotlyLoadingState.style.display = 'flex';
+                plotlyLoadingState.innerHTML = `
+                    <div class="text-center text-red-500">
                         <span class="material-symbols-outlined text-[32px]">error</span>
-                    </div>
-                    <p class="font-medium">Failed to generate 3D model</p>
-                    <p class="text-sm mt-2">${error.message}</p>
-                </div>
-            `;
+                        <p>เกิดข้อผิดพลาดในการสร้างแบบจำลอง 3 มิติ</p>
+                    </div>`;
+            }
         }
     }
 
-    function updateEngineeringReport(modelData, reqJson) {
+    function updateEngineeringReport(modelData, payload) {
         const reportContent = document.getElementById('engineeringReportContent');
         if (!reportContent) return;
 
-        const w = reqJson.width || 50;
-        const l = reqJson.length || 50;
-        const h = reqJson.height || 50;
-        const totalVolume = w * l * h;
+        const capsData = modelData.bottle_caps_calculation || { 
+            total_bricks: 0, caps_per_brick: 45, total_bottle_caps: 0, caps_weight_kg: 0.0 
+        };
         
-        const estBricks = Math.max(10, Math.floor(totalVolume / 200)); 
-        const brick2x4 = Math.floor(estBricks * 0.6);
-        const brick2x2 = Math.floor(estBricks * 0.3);
-        const brick1x2 = estBricks - brick2x4 - brick2x2;
-        
-        const weightKg = (estBricks * 0.015).toFixed(1);
+        const totalPieces = modelData.total_pieces || capsData.total_bricks || 0;
+        const capsCount = capsData.total_bottle_caps || (totalPieces * 45); 
+        const weightKg = capsData.caps_weight_kg || (capsCount * 0.002).toFixed(2);
+
+        let bomListHTML = '';
+        if (modelData.bom && typeof modelData.bom === 'object') {
+            bomListHTML = '<div class="space-y-1 mt-2 overflow-y-auto max-h-32 custom-scrollbar pr-2">';
+            Object.entries(modelData.bom).forEach(([brickType, count]) => {
+                const displayName = brickType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                bomListHTML += `
+                    <div class="flex justify-between items-center py-1 border-b border-gray-100 dark:border-gray-800">
+                        <span class="text-xs text-gray-600 dark:text-gray-400">${displayName}</span>
+                        <span class="text-xs font-bold text-primary">${count} pcs</span>
+                    </div>
+                `;
+            });
+            bomListHTML += '</div>';
+        } else {
+            bomListHTML = `
+                <div class="text-center py-2">
+                    <div class="text-3xl font-black text-text-main dark:text-white">${totalPieces.toLocaleString()}</div>
+                    <p class="text-xs text-gray-500">Total Bricks Used</p>
+                </div>
+            `;
+        }
+
+        let colorRecipeHTML = '';
+        if (modelData.color_mix && modelData.color_mix.mix_caps) {
+            colorRecipeHTML = '<div class="space-y-2 mt-2 overflow-y-auto max-h-32 custom-scrollbar pr-2">';
+            modelData.color_mix.mix_caps.forEach(colorInfo => {
+                colorRecipeHTML += `
+                    <div class="flex items-center gap-3 p-2 rounded-lg bg-gray-50 dark:bg-gray-800">
+                        <div class="w-6 h-6 rounded-full border-2 border-gray-300 shadow-sm" style="background-color: ${colorInfo.hex}"></div>
+                        <div class="flex-1">
+                            <div class="text-xs font-mono font-bold text-text-main dark:text-white">${colorInfo.hex}</div>
+                            <div class="text-xs text-gray-500">${colorInfo.caps.toLocaleString()} caps</div>
+                        </div>
+                    </div>
+                `;
+            });
+            colorRecipeHTML += '</div>';
+        } else {
+            colorRecipeHTML = `
+                <div class="flex items-center justify-center gap-2 py-2">
+                    <div class="w-8 h-8 rounded-full shadow-inner border border-gray-300" style="background-color: ${payload.color || '#FFFFFF'}"></div>
+                    <span class="text-sm font-bold text-text-main dark:text-white uppercase">${payload.color || '#FFFFFF'}</span>
+                </div>
+            `;
+        }
 
         reportContent.innerHTML = `
-            <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-2">
+            <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
                 <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bill of Materials</h4><span class="material-symbols-outlined text-gray-400 text-sm">inventory_2</span></div>
-                <div class="flex flex-col gap-1 mt-1">
-                    <div class="flex justify-between text-sm"><span class="text-text-main dark:text-white">Brick 2x4</span><span class="font-bold text-primary">${brick2x4} pcs</span></div>
-                    <div class="flex justify-between text-sm"><span class="text-text-main dark:text-white">Brick 2x2</span><span class="font-bold text-primary">${brick2x2} pcs</span></div>
-                    <div class="flex justify-between text-sm"><span class="text-text-main dark:text-white">Brick 1x2</span><span class="font-bold text-primary">${brick1x2} pcs</span></div>
-                    <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-500">Material: 100% Recycled PET</div>
-                </div>
+                ${bomListHTML}
+                ${modelData.bom ? `<div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-gray-500">Total Pieces:</span>
+                        <span class="font-bold text-primary">${totalPieces.toLocaleString()}</span>
+                    </div>
+                </div>` : ''}
             </div>
             <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex flex-col gap-3">
                 <div class="flex items-center justify-between"><h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Color Recipe</h4><span class="material-symbols-outlined text-gray-400 text-sm">palette</span></div>
-                <div class="flex items-center gap-2 py-2">
-                    <div class="size-6 rounded-full border border-gray-200" style="background-color: ${reqJson.color || '#19e619'}"></div>
-                    <span class="text-sm font-medium text-text-main dark:text-white">${reqJson.color || 'Custom Color'}</span>
-                </div>
+                ${colorRecipeHTML}
             </div>
             <div class="bg-background-light dark:bg-background-dark rounded-xl p-4 border border-[#e7f3e7] dark:border-[#2a4a2a] flex items-center justify-between relative overflow-hidden">
                 <div class="flex flex-col gap-1 z-10">
                     <h4 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Eco Impact</h4>
-                    <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-primary">${weightKg}</span><span class="text-sm font-bold text-text-main dark:text-white">kg</span></div>
-                    <p class="text-xs text-text-main dark:text-white">Plastic waste recycled</p>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-3xl font-black text-green-600 dark:text-green-400">${capsCount.toLocaleString()}</span>
+                        <span class="text-sm font-bold text-text-main dark:text-white">caps</span>
+                    </div>
+                    <p class="text-xs text-text-main dark:text-white">≈ ${weightKg} kg of plastic waste</p>
+                    <div class="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
+                        <div class="flex justify-between text-xs">
+                            <span class="text-gray-500">Total Bricks:</span>
+                            <span class="font-bold text-primary">${totalPieces.toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute right-4 top-4 opacity-10">
+                    <span class="material-symbols-outlined text-[80px] text-primary">eco</span>
                 </div>
             </div>
         `;
-    }
-
-    async function typeMessage(element, text) {
-        element.textContent = '';
-        const words = text.split(' ');
-        for (let i = 0; i < words.length; i++) {
-            element.textContent += (i > 0 ? ' ' : '') + words[i];
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-            await new Promise(resolve => setTimeout(resolve, 20)); 
+        
+        const statusBadge = document.querySelector('.bg-accent-green-light.text-primary.px-2.py-1');
+        if(statusBadge) {
+            statusBadge.textContent = 'Status: Generated';
+            statusBadge.className = 'text-xs font-medium px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800';
         }
     }
-
-    window.setViewMode = function(mode) {
-        if (!document.querySelector('#plotlyViewer .js-plotly-plot')) return;
-        let update = {};
-        if (mode === 'realistic') update = {opacity: 1.0};
-        if (mode === 'wireframe') update = {opacity: 0.1}; 
-        if (mode === 'heatmap') update = {opacity: 0.7}; 
-        Plotly.restyle('plotlyViewer', update);
-    };
-
-    window.zoomIn = function() {
-        const gd = document.getElementById('plotlyViewer');
-        if (!gd || !gd.layout || !gd.layout.scene) return;
-        const currentCamera = gd.layout.scene.camera || {eye: {x:1.25, y:1.25, z:1.25}};
-        const newCamera = {
-            eye: {
-                x: currentCamera.eye.x * 0.8,
-                y: currentCamera.eye.y * 0.8,
-                z: currentCamera.eye.z * 0.8
-            }
-        };
-        Plotly.relayout('plotlyViewer', {'scene.camera': newCamera});
-    };
-
-    window.zoomOut = function() {
-        const gd = document.getElementById('plotlyViewer');
-        if (!gd || !gd.layout || !gd.layout.scene) return;
-        const currentCamera = gd.layout.scene.camera || {eye: {x:1.25, y:1.25, z:1.25}};
-        const newCamera = {
-            eye: {
-                x: currentCamera.eye.x * 1.2,
-                y: currentCamera.eye.y * 1.2,
-                z: currentCamera.eye.z * 1.2
-            }
-        };
-        Plotly.relayout('plotlyViewer', {'scene.camera': newCamera});
-    };
-
-    window.resetCamera = function() {
-        if (!document.querySelector('#plotlyViewer .js-plotly-plot')) return;
-        Plotly.relayout('plotlyViewer', {'scene.camera': {eye: {x: 1.25, y: 1.25, z: 1.25}}});
-    };
 
     function send() {
         const text = chatInput.value.trim();
@@ -1152,222 +1114,128 @@ IMPORTANT: Always respond in the user's language with a polite tone (ครั�
         chatInput.value = p;
         send();
     }
-    
-    // --- Mini Color Picker (Popup Box) ---
-    function showMiniColorPicker() {
-        // Close existing picker if any
-        closeMiniColorPicker();
+
+    function showInlineColorPicker(event) {
+        const button = event.currentTarget;
+        const popup = document.getElementById('inlineColorPicker');
         
-        const picker = document.createElement('div');
-        picker.id = 'miniColorPicker';
-        picker.className = 'fixed bg-white dark:bg-surface-dark rounded-lg shadow-2xl p-3 z-50 border border-gray-200 dark:border-gray-700';
-        picker.innerHTML = `
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-bold text-gray-700 dark:text-gray-300">เลือกสี</span>
-                <button onclick="closeMiniColorPicker()" class="size-5 rounded hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-[12px]">close</span>
-                </button>
-            </div>
-            <div class="grid grid-cols-4 gap-2">
-                <button onclick="selectMiniColor('#FF0000', 'สีแดง')" class="w-8 h-8 rounded bg-red-500 hover:scale-110 transition-transform" title="สีแดง"></button>
-                <button onclick="selectMiniColor('#FF7F00', 'สีส้ม')" class="w-8 h-8 rounded bg-orange-500 hover:scale-110 transition-transform" title="สีส้ม"></button>
-                <button onclick="selectMiniColor('#FFFF00', 'สีเหลือง')" class="w-8 h-8 rounded bg-yellow-400 hover:scale-110 transition-transform" title="สีเหลือง"></button>
-                <button onclick="selectMiniColor('#00FF00', 'สีเขียว')" class="w-8 h-8 rounded bg-green-500 hover:scale-110 transition-transform" title="สีเขียว"></button>
-                <button onclick="selectMiniColor('#0000FF', 'สีน้ำเงิน')" class="w-8 h-8 rounded bg-blue-500 hover:scale-110 transition-transform" title="สีน้ำเงิน"></button>
-                <button onclick="selectMiniColor('#4B0082', 'สีคราม')" class="w-8 h-8 rounded bg-indigo-600 hover:scale-110 transition-transform" title="สีคราม"></button>
-                <button onclick="selectMiniColor('#9400D3', 'สีม่วง')" class="w-8 h-8 rounded bg-purple-600 hover:scale-110 transition-transform" title="สีม่วง"></button>
-                <button onclick="selectMiniColor('#19e619', 'สีเขียว BRICKIT')" class="w-8 h-8 rounded bg-[#19e619] hover:scale-110 transition-transform border border-gray-300" title="สีเขียว BRICKIT"></button>
-            </div>
-        `;
+        const rect = button.getBoundingClientRect();
+        popup.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+        popup.style.left = (rect.left + rect.width / 2 - 100) + 'px';
         
-        // Position near the color button
-        const colorBtn = document.querySelector('[onclick="showMiniColorPicker()"]');
-        if (colorBtn) {
-            const rect = colorBtn.getBoundingClientRect();
-            picker.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
-            picker.style.left = rect.left + 'px';
+        popup.classList.remove('hidden');
+        
+        setTimeout(() => {
+            document.addEventListener('click', hideInlineColorPicker);
+        }, 100);
+    }
+
+    function hideInlineColorPicker(event) {
+        const popup = document.getElementById('inlineColorPicker');
+        if (popup && (!event || !popup.contains(event.target))) {
+            popup.classList.add('hidden');
+            document.removeEventListener('click', hideInlineColorPicker);
+        }
+    }
+
+    function selectInlineColor(hexCode, colorName) {
+        hideInlineColorPicker();
+        quickPrompt(`ขอเปลี่ยนเป็นสี ${colorName}`);
+    }
+
+    let recognition = null;
+    let isRecording = false;
+
+    function initializeSpeechRecognition() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert('Your browser does not support voice input.');
+            return false;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        recognition.lang = 'th-TH';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = function() {
+            isRecording = true;
+            const micBtn = document.getElementById('micBtn');
+            micBtn.classList.add('mic-recording');
+            micBtn.innerHTML = '<span class="material-symbols-outlined">mic</span>';
+            chatInput.placeholder = 'กำลังฟังเสียงของคุณ...';
+        };
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            chatInput.value += (chatInput.value ? ' ' : '') + transcript;
+            stopRecording();
+        };
+
+        recognition.onerror = function(event) {
+            stopRecording();
+            if (event.error === 'not-allowed') {
+                alert('Microphone access was denied. Please allow microphone access to use voice input.');
+            }
+        };
+
+        recognition.onend = function() {
+            stopRecording();
+        };
+
+        return true;
+    }
+
+    function startRecording() {
+        if (isRecording) {
+            stopRecording();
+            return;
+        }
+
+        if (!recognition) {
+            if (!initializeSpeechRecognition()) {
+                return;
+            }
+        }
+        try { recognition.start(); } catch (error) {}
+    }
+
+    function stopRecording() {
+        if (recognition && isRecording) recognition.stop();
+        isRecording = false;
+        const micBtn = document.getElementById('micBtn');
+        micBtn.classList.remove('mic-recording');
+        micBtn.innerHTML = '<span class="material-symbols-outlined">mic</span>';
+        chatInput.placeholder = 'พิมพ์คำอธิบายหรือไอเดียใหม่ๆ...';
+    }
+
+    function toggleFurnitureMenu() {
+        const menu = document.getElementById('furnitureMenu');
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+            setTimeout(() => { document.addEventListener('click', closeFurnitureMenu); }, 100);
         } else {
-            picker.style.bottom = '100px';
-            picker.style.right = '20px';
-        }
-        
-        document.body.appendChild(picker);
-        
-        // Add animation
-        setTimeout(() => {
-            picker.classList.add('scale-100');
-        }, 10);
-        
-        // Close when clicking outside
-        setTimeout(() => {
-            document.addEventListener('click', handleOutsideClick);
-        }, 100);
-    }
-    
-    function closeMiniColorPicker() {
-        const picker = document.getElementById('miniColorPicker');
-        if (picker) {
-            picker.remove();
-            document.removeEventListener('click', handleOutsideClick);
+            menu.classList.add('hidden');
+            document.removeEventListener('click', closeFurnitureMenu);
         }
     }
-    
-    function handleOutsideClick(e) {
-        const picker = document.getElementById('miniColorPicker');
-        if (picker && !picker.contains(e.target) && !e.target.closest('[onclick="showMiniColorPicker()"]')) {
-            closeMiniColorPicker();
+
+    function closeFurnitureMenu(event) {
+        const menu = document.getElementById('furnitureMenu');
+        const button = event.target.closest('button');
+        if (!menu.contains(event.target) && (!button || !button.onclick || !button.onclick.toString().includes('toggleFurnitureMenu'))) {
+            menu.classList.add('hidden');
+            document.removeEventListener('click', closeFurnitureMenu);
         }
-    }
-    
-    function selectMiniColor(color, colorName) {
-        closeMiniColorPicker();
-        
-        // Send color selection to chat
-        const colorMessage = `ฉันเลือก${colorName} (${color}) สำหรับเฟอร์นิเจอร์`;
-        chatInput.value = colorMessage;
-        
-        // Show notification
-        showColorNotification(color, colorName);
-        
-        // Auto send after a short delay
-        setTimeout(() => {
-            send();
-        }, 500);
-    }
-    
-    function showColorNotification(color, colorName) {
-        const notification = document.createElement('div');
-        notification.className = 'fixed top-20 right-4 bg-white dark:bg-surface-dark p-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-all';
-        notification.innerHTML = `
-            <div class="flex items-center gap-2">
-                <div class="size-6 rounded border border-gray-200" style="background-color: ${color}"></div>
-                <div>
-                    <div class="font-bold text-text-main dark:text-white text-sm">เลือก${colorName}!</div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.remove('translate-x-full');
-        }, 100);
-        
-        setTimeout(() => {
-            notification.classList.add('translate-x-full');
-            setTimeout(() => notification.remove(), 300);
-        }, 2000);
-    }
-
-    // --- ฟังก์ชันเปิดปิดหน้าต่างเลือกสีรุ้ง (มี Scroll เลื่อนได้และปุ่มจัตุรัส) ---
-    function showRainbowColorPicker() {
-        const modal = document.createElement('div');
-        modal.id = 'rainbowColorModal';
-        modal.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4';
-        
-        const rainbowColors = [
-            { name: 'แดง', tones: ['#FFEBEE', '#E57373', '#F44336', '#B71C1C'] },
-            { name: 'ส้ม', tones: ['#FFF3E0', '#FFB74D', '#FF9800', '#E65100'] },
-            { name: 'เหลือง', tones: ['#FFFDE7', '#FFF176', '#FFEB3B', '#F57F17'] },
-            { name: 'เขียว', tones: ['#E8F5E9', '#81C784', '#4CAF50', '#1B5E20'] },
-            { name: 'น้ำเงิน', tones: ['#E3F2FD', '#64B5F6', '#2196F3', '#0D47A1'] },
-            { name: 'คราม', tones: ['#E8EAF6', '#7986CB', '#3F51B5', '#1A237E'] },
-            { name: 'ม่วง', tones: ['#F3E5F5', '#BA68C8', '#9C27B0', '#4A148C'] }
-        ];
-
-        let modalHTML = `
-            <div class="bg-white dark:bg-surface-dark rounded-2xl p-6 max-w-md w-full shadow-2xl flex flex-col max-h-[85vh] transition-transform transform scale-95 duration-200">
-                <div class="flex items-center justify-between mb-4 shrink-0 border-b border-gray-100 dark:border-gray-800 pb-3">
-                    <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-primary">palette</span>
-                        <h3 class="text-lg font-bold text-text-main dark:text-white">เลือกโทนสีรุ้ง BRICKIT</h3>
-                    </div>
-                    <button onclick="closeRainbowColorPicker()" class="size-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-500">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
-                </div>
-                
-                <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 mb-4 space-y-5">
-        `;
-
-        rainbowColors.forEach(color => {
-            modalHTML += `
-                <div>
-                    <span class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block">โทนสี${color.name}</span>
-                    <div class="grid grid-cols-4 gap-3">
-            `;
-            color.tones.forEach(tone => {
-                modalHTML += `<button onclick="selectRainbowColor('${tone}', 'สี${color.name} (${tone})')" class="w-full aspect-square rounded-xl hover:scale-110 hover:shadow-lg transition-all shadow-sm border border-black/10" style="background-color: ${tone};" title="${tone}"></button>`;
-            });
-            modalHTML += `</div></div>`;
-        });
-
-        modalHTML += `
-                </div>
-                <div class="text-center pt-3 shrink-0">
-                    <p class="text-xs text-gray-500 dark:text-gray-400">สีที่เลือกจะถูกนำไปใช้ออกแบบเฟอร์นิเจอร์ของคุณ</p>
-                </div>
-            </div>
-        `;
-        
-        modal.innerHTML = modalHTML;
-        document.body.appendChild(modal);
-        
-        setTimeout(() => {
-            modal.querySelector('div > div').classList.remove('scale-95');
-        }, 10);
-    }
-    
-    function closeRainbowColorPicker() {
-        const modal = document.getElementById('rainbowColorModal');
-        if (modal) {
-            modal.querySelector('div > div').classList.add('scale-95');
-            setTimeout(() => modal.remove(), 200);
-        }
-    }
-    
-    function selectRainbowColor(colorHex, colorName) {
-        closeRainbowColorPicker();
-        
-        const colorMessage = `ฉันเลือกโทน${colorName} สำหรับเฟอร์นิเจอร์`;
-        chatInput.value = colorMessage;
-        
-        showColorNotification(colorHex, colorName);
-        
-        setTimeout(() => {
-            send();
-        }, 500);
-    }
-    
-    function showColorNotification(color, colorName) {
-        const notification = document.createElement('div');
-        notification.className = 'fixed top-20 right-4 bg-white dark:bg-surface-dark p-4 rounded-lg shadow-lg z-50 transform translate-x-full transition-all';
-        notification.innerHTML = `
-            <div class="flex items-center gap-3">
-                <div class="size-8 rounded-lg shadow-inner border border-gray-200" style="background-color: ${color}"></div>
-                <div>
-                    <div class="font-bold text-text-main dark:text-white">คุณเลือก${colorName}</div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.remove('translate-x-full');
-        }, 100);
-        
-        setTimeout(() => {
-            notification.classList.add('translate-x-full');
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
     }
 
     window.quickPrompt = quickPrompt;
-    window.showRainbowColorPicker = showRainbowColorPicker;
-    window.closeRainbowColorPicker = closeRainbowColorPicker;
-    window.selectRainbowColor = selectRainbowColor;
-
+    window.selectInlineColor = selectInlineColor;
+    window.showInlineColorPicker = showInlineColorPicker;
+    window.toggleFurnitureMenu = toggleFurnitureMenu;
 })();
 </script>
-</body></html>
+</body>
+</html>
