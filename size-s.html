@@ -40,7 +40,6 @@
         @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.4} }
         .skeleton-pulse { animation: shimmer 1.4s ease-in-out infinite; }
     </style>
-    <script src="/shared.js"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
     <header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-md">
@@ -65,7 +64,8 @@
                     <a class="text-primary font-bold" href="/size-s">Size S</a>
                     <a class="hover:text-primary transition-colors" href="/size-m">Size M</a>
                     <a class="hover:text-primary transition-colors" href="/size-l">Size L</a>
-                    <a class="hover:text-primary transition-colors" href="/ai-studio">AI Studio</a>
+                    <a class="hover:text-primary transition-colors" href="/expansion.html">Expansion</a>
+                    <a class="hover:text-primary transition-colors" href="/ai-studio.html">AI Studio</a>
                     <a class="hover:text-primary transition-colors" href="/orders">My Orders</a>
                 </div>
                 <div class="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden lg:block"></div>
@@ -101,7 +101,8 @@
             <a href="/size-s" class="text-primary font-bold">Size S</a>
             <a href="/size-m" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Size M</a>
             <a href="/size-l" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Size L</a>
-            <a href="/ai-studio" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">AI Studio</a>
+            <a href="/expansion.html" class="text-primary font-bold">Expansion</a>
+            <a href="/ai-studio.html" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">AI Studio</a>
             <hr class="border-slate-200 dark:border-slate-700"/>
             <a href="/orders" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">My Orders</a>
             <a href="/login" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Account</a>
@@ -189,33 +190,20 @@
                     <div class="space-y-2">
                         <label class="flex items-center gap-3 cursor-pointer group">
                             <input checked="" class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Drawer Organizers</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Desktop Storage</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group">
                             <input class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Monitor Risers</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Functional Product</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group">
                             <input class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Cable Management</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Organization</span>
                         </label>
-                    </div>
-                </div>
-                <div class="space-y-3 pt-4 border-t border-slate-200 dark:border-slate-800">
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Material Pattern</h4>
-                    <div class="flex flex-wrap gap-3">
-                        <button class="group relative size-8 rounded-full border-2 border-primary overflow-hidden shadow-sm" title="White">
-                            <div class="absolute inset-0 bg-white"></div>
-                        </button>
-                        <button class="group relative size-8 rounded-full border border-slate-300 dark:border-slate-600 overflow-hidden hover:border-primary shadow-sm" title="Black">
-                            <div class="absolute inset-0 bg-black"></div>
-                        </button>
-                        <button class="group relative size-8 rounded-full border border-slate-300 dark:border-slate-600 overflow-hidden hover:border-primary shadow-sm" title="Pastel Green">
-                            <div class="absolute inset-0 bg-green-200"></div>
-                        </button>
                     </div>
                 </div>
             </aside>
+            
             <div class="flex-1">
                 <div class="flex flex-wrap items-center justify-between mb-6 gap-4">
                     <p class="text-sm text-slate-500 dark:text-slate-400">Products in <span class="font-bold text-slate-900 dark:text-white">Size S</span></p>
@@ -230,19 +218,6 @@
 
                 <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     <p class="text-slate-500 dark:text-slate-400 col-span-full py-10 text-center">กำลังโหลดสินค้าจากฐานข้อมูล...</p>
-                </div>
-
-                <div class="mt-12 flex justify-center">
-                    <nav class="flex gap-2">
-                        <button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
-                            <span class="material-symbols-outlined">chevron_left</span>
-                        </button>
-                        <button class="size-10 flex items-center justify-center rounded-lg bg-primary text-slate-900 font-bold shadow-sm">1</button>
-                        <button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">2</button>
-                        <button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </button>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -268,19 +243,12 @@
                         <li><a class="hover:text-primary" href="/size-s">Size S (Home)</a></li>
                         <li><a class="hover:text-primary" href="/size-m">Size M (Office)</a></li>
                         <li><a class="hover:text-primary" href="/size-l">Size L (Commercial)</a></li>
-                        <li><a class="hover:text-primary" href="/ai-studio">Custom Parts</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="font-bold text-slate-900 dark:text-white mb-4">Commercial</h5>
-                    <ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                        <li><a class="hover:text-primary" href="/login">B2B Login</a></li>
-                        <li><a class="hover:text-primary" href="#">Request Catalog</a></li>
+                        <li><a class="hover:text-primary" href="/ai-studio.html">Custom Parts</a></li>
                     </ul>
                 </div>
             </div>
             <div class="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-                <p>© 2023 BRICKIT Inc. All rights reserved.</p>
+                <p>© 2024 BRICKIT Inc. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -299,6 +267,8 @@
                     link.replaceWith(container);
                 });
             }
+            
+            // ดึงข้อมูลสินค้าจริงขึ้นมาแสดง
             loadProducts();
             updateCartBadge();
             
@@ -311,9 +281,36 @@
             window.location.reload();
         }
 
-        // ---------------------------------------------------
-        // UI ควบคุมตะกร้าสินค้า (เปิด/ปิด/ลบ/คำนวณเงิน) - ซิงค์กับ index.html
-        // ---------------------------------------------------
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('BRICKIT_theme', isDark ? 'dark' : 'light');
+            document.querySelectorAll('[data-dark-icon]').forEach(icon => {
+                icon.textContent = isDark ? 'dark_mode' : 'light_mode';
+            });
+        }
+
+        // เช็ค Theme ตอนโหลดหน้า
+        if (localStorage.getItem('BRICKIT_theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.querySelectorAll('[data-dark-icon]').forEach(icon => icon.textContent = 'dark_mode');
+        }
+
+        // Mobile Menu
+        function openMobileMenu() {
+            document.getElementById('mobile-menu').classList.remove('translate-x-full');
+            const backdrop = document.getElementById('mobile-backdrop');
+            backdrop.classList.remove('hidden');
+            setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobile-menu').classList.add('translate-x-full');
+            const backdrop = document.getElementById('mobile-backdrop');
+            backdrop.classList.add('opacity-0');
+            setTimeout(() => backdrop.classList.add('hidden'), 300);
+        }
+
+        // Cart Logic
         function openCart() {
             document.getElementById('cart-drawer').classList.remove('translate-x-full');
             const backdrop = document.getElementById('cart-backdrop');
@@ -343,16 +340,19 @@
                     <div class="h-full flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 mt-20">
                         <span class="material-symbols-outlined text-[64px] mb-4 opacity-50">shopping_bag</span>
                         <p class="font-medium text-lg">ตะกร้าของคุณยังว่างเปล่า</p>
-                        <p class="text-sm mt-1">เริ่มช้อปปิ้งสินค้าของเรา!</p>
                     </div>`;
                 totalElement.textContent = '฿0';
-                if(checkoutBtn) checkoutBtn.style.pointerEvents = 'none';
-                if(checkoutBtn) checkoutBtn.style.opacity = '0.5';
+                if(checkoutBtn) {
+                    checkoutBtn.style.pointerEvents = 'none';
+                    checkoutBtn.style.opacity = '0.5';
+                }
                 return;
             }
 
-            if(checkoutBtn) checkoutBtn.style.pointerEvents = 'auto';
-            if(checkoutBtn) checkoutBtn.style.opacity = '1';
+            if(checkoutBtn) {
+                checkoutBtn.style.pointerEvents = 'auto';
+                checkoutBtn.style.opacity = '1';
+            }
 
             cart.forEach((item, index) => {
                 const itemPrice = Number(item.price) || 0;
@@ -360,12 +360,12 @@
                 
                 container.innerHTML += `
                     <div class="flex gap-3 bg-white dark:bg-surface-dark p-3 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm items-center">
-                        <div class="size-16 rounded-lg flex items-center justify-center shrink-0 overflow-hidden" style="background-color: ${item.color || '#19e619'}">
-                            ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<span class="material-symbols-outlined text-white text-[20px]">chair</span>`}
+                        <div class="size-16 rounded-lg flex items-center justify-center shrink-0 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <img src="${item.image || '/images/placeholder.png'}" class="w-full h-full object-cover">
                         </div>
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold text-gray-900 dark:text-white line-clamp-1">${item.name || 'Custom Furniture'}</h4>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">${item.dimensions || 'Standard size'}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Size S</p>
                         </div>
                         <div class="flex flex-col items-end justify-between h-full">
                             <span class="font-black text-gray-900 dark:text-white text-sm mb-2">฿${itemPrice.toLocaleString()}</span>
@@ -425,7 +425,7 @@
 
         function addToCart(name, price, image) {
             let cart = JSON.parse(localStorage.getItem('BRICKIT_cart')) || [];
-            cart.push({ name: name, price: Number(price), image: image, color: '#19e619', dimensions: 'Standard size' });
+            cart.push({ name: name, price: Number(price), image: image, color: '#19e619', dimensions: 'Size S' });
             localStorage.setItem('BRICKIT_cart', JSON.stringify(cart));
             updateCartBadge();
             showToast(name, image);
@@ -443,11 +443,13 @@
         }
 
         // ---------------------------------------------------
-        // Product Loading + Search/Sort
+        // จำลองฐานข้อมูล (Hardcoded Product Data)
         // ---------------------------------------------------
-        async function loadProducts() {
+        function loadProducts() {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = Array(3).fill(`
+            
+            // แสดง Skeleton โหลดข้อมูลแปบนึงให้ดูมีลูกเล่น
+            grid.innerHTML = Array(6).fill(`
                 <div class="skeleton-pulse bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
                     <div class="h-64 bg-slate-200 dark:bg-slate-700"></div>
                     <div class="p-5 flex flex-col gap-3">
@@ -456,22 +458,89 @@
                         <div class="h-10 mt-2 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
                     </div>
                 </div>`).join('');
-            try {
-                const res = await fetch('/api/products/s');
-                allProducts = await res.json();
-                filterAndSort();
-            } catch (e) {
-                console.error(e);
-                grid.innerHTML = '<p class="text-red-500 col-span-full text-center py-10">ไม่สามารถโหลดข้อมูลสินค้าได้</p>';
+
+// ข้อมูลสินค้าของจริง (Size S) - อัปเดต Path รูปภาพภาษาไทย
+        allProducts = [
+            {
+                name: "Brickit Elevate",
+                thai_name: "บริคคิท แท่นวางจอโมดูลาร์",
+                dimensions: "20 × 40 × 16 cm",
+                bricks: 68,
+                price: 790,
+                role: "Functional product",
+                image_url: "/images/size_s/แท่นวางจอโมดูลาร์.png"
+            },
+            {
+                name: "Brickit Two-Tier Shelf",
+                thai_name: "บริคคิท ชั้นวางของ 2 ชั้น",
+                dimensions: "20 × 32 × 16 cm",
+                bricks: 60,
+                price: 690,
+                role: "Core Starter Furniture",
+                image_url: "/images/size_s/ชั้นวางของ 2 ชั้น.png"
+            },
+            {
+                name: "Brickit Phone Stand",
+                thai_name: "บริคคิท แท่นวางโทรศัพท์",
+                dimensions: "12 × 12 × 12 cm",
+                bricks: 20,
+                price: 490,
+                role: "Desktop accessory",
+                image_url: "/images/size_s/แท่นวางโทรศัพท์.png"
+            },
+            {
+                name: "Brickit Cable Organizer",
+                thai_name: "บริคคิท กล่องจัดสายไฟ",
+                dimensions: "20 × 12 × 12 cm",
+                bricks: 24,
+                price: 490,
+                role: "Cable organization",
+                image_url: "/images/size_s/กล่องจัดสายไฟ.png"
+            },
+            {
+                name: "Brickit Drawer Divider",
+                thai_name: "บริคคิท ตัวแบ่งลิ้นชัก",
+                dimensions: "24 × 16 × 8 cm",
+                bricks: 20,
+                price: 490,
+                role: "Drawer organization",
+                image_url: "/images/size_s/ตัวแบ่งลิ้นชัก.png"
+            },
+            {
+                name: "Brickit Pen Organizer",
+                thai_name: "บริคคิท กล่องใส่เครื่องเขียนโมดูลาร์",
+                dimensions: "16 × 16 × 16 cm",
+                bricks: 28,
+                price: 490,
+                role: "Desktop storage",
+                image_url: "/images/size_s/กล่องใส่เครื่องเขียนโมดูลาร์.png"
+            },
+            {
+                name: "Brickit Spice Rack",
+                thai_name: "บริคคิท ชั้นวางเครื่องเทศ",
+                dimensions: "24 × 12 × 20 cm",
+                bricks: 44,
+                price: 590,
+                role: "Small-space storage",
+                image_url: "/images/size_s/ชั้นวางเครื่องเทศ.png"
             }
+        ];
+            // แกล้งหน่วงเวลาโหลดนิดนึงแล้วค่อยแสดงของจริง
+            setTimeout(() => {
+                filterAndSort();
+            }, 600);
         }
 
         function filterAndSort() {
             const query = (document.querySelector('input[type="text"]')?.value || '').toLowerCase();
             const sort = document.querySelector('select')?.value || '';
+            
             let list = allProducts.filter(p =>
-                p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+                p.name.toLowerCase().includes(query) || 
+                p.thai_name.toLowerCase().includes(query) || 
+                p.role.toLowerCase().includes(query)
             );
+            
             if (sort === 'Price: Low to High') list.sort((a, b) => Number(a.price) - Number(b.price));
             else if (sort === 'Price: High to Low') list.sort((a, b) => Number(b.price) - Number(a.price));
             
@@ -480,20 +549,36 @@
                 grid.innerHTML = '<p class="text-slate-500 dark:text-slate-400 col-span-full text-center py-10">ไม่พบสินค้าที่ค้นหา</p>';
                 return;
             }
+            
             grid.innerHTML = list.map(p => {
                 const numPrice = Number(p.price) || 0;
                 return `
                 <div class="group bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary transition-all duration-300 hover:shadow-lg flex flex-col overflow-hidden">
-                    <div class="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-800">
-                        <img src="${p.image_url}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    <div class="relative h-64 overflow-hidden bg-slate-50 dark:bg-slate-800/50 p-6 flex items-center justify-center">
+                        <img src="${p.image_url}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=500&q=80'" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110 drop-shadow-md"/>
                     </div>
                     <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-1 group-hover:text-primary transition-colors">${p.name}</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">${p.description}</p>
-                        <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-medium border border-slate-200 dark:border-slate-700 self-start mb-4">${p.pattern}</span>
+                        <h3 class="font-black text-slate-900 dark:text-white text-lg mb-0 group-hover:text-primary transition-colors">${p.name}</h3>
+                        <p class="text-sm font-bold text-primary mb-3">${p.thai_name}</p>
+                        
+                        <div class="text-xs text-slate-500 dark:text-slate-400 mb-4 space-y-1.5">
+                            <p class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">straighten</span> 
+                                ขนาด: ${p.dimensions}
+                            </p>
+                            <p class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">category</span> 
+                                ${p.role}
+                            </p>
+                        </div>
+
+                        <span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold border border-slate-200 dark:border-slate-700 self-start mb-4 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">view_in_ar</span> ${p.bricks} Bricks
+                        </span>
+                        
                         <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <div class="text-xl font-bold text-slate-900 dark:text-white">฿${numPrice.toLocaleString()}</div>
-                            <button onclick="addToCart('${p.name}', ${numPrice}, '${p.image_url}')" class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-black text-slate-900 dark:text-white flex items-center justify-center transition-colors cursor-pointer">
+                            <div class="text-2xl font-black text-slate-900 dark:text-white">฿${numPrice.toLocaleString()}</div>
+                            <button onclick="addToCart('${p.name}', ${numPrice}, '${p.image_url}')" class="size-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-black text-slate-900 dark:text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm">
                                 <span class="material-symbols-outlined">add_shopping_cart</span>
                             </button>
                         </div>

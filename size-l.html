@@ -40,7 +40,6 @@
         @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.4} }
         .skeleton-pulse { animation: shimmer 1.4s ease-in-out infinite; }
     </style>
-    <script src="/shared.js"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
     <header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-md">
@@ -65,7 +64,8 @@
                     <a class="hover:text-primary transition-colors" href="/size-s">Size S</a>
                     <a class="hover:text-primary transition-colors" href="/size-m">Size M</a>
                     <a class="text-primary font-bold" href="/size-l">Size L</a>
-                    <a class="hover:text-primary transition-colors" href="/ai-studio">AI Studio</a>
+                    <a class="hover:text-primary transition-colors" href="/expansion.html">Expansion</a>
+                    <a class="hover:text-primary transition-colors" href="/ai-studio.html">AI Studio</a>
                     <a class="hover:text-primary transition-colors" href="/orders">My Orders</a>
                 </div>
                 <div class="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden lg:block"></div>
@@ -101,7 +101,8 @@
             <a href="/size-s" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Size S</a>
             <a href="/size-m" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Size M</a>
             <a href="/size-l" class="text-primary font-bold">Size L</a>
-            <a href="/ai-studio" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">AI Studio</a>
+            <a href="/expansion.html" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Expansion</a>
+            <a href="/ai-studio.html" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">AI Studio</a>
             <hr class="border-slate-200 dark:border-slate-700"/>
             <a href="/orders" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">My Orders</a>
             <a href="/login" class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">Account</a>
@@ -189,26 +190,16 @@
                     <div class="space-y-2">
                         <label class="flex items-center gap-3 cursor-pointer group">
                             <input checked="" class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Reception Counters</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Event Structure</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group">
                             <input class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
-                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Exhibition Booths</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Retail Display</span>
                         </label>
-                    </div>
-                </div>
-                <div class="space-y-3 pt-4 border-t border-slate-200 dark:border-slate-800">
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider">Material Pattern</h4>
-                    <div class="flex flex-wrap gap-3">
-                        <button class="group relative size-8 rounded-full border-2 border-primary overflow-hidden shadow-sm" title="Terrazzo White">
-                            <div class="absolute inset-0 bg-[#f0f0f0] bg-[radial-gradient(#ccc_1px,transparent_1px)] [background-size:4px_4px]"></div>
-                        </button>
-                        <button class="group relative size-8 rounded-full border border-slate-300 dark:border-slate-600 overflow-hidden hover:border-primary shadow-sm" title="Speckled Black">
-                            <div class="absolute inset-0 bg-[#222] bg-[radial-gradient(#555_1px,transparent_1px)] [background-size:4px_4px]"></div>
-                        </button>
-                        <button class="group relative size-8 rounded-full border border-slate-300 dark:border-slate-600 overflow-hidden hover:border-primary shadow-sm" title="Ocean Blue">
-                            <div class="absolute inset-0 bg-blue-900 bg-[radial-gradient(#4a90e2_1px,transparent_1px)] [background-size:4px_4px]"></div>
-                        </button>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input class="rounded border-slate-300 text-primary focus:ring-primary bg-slate-100 dark:bg-slate-800 dark:border-slate-700" type="checkbox"/>
+                            <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors">Large Furniture</span>
+                        </label>
                     </div>
                 </div>
             </aside>
@@ -228,18 +219,6 @@
                     <p class="text-slate-500 dark:text-slate-400 col-span-full py-10 text-center">กำลังโหลดสินค้าจากฐานข้อมูล...</p>
                 </div>
 
-                <div class="mt-12 flex justify-center">
-                    <nav class="flex gap-2">
-                        <button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
-                            <span class="material-symbols-outlined">chevron_left</span>
-                        </button>
-                        <button class="size-10 flex items-center justify-center rounded-lg bg-primary text-slate-900 font-bold shadow-sm">1</button>
-                        <button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">2</button>
-                        <button class="size-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </button>
-                    </nav>
-                </div>
             </div>
         </div>
     </main>
@@ -264,19 +243,12 @@
                         <li><a class="hover:text-primary" href="/size-s">Size S (Home)</a></li>
                         <li><a class="hover:text-primary" href="/size-m">Size M (Office)</a></li>
                         <li><a class="hover:text-primary" href="/size-l">Size L (Commercial)</a></li>
-                        <li><a class="hover:text-primary" href="/ai-studio">Custom Parts</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="font-bold text-slate-900 dark:text-white mb-4">Commercial</h5>
-                    <ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                        <li><a class="hover:text-primary" href="/login">B2B Login</a></li>
-                        <li><a class="hover:text-primary" href="#">Request Catalog</a></li>
+                        <li><a class="hover:text-primary" href="/ai-studio.html">Custom Parts</a></li>
                     </ul>
                 </div>
             </div>
             <div class="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-                <p>© 2023 BRICKIT Inc. All rights reserved.</p>
+                <p>© 2024 BRICKIT Inc. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -295,6 +267,7 @@
                     link.replaceWith(container);
                 });
             }
+            
             loadProducts();
             updateCartBadge();
             
@@ -307,9 +280,36 @@
             window.location.reload();
         }
 
-        // ---------------------------------------------------
-        // UI ควบคุมตะกร้าสินค้า (เปิด/ปิด/ลบ/คำนวณเงิน) - ซิงค์กับ index.html
-        // ---------------------------------------------------
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('BRICKIT_theme', isDark ? 'dark' : 'light');
+            document.querySelectorAll('[data-dark-icon]').forEach(icon => {
+                icon.textContent = isDark ? 'dark_mode' : 'light_mode';
+            });
+        }
+
+        // เช็ค Theme ตอนโหลดหน้า
+        if (localStorage.getItem('BRICKIT_theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.querySelectorAll('[data-dark-icon]').forEach(icon => icon.textContent = 'dark_mode');
+        }
+
+        // Mobile Menu
+        function openMobileMenu() {
+            document.getElementById('mobile-menu').classList.remove('translate-x-full');
+            const backdrop = document.getElementById('mobile-backdrop');
+            backdrop.classList.remove('hidden');
+            setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobile-menu').classList.add('translate-x-full');
+            const backdrop = document.getElementById('mobile-backdrop');
+            backdrop.classList.add('opacity-0');
+            setTimeout(() => backdrop.classList.add('hidden'), 300);
+        }
+
+        // Cart Logic
         function openCart() {
             document.getElementById('cart-drawer').classList.remove('translate-x-full');
             const backdrop = document.getElementById('cart-backdrop');
@@ -339,16 +339,19 @@
                     <div class="h-full flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 mt-20">
                         <span class="material-symbols-outlined text-[64px] mb-4 opacity-50">shopping_bag</span>
                         <p class="font-medium text-lg">ตะกร้าของคุณยังว่างเปล่า</p>
-                        <p class="text-sm mt-1">เริ่มช้อปปิ้งสินค้าของเรา!</p>
                     </div>`;
                 totalElement.textContent = '฿0';
-                if(checkoutBtn) checkoutBtn.style.pointerEvents = 'none';
-                if(checkoutBtn) checkoutBtn.style.opacity = '0.5';
+                if(checkoutBtn) {
+                    checkoutBtn.style.pointerEvents = 'none';
+                    checkoutBtn.style.opacity = '0.5';
+                }
                 return;
             }
 
-            if(checkoutBtn) checkoutBtn.style.pointerEvents = 'auto';
-            if(checkoutBtn) checkoutBtn.style.opacity = '1';
+            if(checkoutBtn) {
+                checkoutBtn.style.pointerEvents = 'auto';
+                checkoutBtn.style.opacity = '1';
+            }
 
             cart.forEach((item, index) => {
                 const itemPrice = Number(item.price) || 0;
@@ -356,12 +359,12 @@
                 
                 container.innerHTML += `
                     <div class="flex gap-3 bg-white dark:bg-surface-dark p-3 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm items-center">
-                        <div class="size-16 rounded-lg flex items-center justify-center shrink-0 overflow-hidden" style="background-color: ${item.color || '#19e619'}">
-                            ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<span class="material-symbols-outlined text-white text-[20px]">chair</span>`}
+                        <div class="size-16 rounded-lg flex items-center justify-center shrink-0 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <img src="${item.image || '/images/placeholder.png'}" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-gray-400\\'>view_in_ar</span>'">
                         </div>
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold text-gray-900 dark:text-white line-clamp-1">${item.name || 'Custom Furniture'}</h4>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">${item.dimensions || 'Standard size'}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Size L</p>
                         </div>
                         <div class="flex flex-col items-end justify-between h-full">
                             <span class="font-black text-gray-900 dark:text-white text-sm mb-2">฿${itemPrice.toLocaleString()}</span>
@@ -389,8 +392,8 @@
             toast.className = 'pointer-events-auto w-80 bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-100 dark:border-slate-800 p-4 flex items-center gap-4 toast-enter';
             
             toast.innerHTML = `
-                <div class="relative size-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                    <img src="${image || ''}" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+                <div class="relative size-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+                    <img src="${image || ''}" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-gray-400\\'>check_circle</span>'" />
                     <div class="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-lg"></div>
                 </div>
                 <div class="flex-1 min-w-0">
@@ -421,7 +424,7 @@
 
         function addToCart(name, price, image) {
             let cart = JSON.parse(localStorage.getItem('BRICKIT_cart')) || [];
-            cart.push({ name: name, price: Number(price), image: image, color: '#19e619', dimensions: 'Standard size' });
+            cart.push({ name: name, price: Number(price), image: image, color: '#19e619', dimensions: 'Size L' });
             localStorage.setItem('BRICKIT_cart', JSON.stringify(cart));
             updateCartBadge();
             showToast(name, image);
@@ -439,11 +442,13 @@
         }
 
         // ---------------------------------------------------
-        // Product Loading + Search/Sort
+        // จำลองฐานข้อมูล (Hardcoded Product Data for Size L)
         // ---------------------------------------------------
-        async function loadProducts() {
+        function loadProducts() {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = Array(3).fill(`
+            
+            // Skeleton Loader
+            grid.innerHTML = Array(6).fill(`
                 <div class="skeleton-pulse bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
                     <div class="h-64 bg-slate-200 dark:bg-slate-700"></div>
                     <div class="p-5 flex flex-col gap-3">
@@ -452,22 +457,80 @@
                         <div class="h-10 mt-2 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
                     </div>
                 </div>`).join('');
-            try {
-                const res = await fetch('/api/products/l');
-                allProducts = await res.json();
+
+            // ข้อมูลสินค้าของจริง (Size L)
+            allProducts = [
+                {
+                    name: "Brickit Display Counter",
+                    thai_name: "บริคคิท เคาน์เตอร์จัดแสดงสินค้า",
+                    dimensions: "120 × 60 × 90 cm",
+                    bricks: 320,
+                    price: 18000,
+                    role: "Event structure",
+                    image_url: "/images/size_l/brickit_display_counter.jpg"
+                },
+                {
+                    name: "Brickit Pop-up Structure",
+                    thai_name: "บริคคิท โครงสร้างบูธโมดูลาร์",
+                    dimensions: "200 × 60 × 220 cm",
+                    bricks: 760,
+                    price: 35000,
+                    role: "Reusable system",
+                    image_url: "/images/size_l/brickit_popup_structure.jpg"
+                },
+                {
+                    name: "Brickit Event Backdrop",
+                    thai_name: "บริคคิท ฉากหลังอีเวนต์",
+                    dimensions: "200 × 40 × 200 cm",
+                    bricks: 520,
+                    price: 12900,
+                    role: "Event structure",
+                    image_url: "/images/size_l/brickit_event_backdrop.jpg"
+                },
+                {
+                    name: "Brickit Retail Display",
+                    thai_name: "บริคคิท ชั้นโชว์สินค้า",
+                    dimensions: "120 × 40 × 180 cm",
+                    bricks: 360,
+                    price: 8900,
+                    role: "Retail display",
+                    image_url: "/images/size_l/brickit_retail_display.jpg"
+                },
+                {
+                    name: "Brickit Tall Bookshelf",
+                    thai_name: "บริคคิท ชั้นหนังสือสูง",
+                    dimensions: "80 × 32 × 160 cm",
+                    bricks: 260,
+                    price: 4990,
+                    role: "Large-format furniture",
+                    image_url: "/images/size_l/brickit_tall_bookshelf.jpg"
+                },
+                {
+                    name: "Brickit Room Divider",
+                    thai_name: "บริคคิท ฉากกั้นห้อง",
+                    dimensions: "120 × 20 × 180 cm",
+                    bricks: 240,
+                    price: 3990,
+                    role: "Space partition",
+                    image_url: "/images/size_l/brickit_room_divider.jpg"
+                }
+            ];
+
+            setTimeout(() => {
                 filterAndSort();
-            } catch (e) {
-                console.error(e);
-                grid.innerHTML = '<p class="text-red-500 col-span-full text-center py-10">ไม่สามารถโหลดข้อมูลสินค้าได้</p>';
-            }
+            }, 600);
         }
 
         function filterAndSort() {
             const query = (document.querySelector('input[type="text"]')?.value || '').toLowerCase();
             const sort = document.querySelector('select')?.value || '';
+            
             let list = allProducts.filter(p =>
-                p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+                p.name.toLowerCase().includes(query) || 
+                p.thai_name.toLowerCase().includes(query) || 
+                p.role.toLowerCase().includes(query)
             );
+            
             if (sort === 'Price: Low to High') list.sort((a, b) => Number(a.price) - Number(b.price));
             else if (sort === 'Price: High to Low') list.sort((a, b) => Number(b.price) - Number(a.price));
             
@@ -476,20 +539,36 @@
                 grid.innerHTML = '<p class="text-slate-500 dark:text-slate-400 col-span-full text-center py-10">ไม่พบสินค้าที่ค้นหา</p>';
                 return;
             }
+            
             grid.innerHTML = list.map(p => {
                 const numPrice = Number(p.price) || 0;
                 return `
                 <div class="group bg-surface-light dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary transition-all duration-300 hover:shadow-lg flex flex-col overflow-hidden">
-                    <div class="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-800">
-                        <img src="${p.image_url}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    <div class="relative h-64 overflow-hidden bg-slate-50 dark:bg-slate-800/50 p-6 flex items-center justify-center">
+                        <img src="${p.image_url}" alt="${p.name}" onerror="this.outerHTML='<div class=\\'w-full h-full flex flex-col items-center justify-center text-slate-300 dark:text-slate-600\\'><span class=\\'material-symbols-outlined text-[64px] mb-2\\'>view_in_ar</span><span class=\\'text-xs font-bold\\'>NO IMAGE YET</span></div>'" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110 drop-shadow-md"/>
                     </div>
                     <div class="p-5 flex flex-col flex-1">
-                        <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-1 group-hover:text-primary transition-colors">${p.name}</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">${p.description}</p>
-                        <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-medium border border-slate-200 dark:border-slate-700 self-start mb-4">${p.pattern}</span>
+                        <h3 class="font-black text-slate-900 dark:text-white text-lg mb-0 group-hover:text-primary transition-colors">${p.name}</h3>
+                        <p class="text-sm font-bold text-primary mb-3">${p.thai_name}</p>
+                        
+                        <div class="text-xs text-slate-500 dark:text-slate-400 mb-4 space-y-1.5">
+                            <p class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">straighten</span> 
+                                ขนาด: ${p.dimensions}
+                            </p>
+                            <p class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">category</span> 
+                                ${p.role}
+                            </p>
+                        </div>
+
+                        <span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold border border-slate-200 dark:border-slate-700 self-start mb-4 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">view_in_ar</span> ${p.bricks} Bricks
+                        </span>
+                        
                         <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <div class="text-xl font-bold text-slate-900 dark:text-white">฿${numPrice.toLocaleString()}</div>
-                            <button onclick="addToCart('${p.name}', ${numPrice}, '${p.image_url}')" class="size-10 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-black text-slate-900 dark:text-white flex items-center justify-center transition-colors cursor-pointer">
+                            <div class="text-2xl font-black text-slate-900 dark:text-white">฿${numPrice.toLocaleString()}</div>
+                            <button onclick="addToCart('${p.name}', ${numPrice}, '${p.image_url}')" class="size-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-black text-slate-900 dark:text-white flex items-center justify-center transition-colors cursor-pointer shadow-sm">
                                 <span class="material-symbols-outlined">add_shopping_cart</span>
                             </button>
                         </div>
