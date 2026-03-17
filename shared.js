@@ -1,5 +1,5 @@
-// BRICKIT Shared Utilities v2.0
-// Enhanced with new features: Reviews, Wishlist, Promotions, Analytics
+// BRICKIT Shared Utilities v2.1
+// Enhanced with new features: Reviews, Wishlist, Promotions, Analytics, i18n
 // Dark mode applied immediately (before DOM paint to prevent flash)
 (function () {
     const stored = localStorage.getItem('BRICKIT_dark');
@@ -8,6 +8,226 @@
         document.documentElement.classList.add('dark');
     }
 })();
+
+// --- MULTI-LANGUAGE SYSTEM (i18n) ---
+const translations = {
+    th: {
+        // Navigation
+        'nav.design': 'ออกแบบ',
+        'nav.how-it-works': 'วิธีใช้งาน',
+        'nav.order': 'สั่งซื้อ',
+        'nav.login': 'เข้าสู่ระบบ',
+        'nav.logout': 'ออกจากระบบ',
+        
+        // Cart
+        'cart.title': 'ตะกร้าสินค้า',
+        'cart.empty': 'ไม่มีสินค้าในตะกร้า',
+        'cart.start_shopping': 'เริ่มช้อปปิ้งสินค้าของเรา!',
+        'cart.total': 'รวม:',
+        'cart.checkout': 'สั่งซื้อ',
+        'cart.added': 'เพิ่มลงตะกร้าแล้ว!',
+        
+        // Product Pages
+        'product.add_to_cart': 'เพิ่มลงตะกร้า',
+        'product.out_of_stock': 'สินค้าหมด',
+        'product.in_stock': 'มีสินค้า',
+        'product.quantity': 'จำนวน',
+        'product.price': 'ราคา',
+        'product.description': 'รายละเอียดสินค้า',
+        
+        // Size Categories
+        'size.s': 'ขนาด S',
+        'size.m': 'ขนาด M', 
+        'size.l': 'ขนาด L',
+        'size.all': 'ทุกขนาด',
+        
+        // User Interface
+        'ui.loading': 'กำลังโหลด...',
+        'ui.error': 'เกิดข้อผิดพลาด',
+        'ui.success': 'สำเร็จ',
+        'ui.cancel': 'ยกเลิก',
+        'ui.confirm': 'ยืนยัน',
+        'ui.save': 'บันทึก',
+        'ui.edit': 'แก้ไข',
+        'ui.delete': 'ลบ',
+        'ui.close': 'ปิด',
+        'ui.search': 'ค้นหา',
+        'ui.filter': 'กรอง',
+        'ui.sort': 'เรียงลำดับ',
+        
+        // Messages
+        'msg.login_required': 'กรุณาเข้าสู่ระบบก่อน',
+        'msg.added_to_wishlist': 'เพิ่มใน wishlist สำเร็จ!',
+        'msg.removed_from_wishlist': 'ลบจาก wishlist สำเร็จ',
+        'msg.already_in_wishlist': 'สินค้านี้อยู่ใน wishlist แล้ว',
+        'msg.review_submitted': 'รีวิวของคุณถูกบันทึกแล้ว!',
+        'msg.no_reviews': 'ยังไม่มีรีวิว',
+        'msg.stock_low': 'สินค้าคงเหลือเพียง {count} ชิ้น',
+        'msg.promo_invalid': 'โค้ดไม่ถูกต้องหรือหมดอายุ',
+        'msg.promo_applied': 'ส่วนลด ${amount}!'
+    },
+    en: {
+        // Navigation
+        'nav.design': 'Design',
+        'nav.how-it-works': 'How It Works',
+        'nav.order': 'Order',
+        'nav.login': 'Login',
+        'nav.logout': 'Logout',
+        
+        // Cart
+        'cart.title': 'Shopping Cart',
+        'cart.empty': 'No items in cart',
+        'cart.start_shopping': 'Start shopping our products!',
+        'cart.total': 'Total:',
+        'cart.checkout': 'Checkout',
+        'cart.added': 'Added to cart!',
+        
+        // Product Pages
+        'product.add_to_cart': 'Add to Cart',
+        'product.out_of_stock': 'Out of Stock',
+        'product.in_stock': 'In Stock',
+        'product.quantity': 'Quantity',
+        'product.price': 'Price',
+        'product.description': 'Product Description',
+        
+        // Size Categories
+        'size.s': 'Size S',
+        'size.m': 'Size M',
+        'size.l': 'Size L',
+        'size.all': 'All Sizes',
+        
+        // User Interface
+        'ui.loading': 'Loading...',
+        'ui.error': 'Error',
+        'ui.success': 'Success',
+        'ui.cancel': 'Cancel',
+        'ui.confirm': 'Confirm',
+        'ui.save': 'Save',
+        'ui.edit': 'Edit',
+        'ui.delete': 'Delete',
+        'ui.close': 'Close',
+        'ui.search': 'Search',
+        'ui.filter': 'Filter',
+        'ui.sort': 'Sort',
+        
+        // Messages
+        'msg.login_required': 'Please login first',
+        'msg.added_to_wishlist': 'Added to wishlist successfully!',
+        'msg.removed_from_wishlist': 'Removed from wishlist successfully',
+        'msg.already_in_wishlist': 'This item is already in your wishlist',
+        'msg.review_submitted': 'Your review has been submitted!',
+        'msg.no_reviews': 'No reviews yet',
+        'msg.stock_low': 'Only {count} items left in stock',
+        'msg.promo_invalid': 'Invalid or expired promo code',
+        'msg.promo_applied': 'Discount ${amount} applied!'
+    }
+};
+
+// Language management
+class I18n {
+    constructor() {
+        this.currentLang = localStorage.getItem('BRICKIT_lang') || 'th';
+        this.translations = translations;
+        this.init();
+    }
+    
+    init() {
+        // Apply initial language
+        this.applyLanguage();
+        
+        // Add language toggle button to navbar
+        this.addLanguageToggle();
+        
+        // Listen for language changes
+        window.addEventListener('languageChanged', () => {
+            this.applyLanguage();
+        });
+    }
+    
+    addLanguageToggle() {
+        const navbar = document.querySelector('header .flex.items-center.justify-end.gap-4');
+        if (!navbar) return;
+        
+        // Create language toggle button
+        const langToggle = document.createElement('button');
+        langToggle.id = 'langToggle';
+        langToggle.className = 'size-10 flex items-center justify-center rounded-lg bg-accent-green-light dark:bg-accent-green-dark text-text-main dark:text-white hover:bg-primary/20 transition-colors';
+        langToggle.innerHTML = `<span class="text-sm font-bold">${this.currentLang.toUpperCase()}</span>`;
+        langToggle.title = `Switch to ${this.currentLang === 'th' ? 'English' : 'ไทย'}`;
+        
+        // Insert before theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            navbar.insertBefore(langToggle, themeToggle);
+        } else {
+            navbar.appendChild(langToggle);
+        }
+        
+        // Add click handler
+        langToggle.addEventListener('click', () => this.toggleLanguage());
+    }
+    
+    toggleLanguage() {
+        this.currentLang = this.currentLang === 'th' ? 'en' : 'th';
+        localStorage.setItem('BRICKIT_lang', this.currentLang);
+        
+        // Update button
+        const langToggle = document.getElementById('langToggle');
+        if (langToggle) {
+            langToggle.innerHTML = `<span class="text-sm font-bold">${this.currentLang.toUpperCase()}</span>`;
+            langToggle.title = `Switch to ${this.currentLang === 'th' ? 'English' : 'ไทย'}`;
+        }
+        
+        // Trigger language change event
+        window.dispatchEvent(new Event('languageChanged'));
+    }
+    
+    translate(key, params = {}) {
+        const translation = this.translations[this.currentLang][key] || this.translations.en[key] || key;
+        
+        // Replace parameters {param} with values
+        return translation.replace(/\{(\w+)\}/g, (match, param) => params[param] || match);
+    }
+    
+    applyLanguage() {
+        // Update all elements with data-i18n attribute
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const translation = this.translate(key);
+            
+            // Handle different element types
+            if (element.tagName === 'INPUT' && element.type === 'placeholder') {
+                element.placeholder = translation;
+            } else if (element.tagName === 'INPUT' && element.type === 'submit') {
+                element.value = translation;
+            } else {
+                element.textContent = translation;
+            }
+        });
+        
+        // Update HTML lang attribute
+        document.documentElement.lang = this.currentLang;
+        
+        // Update RTL if needed (for future Arabic support)
+        document.documentElement.dir = this.currentLang === 'ar' ? 'rtl' : 'ltr';
+    }
+    
+    // Helper functions
+    getCurrentLang() {
+        return this.currentLang;
+    }
+    
+    isThai() {
+        return this.currentLang === 'th';
+    }
+}
+
+// Initialize i18n system
+const i18n = new I18n();
+
+// Make it globally available
+window.i18n = i18n;
+window.translate = (key, params) => i18n.translate(key, params);
 
 function toggleDarkMode() {
     const isDark = document.documentElement.classList.toggle('dark');
