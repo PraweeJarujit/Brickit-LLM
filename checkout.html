@@ -148,25 +148,33 @@
         container.innerHTML = '';
         total = 0;
 
+        console.log('Cart items:', cart); // Debug log
+
         cart.forEach(item => {
-            const itemTotal = item.price * item.quantity;
+            const itemPrice = Number(item.price) || 0;
+            const itemQuantity = Number(item.quantity) || 1;
+            const itemTotal = itemPrice * itemQuantity;
             total += itemTotal;
+            
+            console.log(`Item: ${item.name}, Price: ${itemPrice}, Quantity: ${itemQuantity}, Total: ${itemTotal}`); // Debug log
+            
             container.innerHTML += `
                 <div class="flex gap-4 items-center">
                     <div class="size-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                        <img src="${item.image}" class="w-full h-full object-cover">
+                        <img src="${item.image || '/images/size_s/pen.png'}" class="w-full h-full object-cover" onerror="this.src='/images/size_s/pen.png'">
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-bold truncate dark:text-white">${item.name}</p>
-                        <p class="text-xs text-gray-400">${item.quantity} x $${item.price.toFixed(2)}</p>
+                        <p class="text-sm font-bold truncate dark:text-white">${item.name || 'Unknown Product'}</p>
+                        <p class="text-xs text-gray-400">${itemQuantity} x ฿${itemPrice.toLocaleString()}</p>
                     </div>
-                    <span class="text-sm font-bold dark:text-white">$${itemTotal.toFixed(2)}</span>
+                    <span class="text-sm font-bold dark:text-white">฿${itemTotal.toLocaleString()}</span>
                 </div>
             `;
         });
 
-        document.getElementById('subtotal').textContent = '$' + total.toFixed(2);
-        document.getElementById('total-amount').textContent = '$' + total.toFixed(2);
+        console.log('Final total:', total); // Debug log
+        document.getElementById('subtotal').textContent = '฿' + total.toLocaleString();
+        document.getElementById('total-amount').textContent = '฿' + total.toLocaleString();
     }
 
     async function submitOrder() {

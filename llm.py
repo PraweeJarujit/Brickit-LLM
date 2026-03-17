@@ -239,31 +239,48 @@ def forgot_password(request: dict, db: Session = Depends(get_db)):
 
 # --- API: Orders ---
 @app.post("/api/orders")
-def create_order(order_data: OrderCreate, db: Session = Depends(get_db)):
+def create_order(order_data: dict, db: Session = Depends(get_db)):
     try:
+        print(f"📦 Order data received: {order_data}")  # Debug log
+        
+        # ตรวจสอบข้อมูลที่จำเป็น
+        if not order_data.get("full_name"):
+            raise HTTPException(status_code=400, detail="Missing required field: full_name")
+        
+        # ดึง user_id จาก localStorage หรือใช้ค่า default
+        user_id = order_data.get("user_id")
+        if not user_id:
+            # ถ้าไม่มี user_id ให้ใช้ค่า default (สำหรับ demo)
+            user_id = 1  # หรือสามารถค้นหา user แรกในระบบ
+            print(f"⚠️ No user_id provided, using default: {user_id}")
+        
         new_order = models.Order(
-            user_id=order_data.user_id,
-            full_name=order_data.full_name,
-            address=order_data.address,
-            phone=order_data.phone,
-            total_amount=order_data.total_amount
+            user_id=user_id,
+            full_name=order_data["full_name"],
+            address=order_data.get("address", ""),
+            phone=order_data.get("phone", ""),
+            total_amount=order_data.get("total_amount", 0)
         )
         db.add(new_order)
         db.flush() 
 
-        for item in order_data.items:
+        # จัดการ items ถ้ามี
+        items = order_data.get("items", [])
+        for item in items:
             order_item = models.OrderItem(
                 order_id=new_order.id,
-                product_name=item.name,
-                price=item.price,
-                quantity=item.quantity,
-                image_url=item.image
+                product_name=item.get("name", "Unknown"),
+                price=item.get("price", 0),
+                quantity=item.get("quantity", 1),
+                image_url=item.get("image", "")
             )
             db.add(order_item)
         
         db.commit()
+        print(f"✅ Order created successfully: {new_order.id}")  # Debug log
         return {"status": "success", "order_id": new_order.id}
     except Exception as e:
+        print(f"❌ Order creation error: {str(e)}")  # Debug log
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -808,6 +825,10 @@ async def size_l(): return FileResponse("size-l.html")
 async def login_page(): return FileResponse("login.html")
 @app.get("/checkout")
 async def checkout_page(): return FileResponse("checkout.html")
+@app.get("/expansion.html")
+async def expansion_page(): return FileResponse("expansion.html")
+@app.get("/rewards.html")
+async def rewards_page(): return FileResponse("rewards.html")
 @app.get("/orders")
 async def orders_page(): return FileResponse("orders.html")
 @app.get("/admin")
