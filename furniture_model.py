@@ -108,13 +108,13 @@ def generate_table(w=32, l=20, h=16):
     return blocks_used, real_w, real_l, real_h
 
 # =========================================================
-# 👟 2. ชั้นวางรองเท้า (Shoe Rack)
+# ชั้นวางรองเท้า (Shoe Rack)
 # =========================================================
 def generate_shoe_rack(w, l, h, has_walls=False):
     blocks_used = []
-    real_w = max(40, int(w)); real_w += real_w % 2
-    real_l = max(20, int(l)); real_l += real_l % 2
-    real_h = max(20, int(h)); real_h += real_h % 2
+    real_w = max(16, int(w)); real_w += real_w % 2
+    real_l = max(16, int(l)); real_l += real_l % 2
+    real_h = max(16, int(h)); real_h += real_h % 2
     thickness = 2; bottom_z = 8; top_z = real_h - thickness
 
     num_shelves = max(2, int((real_h - bottom_z) / 18) + 1)
